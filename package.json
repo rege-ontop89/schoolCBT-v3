@@ -4,7 +4,7 @@
     "private": true,
     "scripts": {
         "start": "netlify dev",
-        "build": "cd admin && npm install && npm run build",
+        "build": "npm install && cd admin && npm install && npm run build",
         "install:all": "npm install && cd admin && npm install"
     },
     "dependencies": {
