@@ -4,7 +4,9 @@
 
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
+// In production, always use the relative /api path which sends requests to Netlify Functions via netlify.toml redirects
+// In development, use VITE_API_URL or localhost
+const API_URL = import.meta.env.PROD ? '/api' : (import.meta.env.VITE_API_URL || 'http://localhost:8888/.netlify/functions/api');
 
 class ApiService {
     // ==================== AUTH ====================
