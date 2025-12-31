@@ -2,7 +2,7 @@ const { Octokit } = require("@octokit/rest");
 
 // Config
 const OWNER = process.env.GITHUB_OWNER || "rege-ontop89"; // Extracted from user context
-const REPO = process.env.GITHUB_REPO || "schoolCBT-v2";
+const REPO = process.env.GITHUB_REPO || "schoolCBT-v3"; // Updated to match actual repo
 const BRANCH = "main";
 
 const octokit = new Octokit({
