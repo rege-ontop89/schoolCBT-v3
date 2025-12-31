@@ -9,7 +9,7 @@
     },
     "dependencies": {
         "@netlify/functions": "^2.6.0",
-        "@octokit/rest": "^20.0.0",
+        "@octokit/rest": "^18.12.0",
         "dotenv": "^16.4.5"
     },
     "devDependencies": {
