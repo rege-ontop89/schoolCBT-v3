@@ -1,0 +1,20 @@
+{
+  "school": {
+    "name": "CBT",
+    "logoPath": "",
+    "primaryColor": "#31a039"
+  },
+  "googleSheets": {
+    "webhookUrl": "hhh"
+  },
+  "defaults": {
+    "enableFullscreen": true,
+    "trackViolations": true,
+    "violationThreshold": 3,
+    "shuffleQuestions": true,
+    "shuffleOptions": true
+  },
+  "subjects": [
+    "English"
+  ]
+}

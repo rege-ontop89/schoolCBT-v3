@@ -1,0 +1,17 @@
+{
+    "name": "schoolcbt-root",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "start": "netlify dev",
+        "install:all": "npm install && cd admin && npm install"
+    },
+    "dependencies": {
+        "@netlify/functions": "^2.6.0",
+        "@octokit/rest": "^20.0.0",
+        "dotenv": "^16.4.5"
+    },
+    "devDependencies": {
+        "netlify-cli": "^17.0.0"
+    }
+}

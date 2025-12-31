@@ -1,0 +1,222 @@
+[
+  {
+    "id": "Q001",
+    "text": "What is a noun?",
+    "subject": "English",
+    "class": "JSS 2",
+    "difficulty": "Easy",
+    "options": [
+      "A naming word",
+      "An action word",
+      "A describing word",
+      "A joining word"
+    ],
+    "correctAnswer": 0,
+    "createdAt": "2025-12-30T10:00:00.000Z"
+  },
+  {
+    "id": "Q002",
+    "text": "Identify the verb in the sentence \"She runs fast\"",
+    "subject": "English",
+    "class": "JSS 2",
+    "difficulty": "Medium",
+    "options": [
+      "She",
+      "Runs",
+      "Fast",
+      "None"
+    ],
+    "correctAnswer": 1,
+    "createdAt": "2025-12-30T10:05:00.000Z"
+  },
+  {
+    "id": "Q003",
+    "text": "What is 2 + 2?",
+    "subject": "Mathematics",
+    "class": "JSS 1",
+    "difficulty": "Easy",
+    "options": [
+      "3",
+      "4",
+      "5",
+      "6"
+    ],
+    "correctAnswer": 1,
+    "createdAt": "2025-12-30T10:10:00.000Z"
+  },
+  {
+    "id": "Q004",
+    "text": "Solve for x: 2x + 5 = 15",
+    "subject": "Mathematics",
+    "class": "SS 1",
+    "difficulty": "Medium",
+    "options": [
+      "x = 5",
+      "x = 10",
+      "x = 15",
+      "x = 20"
+    ],
+    "correctAnswer": 0,
+    "createdAt": "2025-12-30T10:15:00.000Z"
+  },
+  {
+    "id": "Q005",
+    "text": "What is the capital of Nigeria?",
+    "subject": "Geography",
+    "class": "JSS 1",
+    "difficulty": "Easy",
+    "options": [
+      "Lagos",
+      "Kano",
+      "Abuja",
+      "Ibadan"
+    ],
+    "correctAnswer": 2,
+    "createdAt": "2025-12-30T10:20:00.000Z"
+  },
+  {
+    "subject": "ENGLISH",
+    "class": "JSS 3",
+    "difficulty": "EASY",
+    "options": {
+      "A": "Childs",
+      "B": "Childes",
+      "C": "Children",
+      "D": "Childrens"
+    },
+    "correctAnswer": "C",
+    "id": "Q1767137231651-295",
+    "createdAt": "2025-12-30T23:27:11.651Z"
+  },
+  {
+    "subject": "ENGLISH",
+    "class": "JSS 3",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "Quickly",
+      "B": "Happiness",
+      "C": "Run",
+      "D": "Blue"
+    },
+    "correctAnswer": "B",
+    "id": "Q1767137231651-622",
+    "createdAt": "2025-12-30T23:27:11.651Z"
+  },
+  {
+    "subject": "ENGLISH",
+    "class": "JSS 3",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "She don't like rice.",
+      "B": "She doesn't likes rice.",
+      "C": "She doesn't like rice.",
+      "D": "She don't likes rice."
+    },
+    "correctAnswer": "C",
+    "id": "Q1767137231651-213",
+    "createdAt": "2025-12-30T23:27:11.651Z"
+  },
+  {
+    "subject": "ENGLISH",
+    "class": "JSS 3",
+    "difficulty": "HARD",
+    "options": {
+      "A": "Old",
+      "B": "Modern",
+      "C": "Past",
+      "D": "Former"
+    },
+    "correctAnswer": "B",
+    "id": "Q1767137231651-184",
+    "createdAt": "2025-12-30T23:27:11.651Z"
+  },
+  {
+    "subject": "ENGLISH",
+    "class": "JSS 3",
+    "difficulty": "EASY",
+    "options": {
+      "A": "Neccessary",
+      "B": "Necesary",
+      "C": "Necessary",
+      "D": "Nessessary"
+    },
+    "correctAnswer": "C",
+    "id": "Q1767137231651-608",
+    "createdAt": "2025-12-30T23:27:11.651Z"
+  },
+  {
+    "text": "Choose the correct plural form of the word \"child\".",
+    "subject": "English",
+    "class": "JSS 2",
+    "difficulty": "EASY",
+    "options": {
+      "A": "Childs",
+      "B": "Childes",
+      "C": "Children",
+      "D": "Childrens"
+    },
+    "correctAnswer": "C",
+    "id": "Q1767198099456-696",
+    "createdAt": "2025-12-31T16:21:39.456Z"
+  },
+  {
+    "text": "Which of the following is a noun?",
+    "subject": "English",
+    "class": "JSS 2",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "Quickly",
+      "B": "Happiness",
+      "C": "Run",
+      "D": "Blue"
+    },
+    "correctAnswer": "B",
+    "id": "Q1767198099456-51",
+    "createdAt": "2025-12-31T16:21:39.456Z"
+  },
+  {
+    "text": "Choose the correct sentence.",
+    "subject": "English",
+    "class": "JSS 2",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "She don't like rice.",
+      "B": "She doesn't likes rice.",
+      "C": "She doesn't like rice.",
+      "D": "She don't likes rice."
+    },
+    "correctAnswer": "C",
+    "id": "Q1767198099456-100",
+    "createdAt": "2025-12-31T16:21:39.456Z"
+  },
+  {
+    "text": "What is the opposite of the word \"ancient\"?",
+    "subject": "English",
+    "class": "JSS 2",
+    "difficulty": "HARD",
+    "options": {
+      "A": "Old",
+      "B": "Modern",
+      "C": "Past",
+      "D": "Former"
+    },
+    "correctAnswer": "B",
+    "id": "Q1767198099456-867",
+    "createdAt": "2025-12-31T16:21:39.456Z"
+  },
+  {
+    "text": "Choose the correct spelling.",
+    "subject": "English",
+    "class": "JSS 2",
+    "difficulty": "EASY",
+    "options": {
+      "A": "Neccessary",
+      "B": "Necesary",
+      "C": "Necessary",
+      "D": "Nessessary"
+    },
+    "correctAnswer": "C",
+    "id": "Q1767198099456-170",
+    "createdAt": "2025-12-31T16:21:39.456Z"
+  }
+]

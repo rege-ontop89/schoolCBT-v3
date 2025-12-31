@@ -1,0 +1,24 @@
+[
+  {
+    "id": "admin-001",
+    "username": "admin",
+    "password": "$2b$10$O7wC9vO/8HHxG64I9kKvC..MreOngueZDlpxIJLoTRyV0rZnPjYVO",
+    "plainPassword": "admin123",
+    "name": "Mr. Aregheviogaga",
+    "email": "areghe@school.ng",
+    "role": "Admin",
+    "active": true,
+    "createdAt": "2025-12-30T10:00:00.000Z"
+  },
+  {
+    "id": "user-1767181555063",
+    "username": "teacher1",
+    "password": "$2b$10$n3Be.VnulWnanxwUWHBmbeKHrztKequufr31iyLi75b9q5bKRjvai",
+    "plainPassword": "teacher12",
+    "name": "MR uvie",
+    "email": "teacher@gmail.com",
+    "role": "Teacher",
+    "active": true,
+    "createdAt": "2025-12-31T11:45:55.063Z"
+  }
+]
