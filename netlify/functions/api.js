@@ -74,23 +74,41 @@ exports.handler = async (event, context) => {
             return { statusCode: 200, headers, body: JSON.stringify({ settings }) };
         }
 
-        // AUTH
+        // --- AUTH LOGIC ---
         if (path === "/auth/login" && method === "POST") {
             const { username, password } = body;
             const users = (await getFile("users.json"));
 
             if (!users) {
-                return { statusCode: 500, headers, body: JSON.stringify({ error: "Database connection failed. Check GitHub Token." }) };
+                return { statusCode: 500, headers, body: JSON.stringify({ error: "Database connection failed" }) };
             }
 
-            const user = users.find(u => u.username === username && u.password === password);
-            if (user) return { statusCode: 200, headers, body: JSON.stringify({ success: true, user }) };
+            // FIX: Compare the input password against 'plainPassword' from your JSON
+            const user = users.find(u =>
+                u.username === username &&
+                (u.plainPassword === password || u.password === password)
+            );
+
+            if (user) {
+                // Remove sensitive data before sending to frontend
+                const { password, plainPassword, ...safeUser } = user;
+                return { statusCode: 200, headers, body: JSON.stringify({ success: true, user: safeUser }) };
+            }
+
             return { statusCode: 401, headers, body: JSON.stringify({ success: false, error: "Invalid credentials" }) };
         }
 
         // EXAMS LIST (Student & Admin)
         if (path === "/exams" && method === "GET") {
-            const manifest = (await getFile("exams/manifest.json")) || [];
+            const manifest = await getFile("exams/manifest.json");
+            // If manifest is null, it means the file wasn't found or token failed
+            if (!manifest) {
+                return {
+                    statusCode: 200,
+                    headers,
+                    body: JSON.stringify({ exams: [], message: "Manifest not found on GitHub" })
+                };
+            }
             return { statusCode: 200, headers, body: JSON.stringify({ exams: manifest }) };
         }
 
