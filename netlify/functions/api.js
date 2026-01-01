@@ -63,7 +63,8 @@ async function saveFile(path, content, message) {
 }
 
 exports.handler = async (event, context) => {
-    const path = event.path.replace("/.netlify/functions/api", ""); // Strip prefix
+    // This handles both the direct Netlify path and the redirected /api path
+    const path = event.path.replace("/.netlify/functions/api", "").replace("/api", "");
     const method = event.httpMethod;
     const body = event.body ? JSON.parse(event.body) : {};
 

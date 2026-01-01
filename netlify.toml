@@ -3,16 +3,14 @@
   publish = "admin/dist"
   functions = "netlify/functions"
 
-[functions]
-  # This tells Netlify to include your data files in the backend
-  included_files = ["*.json", "schemas/**", "shared/**", "exams/**"]
-
+# This is the "Bridge" that stops the 404
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/api/:splat"
   status = 200
   force = true
 
+# This ensures the Admin/Student pages load on refresh
 [[redirects]]
   from = "/*"
   to = "/index.html"
