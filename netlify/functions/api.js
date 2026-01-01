@@ -68,48 +68,103 @@ exports.handler = async (event, context) => {
     if (method === "OPTIONS") return { statusCode: 200, headers, body: "" };
 
     try {
-        // SETTINGS
+        // SETTINGS (GET & POST)
         if (path === "/settings" && method === "GET") {
             const settings = (await getFile("settings.json")) || {};
             return { statusCode: 200, headers, body: JSON.stringify({ settings }) };
         }
+        if (path === "/settings" && method === "POST") {
+            await saveFile("settings.json", body, "Update Settings");
+            return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
+        }
 
-        // --- AUTH LOGIC ---
+        // --- AUTH & USER MANAGEMENT ---
         if (path === "/auth/login" && method === "POST") {
             const { username, password } = body;
-            const users = (await getFile("users.json"));
+            const users = (await getFile("users.json")) || [];
 
-            if (!users) {
-                return { statusCode: 500, headers, body: JSON.stringify({ error: "Database connection failed" }) };
+            // Allow admin/admin if users.json is empty/missing
+            if ((!users || users.length === 0) && username === "admin" && password === "admin") {
+                return { statusCode: 200, headers, body: JSON.stringify({ success: true, user: { username: "admin", role: "admin" } }) };
             }
 
-            // FIX: Compare the input password against 'plainPassword' from your JSON
-            const user = users.find(u =>
-                u.username === username &&
-                (u.plainPassword === password || u.password === password)
-            );
-
+            const user = users.find(u => u.username === username && (u.plainPassword === password || u.password === password));
             if (user) {
-                // Remove sensitive data before sending to frontend
                 const { password, plainPassword, ...safeUser } = user;
                 return { statusCode: 200, headers, body: JSON.stringify({ success: true, user: safeUser }) };
             }
-
             return { statusCode: 401, headers, body: JSON.stringify({ success: false, error: "Invalid credentials" }) };
         }
 
-        // EXAMS LIST (Student & Admin)
-        if (path === "/exams" && method === "GET") {
-            const manifest = await getFile("exams/manifest.json");
-            // If manifest is null, it means the file wasn't found or token failed
-            if (!manifest) {
-                return {
-                    statusCode: 200,
-                    headers,
-                    body: JSON.stringify({ exams: [], message: "Manifest not found on GitHub" })
-                };
+        // GET USERS
+        if (path === "/users" && method === "GET") {
+            const users = (await getFile("users.json")) || [];
+            const safeUsers = users.map(({ password, plainPassword, ...u }) => u);
+            return { statusCode: 200, headers, body: JSON.stringify({ users: safeUsers }) };
+        }
+
+        // CREATE USER
+        if (path === "/users" && method === "POST") {
+            const newUser = body; // { username, password, role }
+            newUser.id = Date.now().toString();
+            newUser.active = true;
+            // Store plain password for demo/simplicity as requested, or hash it in real app
+            newUser.plainPassword = newUser.password;
+
+            const users = (await getFile("users.json")) || [];
+            if (users.find(u => u.username === newUser.username)) {
+                return { statusCode: 400, headers, body: JSON.stringify({ error: "Username already exists" }) };
             }
+
+            users.push(newUser);
+            await saveFile("users.json", users, `Create User: ${newUser.username}`);
+            return { statusCode: 201, headers, body: JSON.stringify({ success: true, user: newUser }) };
+        }
+
+        // TOGGLE USER
+        if (path.match(/\/users\/[\w-]+\/toggle$/) && method === "PATCH") {
+            const id = path.split("/")[2];
+            const { active } = body;
+            const users = (await getFile("users.json")) || [];
+            const idx = users.findIndex(u => u.id === id);
+            if (idx > -1) {
+                users[idx].active = active;
+                await saveFile("users.json", users, `Toggle User ${id}`);
+                return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
+            }
+            return { statusCode: 404, headers, body: JSON.stringify({ error: "User not found" }) };
+        }
+
+        // DELETE USER
+        if (path.match(/\/users\/[\w-]+$/) && method === "DELETE") {
+            const id = path.split("/")[2];
+            let users = (await getFile("users.json")) || [];
+            users = users.filter(u => u.id !== id);
+            await saveFile("users.json", users, `Delete User ${id}`);
+            return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
+        }
+
+        // EXAMS LIST
+        if (path === "/exams" && method === "GET") {
+            // ... (keep existing GET /exams logic)
+            const manifest = (await getFile("exams/manifest.json")) || [];
             return { statusCode: 200, headers, body: JSON.stringify({ exams: manifest }) };
+        }
+
+        // STATS (Dashboard)
+        if (path === "/stats" && method === "GET") {
+            const manifest = (await getFile("exams/manifest.json")) || [];
+            const users = (await getFile("users.json")) || [];
+            const recentActivity = []; // Would come from an 'activity.json' if implemented
+
+            const stats = {
+                totalExams: manifest.length,
+                activeExams: manifest.filter(e => e.active).length,
+                totalStudents: 0, // Placeholder
+                totalTeachers: users.filter(u => u.role === 'teacher').length,
+                recentActivity: recentActivity
+            };
+            return { statusCode: 200, headers, body: JSON.stringify({ stats }) };
         }
 
         // CREATE EXAM
@@ -122,10 +177,13 @@ exports.handler = async (event, context) => {
                 title: exam.metadata.title,
                 subject: exam.metadata.subject,
                 active: exam.active !== false,
+                createdBy: exam.metadata.createdBy || "Admin",
                 createdAt: new Date().toISOString()
             };
             const idx = manifest.findIndex(e => e.id === exam.examId);
-            if (idx > -1) manifest[idx] = entry; else manifest.push(entry);
+            if (idx > -1) manifest[idx] = { ...manifest[idx], ...entry };
+            else manifest.push(entry);
+
             await saveFile("exams/manifest.json", manifest, `Update Manifest`);
             return { statusCode: 201, headers, body: JSON.stringify({ success: true }) };
         }
@@ -138,14 +196,39 @@ exports.handler = async (event, context) => {
             return { statusCode: 200, headers, body: JSON.stringify(exam) };
         }
 
+        // EXAM TOGGLE (Keep existing)
+        if (path.match(/\/exams\/[\w-]+\/toggle$/) && method === "PATCH") {
+            const id = path.split("/")[2];
+            const { active } = body;
+            const exam = await getFile(`exams/${id}.json`);
+            if (exam) {
+                exam.active = active;
+                await saveFile(`exams/${id}.json`, exam, `Toggle Exam ${id}`);
+            }
+            const manifest = (await getFile("exams/manifest.json")) || [];
+            const idx = manifest.findIndex(e => e.id === id);
+            if (idx > -1) {
+                manifest[idx].active = active;
+                await saveFile("exams/manifest.json", manifest, `Toggle Manifest ${id}`);
+            }
+            return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
+        }
+
         // QUESTIONS BANK
         if (path === "/questions" && method === "GET") {
             const questions = (await getFile("questions.json")) || [];
             return { statusCode: 200, headers, body: JSON.stringify(questions) };
         }
 
-        return { statusCode: 404, headers, body: JSON.stringify({ error: "Route not found" }) };
+        if (path === "/questions" && method === "POST") {
+            const newQs = body;
+            const existing = (await getFile("questions.json")) || [];
+            const updated = [...existing, ...newQs]; // Simple append
+            await saveFile("questions.json", updated, "Add Questions to Bank");
+            return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
+        }
 
+        return { statusCode: 404, headers, body: JSON.stringify({ error: `Route not found: ${method} ${path}` }) };
     } catch (error) {
         console.error("API Error:", error);
         return { statusCode: 500, headers, body: JSON.stringify({ error: error.message }) };
