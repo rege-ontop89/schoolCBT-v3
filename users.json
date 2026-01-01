@@ -18,7 +18,7 @@
     "name": "MR uvie",
     "email": "teacher@gmail.com",
     "role": "Teacher",
-    "active": false,
+    "active": true,
     "createdAt": "2025-12-31T11:45:55.063Z"
   }
 ]
