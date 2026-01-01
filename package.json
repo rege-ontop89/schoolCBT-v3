@@ -4,12 +4,12 @@
     "private": true,
     "scripts": {
         "start": "netlify dev",
-        "build": "npm install && cd admin && npm install && npm run build",
+        "build": "cd admin && npm install && npm run build",
         "install:all": "npm install && cd admin && npm install"
     },
     "dependencies": {
         "@netlify/functions": "^2.6.0",
-        "@octokit/rest": "^18.12.0",
+        "@octokit/rest": "^20.0.0",
         "dotenv": "^16.4.5"
     },
     "devDependencies": {

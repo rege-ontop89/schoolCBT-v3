@@ -3,17 +3,15 @@
   publish = "admin/dist"
   functions = "netlify/functions"
 
-[dev]
-  command = "vite"
-  port = 8888
-  targetPort = 5173
-  publish = "admin/dist"
-  autoLaunch = false
+[functions]
+  # This tells Netlify to include your data files in the backend
+  included_files = ["*.json", "schemas/**", "shared/**", "exams/**"]
 
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/api/:splat"
   status = 200
+  force = true
 
 [[redirects]]
   from = "/*"
