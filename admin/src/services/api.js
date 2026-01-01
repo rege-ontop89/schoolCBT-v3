@@ -433,13 +433,5 @@ class ApiService {
         }
     }
 }
-if (path === "/settings" && method === "GET") {
-    const settings = (await getFile("settings.json")) || {};
-    return {
-        statusCode: 200,
-        headers,
-        body: JSON.stringify({ settings })
-    };
-}
 
 export default new ApiService();

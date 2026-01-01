@@ -1,23 +1,33 @@
+// netlify/functions/api.js
 const { Octokit } = require("@octokit/rest");
 
 exports.handler = async (event, context) => {
-    // 1. Move configuration INSIDE the handler
+    const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
     const OWNER = process.env.GITHUB_OWNER || "rege-ontop89";
     const REPO = process.env.GITHUB_REPO || "schoolCBT-v3";
-    const BRANCH = "main";
 
-    // 2. Initialize Octokit INSIDE the handler
-    const octokit = new Octokit({
-        auth: process.env.GITHUB_TOKEN,
-    });
+    const path = event.path.replace("/.netlify/functions/api", "").replace("/api", "");
+    const method = event.httpMethod;
 
     const headers = {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Headers": "Content-Type",
-        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
     };
-}
+
+    try {
+        // --- ADD THE SETTINGS BLOCK HERE ---
+        if (path === "/settings" && method === "GET") {
+            const settings = (await getFile("settings.json")) || {};
+            return { statusCode: 200, headers, body: JSON.stringify({ settings }) };
+        }
+
+        // ... rest of your auth and exam logic
+    } catch (error) {
+        return { statusCode: 500, headers, body: JSON.stringify({ error: error.message }) };
+    }
+};
+
 // ... rest of your existing handler code (path logic, etc.)
 // Helper: Get File Content
 async function getFile(path) {
