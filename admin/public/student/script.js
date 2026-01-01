@@ -141,14 +141,15 @@ DOM.login.form.addEventListener('submit', handleLogin);
 let manifestData = []; // Store full manifest for filtering
 
 function loadManifest() {
-    const manifestUrl = '../exams/manifest.json';
+    const manifestUrl = '/api/exams';
     fetch(manifestUrl)
         .then(response => {
             if (!response.ok) throw new Error("Failed to load exam catalog.");
             return response.json();
         })
         .then(data => {
-            manifestData = data;
+            // The API returns { exams: [...] }, so we extract the array
+            manifestData = data.exams || [];
             DOM.login.examLoadingHint.textContent = "Select your class to see available exams";
             DOM.login.examLoadingHint.style.color = "#6b7280";
             DOM.login.examLoadingHint.hidden = false;
@@ -185,7 +186,7 @@ function filterExamsByClass(selectedClass) {
     } else {
         filteredExams.forEach(exam => {
             const option = document.createElement('option');
-            option.value = exam.filename;
+            option.value = exam.id;
             option.textContent = exam.title;
             select.appendChild(option);
         });
@@ -229,8 +230,8 @@ function handleLogin(e) {
     state.student.class = DOM.login.inputClass.value;
 
     // 2. Load Selected Exam
-    const filename = DOM.login.examSelect.value;
-    if (!filename) {
+    const EXAM_ID = DOM.login.examSelect.value;
+    if (!EXAM_ID) {
         showError("Please select an exam to start.");
         return;
     }
@@ -241,7 +242,7 @@ function handleLogin(e) {
     btn.textContent = "Loading Exam...";
     btn.disabled = true;
 
-    fetch(`../exams/${filename}`)
+    fetch(`/api/exams/${EXAM_ID}`)
         .then(response => {
             if (!response.ok) throw new Error("Failed to download exam file.");
             return response.json();

@@ -217,7 +217,7 @@ exports.handler = async (event, context) => {
         // QUESTIONS BANK
         if (path === "/questions" && method === "GET") {
             const questions = (await getFile("questions.json")) || [];
-            return { statusCode: 200, headers, body: JSON.stringify(questions) };
+            return { statusCode: 200, headers, body: JSON.stringify({ questions }) };
         }
 
         if (path === "/questions" && method === "POST") {
@@ -226,6 +226,47 @@ exports.handler = async (event, context) => {
             const updated = [...existing, ...newQs]; // Simple append
             await saveFile("questions.json", updated, "Add Questions to Bank");
             return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
+        }
+
+        // USER STATS
+        if (path.match(/\/users\/[\w-]+\/stats$/) && method === "GET") {
+            const identifier = path.split("/")[2]; // ID or Username
+            const users = (await getFile("users.json")) || [];
+            // Match by ID or Username
+            const user = users.find(u => u.id === identifier || u.username === identifier);
+
+            if (!user) return { statusCode: 404, headers, body: JSON.stringify({ error: "User not found" }) };
+
+            // Calculate Stats (Real Calculation)
+            const manifest = (await getFile("exams/manifest.json")) || [];
+            let stats = {};
+
+            if (user.role === 'teacher' || user.role === 'admin') {
+                // Teacher Stats: Exams Created, Active Exams
+                const createdExams = manifest.filter(e => e.createdBy === user.username || e.author === user.username);
+                stats = {
+                    examsCreated: createdExams.length,
+                    activeExams: createdExams.filter(e => e.active).length,
+                    totalQuestions: 0 // Placeholder as we'd need to fetch every exam file to count
+                };
+            } else {
+                // Student Stats (Placeholder - requires results storage implementation)
+                stats = {
+                    examsTaken: 0,
+                    averageScore: 0
+                };
+            }
+
+            return { statusCode: 200, headers, body: JSON.stringify({ stats }) };
+        }
+
+        // EXAM RESULTS
+        if (path.match(/\/results\/[\w-]+$/) && method === "GET") {
+            const examId = path.split("/").pop();
+            // Try to read a results file (e.g., results/EXAM_ID.json)
+            // Ideally results are stored as individual files or a big JSON
+            const results = (await getFile(`results/${examId}.json`)) || [];
+            return { statusCode: 200, headers, body: JSON.stringify(results) };
         }
 
         return { statusCode: 404, headers, body: JSON.stringify({ error: `Route not found: ${method} ${path}` }) };
