@@ -1,14 +1,24 @@
 const { Octokit } = require("@octokit/rest");
 
-// Config
-const OWNER = process.env.GITHUB_OWNER || "rege-ontop89"; // Extracted from user context
-const REPO = process.env.GITHUB_REPO || "schoolCBT-v3"; // Updated to match actual repo
-const BRANCH = "main";
+exports.handler = async (event, context) => {
+    // 1. Move configuration INSIDE the handler
+    const OWNER = process.env.GITHUB_OWNER || "rege-ontop89";
+    const REPO = process.env.GITHUB_REPO || "schoolCBT-v3";
+    const BRANCH = "main";
 
-const octokit = new Octokit({
-    auth: process.env.GITHUB_TOKEN,
-});
+    // 2. Initialize Octokit INSIDE the handler
+    const octokit = new Octokit({
+        auth: process.env.GITHUB_TOKEN,
+    });
 
+    const headers = {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+        "Content-Type": "application/json",
+    };
+}
+// ... rest of your existing handler code (path logic, etc.)
 // Helper: Get File Content
 async function getFile(path) {
     try {
