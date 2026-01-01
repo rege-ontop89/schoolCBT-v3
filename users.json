@@ -20,5 +20,15 @@
     "role": "Teacher",
     "active": true,
     "createdAt": "2025-12-31T11:45:55.063Z"
+  },
+  {
+    "name": "Akporaro",
+    "email": "akporaro@gmail.com",
+    "username": "akporaro1",
+    "password": "akporaro1",
+    "role": "Teacher",
+    "id": "1767298171553",
+    "active": true,
+    "plainPassword": "akporaro1"
   }
 ]
