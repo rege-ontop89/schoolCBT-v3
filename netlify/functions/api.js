@@ -1,202 +1,135 @@
-// netlify/functions/api.js
 const { Octokit } = require("@octokit/rest");
 
 exports.handler = async (event, context) => {
+    // 1. SETUP: Initialize Octokit and Config inside the handler
     const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
     const OWNER = process.env.GITHUB_OWNER || "rege-ontop89";
     const REPO = process.env.GITHUB_REPO || "schoolCBT-v3";
+    const BRANCH = "main";
 
+    // 2. REQUEST DATA
     const path = event.path.replace("/.netlify/functions/api", "").replace("/api", "");
     const method = event.httpMethod;
+    const body = event.body ? JSON.parse(event.body) : {};
 
     const headers = {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Headers": "Content-Type",
-        "Content-Type": "application/json"
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+        "Content-Type": "application/json",
     };
 
+    // 3. HELPER FUNCTIONS (Inside handler scope)
+    async function getFile(filePath) {
+        try {
+            const { data } = await octokit.repos.getContent({
+                owner: OWNER,
+                repo: REPO,
+                path: filePath,
+                ref: BRANCH,
+            });
+            return JSON.parse(Buffer.from(data.content, "base64").toString("utf-8"));
+        } catch (error) {
+            console.error(`Read Error [${filePath}]:`, error.message);
+            return null;
+        }
+    }
+
+    async function saveFile(filePath, content, message) {
+        try {
+            let sha;
+            try {
+                const { data } = await octokit.repos.getContent({
+                    owner: OWNER,
+                    repo: REPO,
+                    path: filePath,
+                    ref: BRANCH,
+                });
+                sha = data.sha;
+            } catch (e) { /* File new */ }
+
+            await octokit.repos.createOrUpdateFileContents({
+                owner: OWNER,
+                repo: REPO,
+                path: filePath,
+                message: message,
+                content: Buffer.from(JSON.stringify(content, null, 2)).toString("base64"),
+                sha: sha,
+                branch: BRANCH,
+            });
+            return true;
+        } catch (error) {
+            console.error(`Save Error [${filePath}]:`, error.message);
+            throw error;
+        }
+    }
+
+    // 4. ROUTING LOGIC
+    if (method === "OPTIONS") return { statusCode: 200, headers, body: "" };
+
     try {
-        // --- ADD THE SETTINGS BLOCK HERE ---
+        // SETTINGS
         if (path === "/settings" && method === "GET") {
             const settings = (await getFile("settings.json")) || {};
             return { statusCode: 200, headers, body: JSON.stringify({ settings }) };
         }
 
-        // ... rest of your auth and exam logic
-    } catch (error) {
-        return { statusCode: 500, headers, body: JSON.stringify({ error: error.message }) };
-    }
-};
+        // AUTH
+        if (path === "/auth/login" && method === "POST") {
+            const { username, password } = body;
+            const users = (await getFile("users.json"));
 
-// ... rest of your existing handler code (path logic, etc.)
-// Helper: Get File Content
-async function getFile(path) {
-    try {
-        const { data } = await octokit.repos.getContent({
-            owner: OWNER,
-            repo: REPO,
-            path: path,
-            ref: BRANCH,
-        });
+            if (!users) {
+                return { statusCode: 500, headers, body: JSON.stringify({ error: "Database connection failed. Check GitHub Token." }) };
+            }
 
-        // GitHub API returns content in base64
-        const content = Buffer.from(data.content, "base64").toString("utf-8");
-        return JSON.parse(content);
-    } catch (error) {
-        console.error(`Error reading ${path}:`, error);
-        return null;
-    }
-}
-
-// Helper: Update/Create File
-async function saveFile(path, content, message) {
-    try {
-        // 1. Get SHA of existing file (if it exists)
-        let sha;
-        try {
-            const { data } = await octokit.repos.getContent({
-                owner: OWNER,
-                repo: REPO,
-                path: path,
-                ref: BRANCH,
-            });
-            sha = data.sha;
-        } catch (e) {
-            // File doesn't exist, fine
+            const user = users.find(u => u.username === username && u.password === password);
+            if (user) return { statusCode: 200, headers, body: JSON.stringify({ success: true, user }) };
+            return { statusCode: 401, headers, body: JSON.stringify({ success: false, error: "Invalid credentials" }) };
         }
 
-        // 2. Commit update
-        await octokit.repos.createOrUpdateFileContents({
-            owner: OWNER,
-            repo: REPO,
-            path: path,
-            message: message,
-            content: Buffer.from(JSON.stringify(content, null, 2)).toString("base64"),
-            sha: sha,
-            branch: BRANCH,
-        });
-        return true;
-    } catch (error) {
-        console.error(`Error saving ${path}:`, error);
-        throw error;
-    }
-}
-
-exports.handler = async (event, context) => {
-    // This handles both the direct Netlify path and the redirected /api path
-    const path = event.path.replace("/.netlify/functions/api", "").replace("/api", "");
-    const method = event.httpMethod;
-    const body = event.body ? JSON.parse(event.body) : {};
-
-    // Headers
-    const headers = {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Headers": "Content-Type",
-        "Content-Type": "application/json",
-    };
-
-    // CORS
-    if (method === "OPTIONS") {
-        return { statusCode: 200, headers, body: "" };
-    }
-
-    try {
-        // ================= EXAMS =================
+        // EXAMS LIST (Student & Admin)
         if (path === "/exams" && method === "GET") {
             const manifest = (await getFile("exams/manifest.json")) || [];
             return { statusCode: 200, headers, body: JSON.stringify({ exams: manifest }) };
         }
 
+        // CREATE EXAM
         if (path === "/exams" && method === "POST") {
             const exam = body;
-            // 1. Save Exam File
             await saveFile(`exams/${exam.examId}.json`, exam, `Create Exam: ${exam.metadata.title}`);
-
-            // 2. Update Manifest
             const manifest = (await getFile("exams/manifest.json")) || [];
             const entry = {
                 id: exam.examId,
                 title: exam.metadata.title,
                 subject: exam.metadata.subject,
                 active: exam.active !== false,
-                createdBy: exam.metadata.createdBy,
                 createdAt: new Date().toISOString()
             };
-
             const idx = manifest.findIndex(e => e.id === exam.examId);
-            if (idx > -1) manifest[idx] = { ...manifest[idx], ...entry };
-            else manifest.push(entry);
-
-            await saveFile("exams/manifest.json", manifest, `Update Manifest for ${exam.metadata.title}`);
-
+            if (idx > -1) manifest[idx] = entry; else manifest.push(entry);
+            await saveFile("exams/manifest.json", manifest, `Update Manifest`);
             return { statusCode: 201, headers, body: JSON.stringify({ success: true }) };
         }
 
-        // ================= EXAM DETAILS =================
+        // SINGLE EXAM DETAILS
         if (path.match(/\/exams\/[\w-]+$/) && method === "GET") {
             const id = path.split("/").pop();
             const exam = await getFile(`exams/${id}.json`);
-            if (!exam) return { statusCode: 404, headers, body: JSON.stringify({ error: "Not Found" }) };
+            if (!exam) return { statusCode: 404, headers, body: JSON.stringify({ error: "Exam not found" }) };
             return { statusCode: 200, headers, body: JSON.stringify(exam) };
         }
 
-        // ================= TOGGLE EXAM =================
-        if (path.match(/\/exams\/[\w-]+\/toggle$/) && method === "PATCH") {
-            const id = path.split("/")[2]; // /exams/:id/toggle
-            const { active } = body;
-
-            // 1. Update Exam File
-            const exam = await getFile(`exams/${id}.json`);
-            if (exam) {
-                exam.active = active;
-                await saveFile(`exams/${id}.json`, exam, `Toggle Exam ${id}`);
-            }
-
-            // 2. Update Manifest
-            const manifest = (await getFile("exams/manifest.json")) || [];
-            const idx = manifest.findIndex(e => e.id === id);
-            if (idx > -1) {
-                manifest[idx].active = active;
-                await saveFile("exams/manifest.json", manifest, `Toggle Manifest ${id}`);
-            }
-
-            return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
-        }
-
-        // ================= QUESTIONS BANK =================
+        // QUESTIONS BANK
         if (path === "/questions" && method === "GET") {
             const questions = (await getFile("questions.json")) || [];
             return { statusCode: 200, headers, body: JSON.stringify(questions) };
         }
 
-        if (path === "/questions" && method === "POST") {
-            const newQs = body; // Array of questions
-            const existing = (await getFile("questions.json")) || [];
-            // Deduplicate logic simplified for brevity
-            const updated = [...existing, ...newQs];
-            await saveFile("questions.json", updated, "Add Questions to Bank");
-            return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
-        }
-
-        // ================= AUTH =================
-        if (path === "/auth/login" && method === "POST") {
-            const { username, password } = body;
-            const users = (await getFile("users.json")) || [];
-            const user = users.find(u => u.username === username && u.password === password); // Simple check
-
-            if (user) return { statusCode: 200, headers, body: JSON.stringify({ success: true, user }) };
-            return { statusCode: 401, headers, body: JSON.stringify({ success: false, error: "Invalid credentials" }) };
-        }
-
-        // Default
-        return { statusCode: 404, headers, body: JSON.stringify({ error: "Not Found" }) };
+        return { statusCode: 404, headers, body: JSON.stringify({ error: "Route not found" }) };
 
     } catch (error) {
         console.error("API Error:", error);
-        return {
-            statusCode: 500,
-            headers,
-            body: JSON.stringify({ error: error.message })
-        };
+        return { statusCode: 500, headers, body: JSON.stringify({ error: error.message }) };
     }
 };
