@@ -28,7 +28,7 @@
     "password": "akporaro1",
     "role": "Teacher",
     "id": "1767298171553",
-    "active": false,
+    "active": true,
     "plainPassword": "akporaro1"
   }
 ]
