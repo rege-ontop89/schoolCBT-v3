@@ -11,7 +11,7 @@
     "enableFullscreen": true,
     "trackViolations": true,
     "violationThreshold": 3,
-    "shuffleQuestions": true,
+    "shuffleQuestions": false,
     "shuffleOptions": true
   },
   "subjects": [
