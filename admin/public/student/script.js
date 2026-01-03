@@ -187,7 +187,7 @@ function filterExamsByClass(selectedClass) {
 
     // Use .trim() and .toUpperCase() to ensure "JSS 2" matches "JSS 2"
     const filteredExams = manifestData.filter(exam => {
-        exam.active !== false && exam.class === selectedClass;
+        return exam.active !== false && exam.class === selectedClass;
 
     });
     console.log(`🔍 Found ${filteredExams.length} exams for ${selectedClass}`);
