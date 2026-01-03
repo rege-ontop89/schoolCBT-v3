@@ -141,7 +141,9 @@ DOM.login.form.addEventListener('submit', handleLogin);
 let manifestData = []; // Store full manifest for filtering
 
 function loadManifest() {
-    const manifestUrl = '/api/exams';
+    const manifestUrl = '../exams/manifest.json';
+    console.log('🔍 Attempting to fetch manifest from:', manifestUrl);
+
     fetch(manifestUrl)
         .then(response => {
             if (!response.ok) throw new Error("Failed to load exam catalog.");
@@ -149,16 +151,16 @@ function loadManifest() {
         })
         .then(data => {
             // The API returns { exams: [...] }, so we extract the array
-            manifestData = data.exams || [];
+            manifestData = data;
             console.log('🔍 Manifest loaded:', manifestData);
             console.log('🔍 Number of exams:', manifestData.length);
             console.log('🔍 First exam:', manifestData[0]);
             DOM.login.examLoadingHint.textContent = "Select your class to see available exams";
             DOM.login.examLoadingHint.style.color = "#6b7280";
-            DOM.login.examLoadingHint.hidden = false;
+            DOM.login.examSelect.innerHTML = '<option value="" disabled selected>Select class first</option>';
         })
         .catch(err => {
-            console.error(err);
+            console.error('❌ Manifest Load Error:', err);
             DOM.login.examLoadingHint.textContent = "Error loading exams. Please contact admin.";
             DOM.login.examLoadingHint.style.color = "red";
         });
@@ -173,33 +175,34 @@ function filterExamsByClass(selectedClass) {
     const select = DOM.login.examSelect;
     const hint = DOM.login.examLoadingHint;
 
-    select.innerHTML = '<option value="" disabled selected>Select an Exam...</option>';
+
     hint.hidden = false;
 
     if (!selectedClass) {
+        select.innerHTML = '<option value="" disabled selected>Select an Exam...</option>';
         select.disabled = true;
-        hint.textContent = "Select class to see available exams";
-        hint.style.color = "#6b7280";
         return;
     }
     console.log('🔍 Filtering for class:', selectedClass);
 
     // Use .trim() and .toUpperCase() to ensure "JSS 2" matches "JSS 2"
     const filteredExams = manifestData.filter(exam => {
-        const mClass = (exam.class || "").toString().trim().toUpperCase();
-        const sClass = selectedClass.trim().toUpperCase();
-        return mClass === sClass;
+        exam.active !== false && exam.class === selectedClass;
+
     });
+    console.log(`🔍 Found ${filteredExams.length} exams for ${selectedClass}`);
 
     if (filteredExams.length === 0) {
-        select.disabled = true;
         select.innerHTML = '<option value="" disabled selected>No exams available</option>';
+        select.disabled = true;
         hint.textContent = `No active exams found for ${selectedClass}`;
         hint.style.color = "#ef4444";
     } else {
+        select.innerHTML = '<option value="" disabled selected>-- Select an Exam --</option>';
+
         filteredExams.forEach(exam => {
             const option = document.createElement('option');
-            option.value = exam.id || `${exam.id}.json`;
+            option.value = exam.filename || `${exam.id}.json`;
             option.textContent = exam.title;
             select.appendChild(option);
         });
@@ -210,7 +213,22 @@ function filterExamsByClass(selectedClass) {
         hint.style.color = "#059669";
     }
 }
+// --- INITIALIZATION ---
+// Wrap listeners in DOMContentLoaded to ensure DOM.login elements exist
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('🔍 DOM Content Loaded - Initializing Listeners');
 
+    loadManifest();
+
+    if (DOM.login.inputClass) {
+        DOM.login.inputClass.addEventListener('change', (e) => {
+            console.log('Selected value:', e.target.value);
+            filterExamsByClass(e.target.value);
+        });
+    } else {
+        console.error('❌ Could not find student-class element in DOM');
+    }
+});
 
 // Auto-load manifest
 loadManifest();
