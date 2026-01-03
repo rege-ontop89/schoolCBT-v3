@@ -151,7 +151,7 @@ function loadManifest() {
         })
         .then(data => {
             // The API returns { exams: [...] }, so we extract the array
-            manifestData = data;
+            manifestData = data.exams || [];
             console.log('🔍 Manifest loaded:', manifestData);
             console.log('🔍 Number of exams:', manifestData.length);
             console.log('🔍 First exam:', manifestData[0]);
