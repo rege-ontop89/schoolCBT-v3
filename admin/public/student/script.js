@@ -141,7 +141,7 @@ DOM.login.form.addEventListener('submit', handleLogin);
 let manifestData = []; // Store full manifest for filtering
 
 function loadManifest() {
-    const manifestUrl = '../exams/manifest.json';
+    const manifestUrl = 'api/exams';
     console.log('🔍 Attempting to fetch manifest from:', manifestUrl);
 
     fetch(manifestUrl)
