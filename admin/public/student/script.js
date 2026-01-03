@@ -150,6 +150,9 @@ function loadManifest() {
         .then(data => {
             // The API returns { exams: [...] }, so we extract the array
             manifestData = data.exams || [];
+            console.log('🔍 Manifest loaded:', manifestData);
+            console.log('🔍 Number of exams:', manifestData.length);
+            console.log('🔍 First exam:', manifestData[0]);
             DOM.login.examLoadingHint.textContent = "Select your class to see available exams";
             DOM.login.examLoadingHint.style.color = "#6b7280";
             DOM.login.examLoadingHint.hidden = false;
@@ -159,9 +162,14 @@ function loadManifest() {
             DOM.login.examLoadingHint.textContent = "Error loading exams. Please contact admin.";
             DOM.login.examLoadingHint.style.color = "red";
         });
+
 }
 
+
 function filterExamsByClass(selectedClass) {
+    console.log('🔍 filterExamsByClass called with:', selectedClass);
+    console.log('🔍 manifestData:', manifestData);
+
     const select = DOM.login.examSelect;
     if (!selectedClass) return;
 
