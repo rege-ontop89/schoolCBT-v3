@@ -172,32 +172,36 @@ function filterExamsByClass(selectedClass) {
 
     const select = DOM.login.examSelect;
     const hint = DOM.login.examLoadingHint;
-    console.log('🔍 Filtering for class:', selectedClass);
-    select.innerHTML = '<option value="">-- Select Exam --</option>';
+
+    select.innerHTML = '<option value="" disabled selected>Select an Exam...</option>';
+    hint.hidden = false;
 
     if (!selectedClass) {
         select.disabled = true;
         hint.textContent = "Select class to see available exams";
+        hint.style.color = "#6b7280";
         return;
     }
+    console.log('🔍 Filtering for class:', selectedClass);
 
     // Use .trim() and .toUpperCase() to ensure "JSS 2" matches "JSS 2"
     const filteredExams = manifestData.filter(exam => {
-        const examClass = (exam.class || "").toString().trim().toUpperCase();
-        const studentClass = selectedClass.trim().toUpperCase();
-        return examClass === studentClass && exam.active === true;
+        const mClass = (exam.class || "").toString().trim().toUpperCase();
+        const sClass = selectedClass.trim().toUpperCase();
+        return mClass === sClass;
     });
 
     if (filteredExams.length === 0) {
         select.disabled = true;
+        select.innerHTML = '<option value="" disabled selected>No exams available</option>';
         hint.textContent = `No active exams found for ${selectedClass}`;
         hint.style.color = "#ef4444";
     } else {
         filteredExams.forEach(exam => {
-            const opt = document.createElement('option');
-            opt.value = exam.id;
-            opt.textContent = exam.title;
-            select.appendChild(opt);
+            const option = document.createElement('option');
+            option.value = exam.id || `${exam.id}.json`;
+            option.textContent = exam.title;
+            select.appendChild(option);
         });
         select.disabled = false;
 
