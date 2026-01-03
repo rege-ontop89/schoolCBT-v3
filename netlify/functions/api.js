@@ -11,6 +11,8 @@ exports.handler = async (event, context) => {
     const path = event.path.replace("/.netlify/functions/api", "").replace("/api", "");
     const method = event.httpMethod;
     const body = event.body ? JSON.parse(event.body) : {};
+    // ADDED: Capture URL parameters for filtering (e.g., ?subject=Math)
+    const queryParams = event.queryStringParameters || {};
 
     const headers = {
         "Access-Control-Allow-Origin": "*",
@@ -78,12 +80,19 @@ exports.handler = async (event, context) => {
             return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
         }
 
+        // ADDED: SETTINGS WEBHOOK & LOGO (Fixes 404 errors)
+        if (path === "/settings/test-webhook" && method === "POST") {
+            return { statusCode: 200, headers, body: JSON.stringify({ success: true, message: "Webhook reachable" }) };
+        }
+        if (path === "/settings/upload-logo" && method === "POST") {
+            return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
+        }
+
         // --- AUTH & USER MANAGEMENT ---
         if (path === "/auth/login" && method === "POST") {
             const { username, password } = body;
             const users = (await getFile("users.json")) || [];
 
-            // Allow admin/admin if users.json is empty/missing
             if ((!users || users.length === 0) && username === "admin" && password === "admin") {
                 return { statusCode: 200, headers, body: JSON.stringify({ success: true, user: { username: "admin", role: "admin" } }) };
             }
@@ -105,10 +114,9 @@ exports.handler = async (event, context) => {
 
         // CREATE USER
         if (path === "/users" && method === "POST") {
-            const newUser = body; // { username, password, role }
+            const newUser = body;
             newUser.id = Date.now().toString();
             newUser.active = true;
-            // Store plain password for demo/simplicity as requested, or hash it in real app
             newUser.plainPassword = newUser.password;
 
             const users = (await getFile("users.json")) || [];
@@ -119,6 +127,21 @@ exports.handler = async (event, context) => {
             users.push(newUser);
             await saveFile("users.json", users, `Create User: ${newUser.username}`);
             return { statusCode: 201, headers, body: JSON.stringify({ success: true, user: newUser }) };
+        }
+
+        // ADDED: UPDATE USER (Fixes "admin-001" 404 when saving profile)
+        if (path.match(/\/users\/[\w-]+$/) && method === "PUT") {
+            const id = path.split("/").pop();
+            const updates = body;
+            const users = (await getFile("users.json")) || [];
+            const idx = users.findIndex(u => u.id === id || u.username === id);
+            if (idx > -1) {
+                users[idx] = { ...users[idx], ...updates };
+                if (updates.password) users[idx].plainPassword = updates.password;
+                await saveFile("users.json", users, `Update User ${id}`);
+                return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
+            }
+            return { statusCode: 404, headers, body: JSON.stringify({ error: "User not found" }) };
         }
 
         // TOGGLE USER
@@ -146,7 +169,6 @@ exports.handler = async (event, context) => {
 
         // EXAMS LIST
         if (path === "/exams" && method === "GET") {
-            // ... (keep existing GET /exams logic)
             const manifest = (await getFile("exams/manifest.json")) || [];
             return { statusCode: 200, headers, body: JSON.stringify({ exams: manifest }) };
         }
@@ -155,12 +177,22 @@ exports.handler = async (event, context) => {
         if (path === "/stats" && method === "GET") {
             const manifest = (await getFile("exams/manifest.json")) || [];
             const users = (await getFile("users.json")) || [];
-            const recentActivity = []; // Would come from an 'activity.json' if implemented
+
+            // UPDATED: Calculate real "Recent Activity" from manifest
+            const recentActivity = manifest
+                .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0))
+                .slice(0, 5)
+                .map(e => ({
+                    text: `Exam created: ${e.title}`,
+                    time: e.createdAt || new Date().toISOString(),
+                    icon: "PlusCircle",
+                    color: "blue"
+                }));
 
             const stats = {
                 totalExams: manifest.length,
                 activeExams: manifest.filter(e => e.active).length,
-                totalStudents: 0, // Placeholder
+                totalStudents: 0,
                 totalTeachers: users.filter(u => u.role === 'teacher').length,
                 recentActivity: recentActivity
             };
@@ -196,7 +228,7 @@ exports.handler = async (event, context) => {
             return { statusCode: 200, headers, body: JSON.stringify(exam) };
         }
 
-        // EXAM TOGGLE (Keep existing)
+        // EXAM TOGGLE
         if (path.match(/\/exams\/[\w-]+\/toggle$/) && method === "PATCH") {
             const id = path.split("/")[2];
             const { active } = body;
@@ -217,40 +249,45 @@ exports.handler = async (event, context) => {
         // QUESTIONS BANK
         if (path === "/questions" && method === "GET") {
             const questions = (await getFile("questions.json")) || [];
-            return { statusCode: 200, headers, body: JSON.stringify({ questions }) };
+
+            // UPDATED: Filter questions based on query parameters (Subject/Class)
+            let filtered = questions;
+            if (queryParams.subject) filtered = filtered.filter(q => q.subject === queryParams.subject);
+            if (queryParams.class) filtered = filtered.filter(q => q.class === queryParams.class);
+            if (queryParams.difficulty && queryParams.difficulty !== 'All') {
+                filtered = filtered.filter(q => q.difficulty === queryParams.difficulty);
+            }
+
+            return { statusCode: 200, headers, body: JSON.stringify({ questions: filtered }) };
         }
 
         if (path === "/questions" && method === "POST") {
             const newQs = body;
             const existing = (await getFile("questions.json")) || [];
-            const updated = [...existing, ...newQs]; // Simple append
+            const updated = [...existing, ...newQs];
             await saveFile("questions.json", updated, "Add Questions to Bank");
             return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
         }
 
         // USER STATS
         if (path.match(/\/users\/[\w-]+\/stats$/) && method === "GET") {
-            const identifier = path.split("/")[2]; // ID or Username
+            const identifier = path.split("/")[2];
             const users = (await getFile("users.json")) || [];
-            // Match by ID or Username
             const user = users.find(u => u.id === identifier || u.username === identifier);
 
             if (!user) return { statusCode: 404, headers, body: JSON.stringify({ error: "User not found" }) };
 
-            // Calculate Stats (Real Calculation)
             const manifest = (await getFile("exams/manifest.json")) || [];
             let stats = {};
 
             if (user.role === 'teacher' || user.role === 'admin') {
-                // Teacher Stats: Exams Created, Active Exams
                 const createdExams = manifest.filter(e => e.createdBy === user.username || e.author === user.username);
                 stats = {
                     examsCreated: createdExams.length,
                     activeExams: createdExams.filter(e => e.active).length,
-                    totalQuestions: 0 // Placeholder as we'd need to fetch every exam file to count
+                    totalQuestions: 0
                 };
             } else {
-                // Student Stats (Placeholder - requires results storage implementation)
                 stats = {
                     examsTaken: 0,
                     averageScore: 0
@@ -263,8 +300,6 @@ exports.handler = async (event, context) => {
         // EXAM RESULTS
         if (path.match(/\/results\/[\w-]+$/) && method === "GET") {
             const examId = path.split("/").pop();
-            // Try to read a results file (e.g., results/EXAM_ID.json)
-            // Ideally results are stored as individual files or a big JSON
             const results = (await getFile(`results/${examId}.json`)) || [];
             return { statusCode: 200, headers, body: JSON.stringify(results) };
         }

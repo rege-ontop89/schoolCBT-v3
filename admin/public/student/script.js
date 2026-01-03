@@ -163,16 +163,14 @@ function loadManifest() {
 
 function filterExamsByClass(selectedClass) {
     const select = DOM.login.examSelect;
+    if (!selectedClass) return;
 
-    if (!selectedClass) {
-        select.innerHTML = '<option value="" disabled selected>Select your class first</option>';
-        select.disabled = true;
-        return;
-    }
+    // Normalize strings to ignore spaces and case
+    const normalize = (str) => str.toLowerCase().replace(/\s+/g, '');
 
-    // Filter exams by class
     const filteredExams = manifestData.filter(exam =>
-        exam.active !== false && exam.class === selectedClass
+        exam.active !== false &&
+        normalize(exam.class) === normalize(selectedClass) // FIX: Fuzzy match
     );
 
     select.innerHTML = '<option value="" disabled selected>Select an Exam...</option>';

@@ -109,7 +109,7 @@ const ExamDetails = ({ examId, onBack }) => {
         );
     }
 
-    if (!resultsData || resultsData.results.length === 0) {
+    if (!resultsData || !resultsData.results || resultsData.results.length === 0) {
         return (
             <div className="flex-1 overflow-auto bg-gray-50">
                 <div className="p-8">
@@ -360,8 +360,8 @@ const ExamDetails = ({ examId, onBack }) => {
                                         <td className="py-3 px-4 text-sm text-gray-900">{student['Duration Used']}m</td>
                                         <td className="py-3 px-4">
                                             <span className={`px-2 py-1 text-xs font-medium rounded-full ${student['Pass/Fail'] === 'Pass'
-                                                    ? 'bg-green-100 text-green-700'
-                                                    : 'bg-red-100 text-red-700'
+                                                ? 'bg-green-100 text-green-700'
+                                                : 'bg-red-100 text-red-700'
                                                 }`}>
                                                 {student['Pass/Fail']}
                                             </span>
