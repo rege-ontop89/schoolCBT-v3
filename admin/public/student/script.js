@@ -171,37 +171,42 @@ function filterExamsByClass(selectedClass) {
     console.log('🔍 manifestData:', manifestData);
 
     const select = DOM.login.examSelect;
-    if (!selectedClass) return;
+    const hint = DOM.login.examLoadingHint;
+    console.log('🔍 Filtering for class:', selectedClass);
+    select.innerHTML = '<option value="">-- Select Exam --</option>';
 
-    // Normalize strings to ignore spaces and case
-    const normalize = (str) => str.toLowerCase().replace(/\s+/g, '');
+    if (!selectedClass) {
+        select.disabled = true;
+        hint.textContent = "Select class to see available exams";
+        return;
+    }
 
-    const filteredExams = manifestData.filter(exam =>
-        exam.active !== false &&
-        normalize(exam.class) === normalize(selectedClass) // FIX: Fuzzy match
-    );
-
-    select.innerHTML = '<option value="" disabled selected>Select an Exam...</option>';
+    // Use .trim() and .toUpperCase() to ensure "JSS 2" matches "JSS 2"
+    const filteredExams = manifestData.filter(exam => {
+        const examClass = (exam.class || "").toString().trim().toUpperCase();
+        const studentClass = selectedClass.trim().toUpperCase();
+        return examClass === studentClass && exam.active === true;
+    });
 
     if (filteredExams.length === 0) {
-        select.innerHTML = '<option value="" disabled selected>No exams available for your class</option>';
         select.disabled = true;
-        DOM.login.examLoadingHint.textContent = "No exams available for " + selectedClass;
-        DOM.login.examLoadingHint.style.color = "#dc2626";
-        DOM.login.examLoadingHint.hidden = false;
+        hint.textContent = `No active exams found for ${selectedClass}`;
+        hint.style.color = "#ef4444";
     } else {
         filteredExams.forEach(exam => {
-            const option = document.createElement('option');
-            option.value = exam.id;
-            option.textContent = exam.title;
-            select.appendChild(option);
+            const opt = document.createElement('option');
+            opt.value = exam.id;
+            opt.textContent = exam.title;
+            select.appendChild(opt);
         });
         select.disabled = false;
-        DOM.login.examLoadingHint.textContent = `${filteredExams.length} exam(s) available for ${selectedClass}`;
-        DOM.login.examLoadingHint.style.color = "#059669";
-        DOM.login.examLoadingHint.hidden = false;
+
+        // Success Message
+        hint.textContent = `✅ ${filteredExams.length} exam(s) available for ${selectedClass}`;
+        hint.style.color = "#059669";
     }
 }
+
 
 // Auto-load manifest
 loadManifest();

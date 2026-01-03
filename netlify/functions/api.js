@@ -112,6 +112,54 @@ exports.handler = async (event, context) => {
             return { statusCode: 200, headers, body: JSON.stringify({ users: safeUsers }) };
         }
 
+        // --- 1. Fix Profile 404 (Specific User Fetch) ---
+        if (path.match(/\/users\/[\w-]+$/) && method === "GET") {
+            const id = path.split("/").pop();
+            const users = (await getFile("users.json")) || [];
+            // Search by both id and username to be safe
+            const user = users.find(u => u.id === id || u.username === id);
+
+            if (!user) {
+                return { statusCode: 404, headers, body: JSON.stringify({ error: "User not found" }) };
+            }
+
+            const { password, plainPassword, ...safeUser } = user;
+            return { statusCode: 200, headers, body: JSON.stringify(safeUser) };
+        }
+
+        // --- 2. Fix Webhook & Logo (Real Testing) ---
+        if (path === "/settings" && method === "POST") {
+            // If user is testing a webhook, try to ping it
+            if (body.webhookUrl && body.webhookUrl.includes('http')) {
+                try {
+                    // Using a short timeout so the function doesn't hang
+                    const controller = new AbortController();
+                    const timeout = setTimeout(() => controller.abort(), 3000);
+
+                    const testPing = await fetch(body.webhookUrl, {
+                        method: 'POST',
+                        body: JSON.stringify({ test: true }),
+                        signal: controller.signal
+                    });
+                    clearTimeout(timeout);
+                    if (!testPing.ok) throw new Error();
+                } catch (e) {
+                    return { statusCode: 400, headers, body: JSON.stringify({ error: "Webhook URL is unreachable" }) };
+                }
+            }
+            await saveFile("settings.json", body, "Update Settings");
+            return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
+        }
+
+        // --- 3. Fix Logo 502 (Size limit) ---
+        if (path === "/settings/upload-logo" && method === "POST") {
+            // Netlify functions crash if the body is too large
+            if (event.body.length > 2000000) { // Approx 2MB
+                return { statusCode: 413, headers, body: JSON.stringify({ error: "Image too large. Please compress your logo." }) };
+            }
+            return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
+        }
+
         // CREATE USER
         if (path === "/users" && method === "POST") {
             const newUser = body;
