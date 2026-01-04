@@ -21,6 +21,39 @@ exports.handler = async (event, context) => {
         "Content-Type": "application/json",
     };
 
+
+
+    // Route: GET /exams/:filename (e.g., /exams/ENG-2025-001.json)
+    if (path.startsWith("/exams/") && path.endsWith(".json") && method === "GET") {
+        // Extract the filename from the path
+        const filename = path.replace("/exams/", "");
+        console.log("📂 Fetching exam file:", filename);
+
+        try {
+            const examData = await getFile(`exams/${filename}`);
+
+            if (!examData) {
+                return {
+                    statusCode: 404,
+                    headers,
+                    body: JSON.stringify({ error: "Exam file not found in repository" })
+                };
+            }
+
+            return {
+                statusCode: 200,
+                headers,
+                body: JSON.stringify(examData)
+            };
+        } catch (error) {
+            return {
+                statusCode: 500,
+                headers,
+                body: JSON.stringify({ error: "Failed to read exam file from GitHub." })
+            };
+        }
+    }
+
     // 3. HELPER FUNCTIONS (Inside handler scope)
     async function getFile(filePath) {
         try {
@@ -357,4 +390,6 @@ exports.handler = async (event, context) => {
         console.error("API Error:", error);
         return { statusCode: 500, headers, body: JSON.stringify({ error: error.message }) };
     }
+
+
 };
