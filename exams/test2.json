@@ -1,0 +1,103 @@
+{
+  "id": "test2",
+  "examId": "test2",
+  "version": "1.0.0",
+  "metadata": {
+    "title": "Test2",
+    "subject": "English",
+    "class": "SS 3",
+    "term": "Second Term",
+    "academicYear": "2024/2025",
+    "createdAt": "2026-01-04T23:21:44.584Z",
+    "createdBy": "admin",
+    "instructions": "Answer all questions.",
+    "updatedAt": "2026-01-04T23:22:00.499Z"
+  },
+  "settings": {
+    "duration": 10,
+    "totalMarks": 5,
+    "passMark": 50,
+    "webhookUrl": "hhh",
+    "shuffleQuestions": true,
+    "shuffleOptions": true,
+    "showResults": false,
+    "allowReview": false,
+    "autoSubmitOnViolation": true,
+    "violationThreshold": 3,
+    "strictMode": false,
+    "questionsPerStudent": 20
+  },
+  "questions": [
+    {
+      "questionId": "Q001",
+      "questionNumber": 1,
+      "questionText": "Choose the correct plural form of the word \"child\".",
+      "options": {
+        "A": "Childs",
+        "B": "Childes",
+        "C": "Children",
+        "D": "Childrens"
+      },
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "EASY"
+    },
+    {
+      "questionId": "Q002",
+      "questionNumber": 2,
+      "questionText": "Which of the following is a noun?",
+      "options": {
+        "A": "Quickly",
+        "B": "Happiness",
+        "C": "Run",
+        "D": "Blue"
+      },
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "MEDIUM"
+    },
+    {
+      "questionId": "Q003",
+      "questionNumber": 3,
+      "questionText": "Choose the correct sentence.",
+      "options": {
+        "A": "She don't like rice.",
+        "B": "She doesn't likes rice.",
+        "C": "She doesn't like rice.",
+        "D": "She don't likes rice."
+      },
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "MEDIUM"
+    },
+    {
+      "questionId": "Q004",
+      "questionNumber": 4,
+      "questionText": "What is the opposite of the word \"ancient\"?",
+      "options": {
+        "A": "Old",
+        "B": "Modern",
+        "C": "Past",
+        "D": "Former"
+      },
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "HARD"
+    },
+    {
+      "questionId": "Q005",
+      "questionNumber": 5,
+      "questionText": "Choose the correct spelling.",
+      "options": {
+        "A": "Neccessary",
+        "B": "Necesary",
+        "C": "Necessary",
+        "D": "Nessessary"
+      },
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "EASY"
+    }
+  ],
+  "active": true
+}
