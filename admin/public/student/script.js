@@ -405,6 +405,14 @@ function resumeExam(savedState) {
     state.timeLeft = savedState.timeLeft;
     state.timing = savedState.timing;
 
+    // Re-configure Sheets Submitter so it knows where to send the data
+    if (typeof SheetsSubmitter !== 'undefined' && state.exam.settings && state.exam.settings.webhookUrl) {
+        SheetsSubmitter.configure({
+            webhookUrl: state.exam.settings.webhookUrl
+        });
+        console.log('[Resume] SheetsSubmitter re-configured with webhook URL');
+    }
+
     // UI Setup
     updateHeader();
     renderPalette();
@@ -707,6 +715,10 @@ DOM.modal.btnConfirm.addEventListener('click', () => {
 });
 
 function submitExam(isAuto, submissionType = 'manual') {
+
+    if (typeof SheetsSubmitter !== 'undefined' && state.exam.settings.webhookUrl) {
+        SheetsSubmitter.configure({ webhookUrl: state.exam.settings.webhookUrl });
+    }
     // Prevent multiple submissions
     if (state.isSubmitted) {
         console.log('[Main] Submission already in progress, ignoring duplicate call');
