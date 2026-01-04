@@ -453,6 +453,8 @@ function switchToScreen(screenName) {
 // --- EXAM LOGIC ---
 function startExam(examData) {
     state.exam = examData;
+    state.examData = examData;
+    state.questions = examData.questions;
     state.answers = {};
     state.currentQIndex = 0;
 
@@ -732,8 +734,8 @@ function submitExam(isAuto, submissionType = 'manual') {
     let wrongCount = 0;
     let unansweredCount = 0;
 
-    const answersArray = state.questions.map(q => {
-        const selected = state.answers[q.id] || null;//[q.questionId] || null;
+    const answersArray = state.exam.questions.map(q => {
+        const selected = state.answers[q.questionId] || null;//[q.questionId] || null;
         const marks = q.marks || 1;
         totalObtainable += marks;
         const isCorrect = selected === q.correctAnswer;
@@ -749,7 +751,7 @@ function submitExam(isAuto, submissionType = 'manual') {
         }
 
         return {
-            questionId: q.id, //q.questionId,
+            questionId: q.questionId,
             selectedOption: selected,
             isCorrect: isCorrect,
             marksAwarded: marksAwarded
@@ -757,9 +759,9 @@ function submitExam(isAuto, submissionType = 'manual') {
     });
 
     const percentage = totalObtainable > 0 ? Math.round((score / totalObtainable) * 10000) / 100 : 0;
-    const passMark = state.examData.passMark || 50;  //state.exam.settings.passMark || 50;
+    const passMark = state.exam.settings.passMark || 50;  //state.exam.settings.passMark || 50;
     const passed = percentage >= passMark;
-    const durationUsed = Math.ceil((state.examData.duration * 60 - state.timeLeft) / 60);  //Math.ceil((state.timing.durationAllowed * 60 - state.timeLeft) / 60);
+    const durationUsed = Math.ceil((state.exam.settings.duration * 60 - state.timeLeft) / 60);  //Math.ceil((state.timing.durationAllowed * 60 - state.timeLeft) / 60);
 
 
     let integrityData = { violations: 0, violationLog: [] };
@@ -781,24 +783,24 @@ function submitExam(isAuto, submissionType = 'manual') {
             class: state.student.class
         },
         exam: {
-            examId: state.examData.id,  //state.exam.examId, //same all exam{ }
-            title: state.examData.title,
-            subject: state.examData.subject,
-            class: state.examData.class, // Add class to exam metadata for submission 
-            term: state.examData.term,
-            academicYear: state.examData.academicYear
+            examId: state.exam.examId,  //state.exam.examId, //same all exam{ }
+            title: state.exam.metadata.title,
+            subject: state.exam.metadata.subject,
+            class: state.exam.metadata.class, // Add class to exam metadata for submission 
+            term: state.exam.metadata.term,
+            academicYear: state.exam.metadata.academicYear
         },
         answers: answersArray,
         scoring: {
-            totalQuestions: state.questions.length, //state.exam.questions.length,
-            attemptedQuestions: state.questions.length - unansweredCount,
+            totalQuestions: state.exam.questions.length,
+            attemptedQuestions: state.exam.questions.length - unansweredCount,
             correctAnswers: correctCount,
             wrongAnswers: wrongCount,
             unansweredQuestions: unansweredCount,
             totalMarks: totalObtainable,
             obtainedMarks: score,
             percentage: percentage,
-            passed: passed
+            passed: percentage >= passMark
         },
         timing: {
             startedAt: state.timing.startedAt,
@@ -832,10 +834,10 @@ function submitExam(isAuto, submissionType = 'manual') {
 
     // DISPLAY RESULTS
     DOM.results.name.textContent = state.student.name;
-    DOM.results.subject.textContent = state.examData.subject;
-    DOM.results.total.textContent = state.questions.length;
+    DOM.results.subject.textContent = state.exam.metadata.subject;
+    DOM.results.total.textContent = state.exam.questions.length;
 
-    if (state.examData.settings && state.examData.settings.showResults) {
+    if (state.exam.settings.showResults) {
         DOM.results.score.textContent = `${score} / ${totalObtainable}`;
     } else {
         DOM.results.score.textContent = "Submitted (Hidden)";
