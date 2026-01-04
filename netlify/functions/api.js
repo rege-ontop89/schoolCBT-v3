@@ -289,6 +289,12 @@ exports.handler = async (event, context) => {
                 id: exam.examId,
                 title: exam.metadata.title,
                 subject: exam.metadata.subject,
+                class: exam.metadata.class,               // <--- ADDED: Required for student login filter
+                term: exam.metadata.term,                 // <--- ADDED: Useful for student display
+                academicYear: exam.metadata.academicYear, // <--- ADDED
+                filename: `${exam.examId}.json`,          // <--- ADDED: Required for student loader
+                duration: exam.settings.duration,         // <--- ADDED: Required for timer initialization
+                totalMarks: exam.settings.totalMarks,     // <--- ADDED
                 active: exam.active !== false,
                 createdBy: exam.metadata.createdBy || "Admin",
                 createdAt: new Date().toISOString()
