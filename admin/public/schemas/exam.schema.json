@@ -11,7 +11,7 @@
     "settings",
     "questions"
   ],
-  "additionalProperties": false,
+  "additionalProperties": true,
   "properties": {
     "examId": {
       "type": "string",
@@ -34,7 +34,7 @@
         "academicYear",
         "createdAt"
       ],
-      "additionalProperties": false,
+      "additionalProperties": true,
       "properties": {
         "title": {
           "type": "string",
@@ -94,7 +94,7 @@
         "shuffleQuestions",
         "shuffleOptions"
       ],
-      "additionalProperties": false,
+      "additionalProperties": true,
       "properties": {
         "duration": {
           "type": "integer",
@@ -169,7 +169,7 @@
           "correctAnswer",
           "marks"
         ],
-        "additionalProperties": false,
+        "additionalProperties": true,
         "properties": {
           "questionId": {
             "type": "string",
@@ -195,7 +195,7 @@
               "C",
               "D"
             ],
-            "additionalProperties": false,
+            "additionalProperties": true,
             "properties": {
               "A": {
                 "type": "string",

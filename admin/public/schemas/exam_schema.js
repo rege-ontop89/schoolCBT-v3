@@ -13,12 +13,12 @@ window.examSchema = {
         "settings",
         "questions"
     ],
-    "additionalProperties": false,
+    "additionalProperties": true,
     "properties": {
         "examId": {
             "type": "string",
-            "pattern": "^[A-Z]{2,4}-[0-9]{4}-[0-9]{3}$",
-            "description": "Unique exam identifier. Format: SUBJ-YEAR-SEQ (e.g., MATH-2025-001)"
+            "pattern": "^.+$",//"^[A-Z]{2,4}-[0-9]{4}-[0-9]{3}$",
+            "description": "Unique exam identifier."
         },
         "version": {
             "type": "string",
@@ -36,11 +36,11 @@ window.examSchema = {
                 "academicYear",
                 "createdAt"
             ],
-            "additionalProperties": false,
+            "additionalProperties": true,
             "properties": {
                 "title": {
                     "type": "string",
-                    "minLength": 5,
+                    "minLength": 2,
                     "maxLength": 100,
                     "description": "Display title of the exam"
                 },
@@ -52,7 +52,7 @@ window.examSchema = {
                 },
                 "class": {
                     "type": "string",
-                    "minLength": 1,
+                    "minLength": 2,
                     "maxLength": 20,
                     "description": "Target class/grade (e.g., JSS1, SS2, Grade 10)"
                 },
@@ -92,7 +92,7 @@ window.examSchema = {
                 "shuffleQuestions",
                 "shuffleOptions"
             ],
-            "additionalProperties": false,
+            "additionalProperties": true,
             "properties": {
                 "duration": {
                     "type": "integer",
@@ -173,11 +173,11 @@ window.examSchema = {
                     "correctAnswer",
                     "marks"
                 ],
-                "additionalProperties": false,
+                "additionalProperties": true,
                 "properties": {
                     "questionId": {
                         "type": "string",
-                        "pattern": "^Q[0-9]{3}$",
+                        //"pattern": "^Q[0-9]{3}$",
                         "description": "Unique question identifier (e.g., Q001, Q002)"
                     },
                     "questionNumber": {
@@ -194,7 +194,7 @@ window.examSchema = {
                     "options": {
                         "type": "object",
                         "required": ["A", "B", "C", "D"],
-                        "additionalProperties": false,
+                        "additionalProperties": true,
                         "properties": {
                             "A": {
                                 "type": "string",
