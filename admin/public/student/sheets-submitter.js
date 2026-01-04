@@ -27,6 +27,10 @@ const SheetsSubmitter = (function () {
         }
     }
 
+    function generateSubmissionId() {
+        return 'SUB-' + Math.random().toString(36).substr(2, 9).toUpperCase() + '-' + Date.now();
+    }
+
     // Offline Queue Management
     const QUEUE_KEY = 'pending_submissions';
 

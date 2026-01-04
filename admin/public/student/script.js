@@ -732,8 +732,8 @@ function submitExam(isAuto, submissionType = 'manual') {
     let wrongCount = 0;
     let unansweredCount = 0;
 
-    const answersArray = state.exam.questions.map(q => {
-        const selected = state.answers[q.questionId] || null;
+    const answersArray = state.questions.map(q => {
+        const selected = state.answers[q.id] || null;//[q.questionId] || null;
         const marks = q.marks || 1;
         totalObtainable += marks;
         const isCorrect = selected === q.correctAnswer;
@@ -749,7 +749,7 @@ function submitExam(isAuto, submissionType = 'manual') {
         }
 
         return {
-            questionId: q.questionId,
+            questionId: q.id, //q.questionId,
             selectedOption: selected,
             isCorrect: isCorrect,
             marksAwarded: marksAwarded
@@ -757,9 +757,10 @@ function submitExam(isAuto, submissionType = 'manual') {
     });
 
     const percentage = totalObtainable > 0 ? Math.round((score / totalObtainable) * 10000) / 100 : 0;
-    const passMark = state.exam.settings.passMark || 50;
+    const passMark = state.examData.passMark || 50;  //state.exam.settings.passMark || 50;
     const passed = percentage >= passMark;
-    const durationUsed = Math.ceil((state.timing.durationAllowed * 60 - state.timeLeft) / 60);
+    const durationUsed = Math.ceil((state.examData.duration * 60 - state.timeLeft) / 60);  //Math.ceil((state.timing.durationAllowed * 60 - state.timeLeft) / 60);
+
 
     let integrityData = { violations: 0, violationLog: [] };
     if (typeof IntegrityModule !== 'undefined') {
@@ -780,17 +781,17 @@ function submitExam(isAuto, submissionType = 'manual') {
             class: state.student.class
         },
         exam: {
-            examId: state.exam.examId,
-            title: state.exam.metadata.title,
-            subject: state.exam.metadata.subject,
-            class: state.exam.metadata.class, // Add class to exam metadata for submission 
-            term: state.exam.metadata.term,
-            academicYear: state.exam.metadata.academicYear
+            examId: state.examData.id,  //state.exam.examId, //same all exam{ }
+            title: state.examData.title,
+            subject: state.examData.subject,
+            class: state.examData.class, // Add class to exam metadata for submission 
+            term: state.examData.term,
+            academicYear: state.examData.academicYear
         },
         answers: answersArray,
         scoring: {
-            totalQuestions: state.exam.questions.length,
-            attemptedQuestions: state.exam.questions.length - unansweredCount,
+            totalQuestions: state.questions.length, //state.exam.questions.length,
+            attemptedQuestions: state.questions.length - unansweredCount,
             correctAnswers: correctCount,
             wrongAnswers: wrongCount,
             unansweredQuestions: unansweredCount,
@@ -823,14 +824,18 @@ function submitExam(isAuto, submissionType = 'manual') {
         }).catch(err => {
             console.error('Sheets submission error:', err);
         });
+    } else {
+        // This prevents the "is not defined" crash!
+        console.error('SheetsSubmitter is missing! Saving to localStorage as backup.');
+        localStorage.setItem(`exam_result_backup_${Date.now()}`, JSON.stringify(resultObject));
     }
 
     // DISPLAY RESULTS
     DOM.results.name.textContent = state.student.name;
-    DOM.results.subject.textContent = state.student.subject;
-    DOM.results.total.textContent = state.exam.questions.length;
+    DOM.results.subject.textContent = state.examData.subject;
+    DOM.results.total.textContent = state.questions.length;
 
-    if (state.exam.settings.showResults) {
+    if (state.examData.settings && state.examData.settings.showResults) {
         DOM.results.score.textContent = `${score} / ${totalObtainable}`;
     } else {
         DOM.results.score.textContent = "Submitted (Hidden)";
