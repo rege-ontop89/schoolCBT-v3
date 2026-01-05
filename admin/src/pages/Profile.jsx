@@ -34,6 +34,7 @@ const Profile = ({ user, onUpdate }) => {
         e.preventDefault();
         setSaving(true);
         setMessage(null);
+
         try {
             const updates = { name: formData.name, email: formData.email };
             if (formData.password) updates.password = formData.password;
@@ -184,7 +185,7 @@ const Profile = ({ user, onUpdate }) => {
                                         <span className="text-xs font-bold text-green-600 uppercase">Success</span>
                                     </div>
                                     <p className="text-3xl font-bold text-gray-900">
-                                        {loadingStats ? '...' : `${stats?.avgPassRate || 0}%`}
+                                        {loadingStats ? '...' : `${stats?.averageScore || stats?.avgPassRate || 0}%`}
                                     </p>
                                     <p className="text-sm text-gray-600">Avg. Pass Rate</p>
                                 </div>

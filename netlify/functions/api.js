@@ -260,12 +260,12 @@ exports.handler = async (event, context) => {
             const users = (await getFile("users.json")) || [];
 
             // UPDATED: Calculate real "Recent Activity" from manifest
-            const recentActivity = manifest
-                .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0))
+            const recentActivities = manifest
+                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                 .slice(0, 5)
                 .map(e => ({
-                    text: `Exam created: ${e.title}`,
-                    time: e.createdAt || new Date().toISOString(),
+                    text: `Exam created: ${exam.title}`,
+                    time: exam.createdAt || new Date().toISOString(),
                     icon: "PlusCircle",
                     color: "blue"
                 }));
@@ -277,7 +277,7 @@ exports.handler = async (event, context) => {
                 totalTeachers: users.filter(u => u.role === 'teacher').length,
                 recentActivity: recentActivity
             };
-            return { statusCode: 200, headers, body: JSON.stringify({ stats }) };
+            return { statusCode: 200, headers, body: JSON.stringify({ ...stats, recentActivities }) };
         }
 
         // CREATE EXAM

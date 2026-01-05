@@ -150,7 +150,7 @@ const QuestionBank = () => {
     };
 
     const filteredQuestions = questions.filter(q => {
-        const matchesDifficulty = filterDifficulty === 'All' || q.difficulty === filterDifficulty;
+        const matchesDifficulty = filterDifficulty === 'All' || (q.difficulty || '').toUpperCase() === filterDifficulty.toUpperCase();
         return matchesDifficulty;
     });
 
