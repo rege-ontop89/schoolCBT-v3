@@ -524,10 +524,10 @@ function startExam(examData) {
     state.examData = examData;
     //state.questions = examData.questions;
     // --- NEW: STRATIFIED RANDOMIZATION LOGIC ---
-    const limit = parseInt(examData.settings.questionsPerStudent);
+    const limit = parseInt(examData.settings.questionsPerStudent, 10);
     const totalAvailable = examData.questions.length;
 
-    if (!isNaN(limit) && limit > 0 && limit < totalAvailable) {
+    if (!isNaN(limit) && limit > 0 && limit <= totalAvailable) {
         console.log(`[Exam] Limiting to ${limit} questions (Total: ${totalAvailable})`);
         state.questions = selectStratifiedQuestions(examData.questions, limit);
 

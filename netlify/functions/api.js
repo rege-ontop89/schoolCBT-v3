@@ -211,7 +211,7 @@ exports.handler = async (event, context) => {
         }
 
         // ADDED: UPDATE USER (Fixes "admin-001" 404 when saving profile)
-        if (path.match(/\/users\/[\w-]+$/) && method === "PUT") {
+        if (path.startsWith("/users/") && method === "PUT") {
             const id = path.split("/").pop();
             const updates = body;
             const users = (await getFile("users.json")) || [];
@@ -372,7 +372,9 @@ exports.handler = async (event, context) => {
             if (queryParams.subject) filtered = filtered.filter(q => q.subject === queryParams.subject);
             if (queryParams.class) filtered = filtered.filter(q => q.class === queryParams.class);
             if (queryParams.difficulty && queryParams.difficulty !== 'All') {
-                filtered = filtered.filter(q => q.difficulty === queryParams.difficulty);
+                // Fix: Convert both to lowercase for comparison
+                filtered = filtered.filter(q =>
+                    (q.difficulty || '').toLowerCase() === queryParams.difficulty.toLowerCase());
             }
 
             return { statusCode: 200, headers, body: JSON.stringify({ questions: filtered }) };
@@ -383,6 +385,37 @@ exports.handler = async (event, context) => {
             const existing = (await getFile("questions.json")) || [];
             const updated = [...existing, ...newQs];
             await saveFile("questions.json", updated, "Add Questions to Bank");
+            return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
+        }
+
+        // --- NEW: DELETE SINGLE QUESTION ---
+        if (path.match(/\/questions\/.+/) && method === "DELETE") {
+            const id = path.split("/").pop(); // Extract ID from URL
+            let questions = (await getFile("questions.json")) || [];
+            const initialLength = questions.length;
+            questions = questions.filter(q => q.id !== id);
+
+            if (questions.length < initialLength) {
+                await saveFile("questions.json", questions, `Delete Question ${id}`);
+                return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
+            }
+            return { statusCode: 404, headers, body: JSON.stringify({ error: "Question not found" }) };
+        }
+
+        // --- NEW: BULK DELETE QUESTIONS ---
+        if (path === "/questions/delete-bulk" && method === "POST") {
+            const { ids } = body; // Expecting { ids: ["id1", "id2"] }
+            if (!ids || !Array.isArray(ids)) {
+                return { statusCode: 400, headers, body: JSON.stringify({ error: "Invalid IDs format" }) };
+            }
+
+            let questions = (await getFile("questions.json")) || [];
+            const originalCount = questions.length;
+            questions = questions.filter(q => !ids.includes(q.id));
+
+            if (questions.length < originalCount) {
+                await saveFile("questions.json", questions, `Bulk Delete ${ids.length} Questions`);
+            }
             return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
         }
 
@@ -398,7 +431,11 @@ exports.handler = async (event, context) => {
             let stats = {};
 
             if (user.role === 'teacher' || user.role === 'admin') {
-                const createdExams = manifest.filter(e => e.createdBy === user.username || e.author === user.username);
+                const lowerUsername = user.username.toLowerCase();
+                const createdExams = manifest.filter(e =>
+                    (e.createdBy || '').toLowerCase() === lowerUsername ||
+                    (e.author || '').toLowerCase() === lowerUsername
+                );
                 stats = {
                     examsCreated: createdExams.length,
                     activeExams: createdExams.filter(e => e.active).length,
