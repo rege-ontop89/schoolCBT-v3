@@ -473,5 +473,155 @@
     "correctAnswer": "B",
     "id": "Q010",
     "createdAt": "2026-01-05T15:32:37.551Z"
+  },
+  {
+    "text": "The Universal Declaration of Human Rights (UDHR) was adopted by the UN in:",
+    "subject": "Civic Education",
+    "class": "SS 2",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "1945",
+      "B": "1948",
+      "C": "1960",
+      "D": "1963"
+    },
+    "correctAnswer": "B",
+    "id": "Q011",
+    "createdAt": "2026-01-05T15:54:08.601Z"
+  },
+  {
+    "text": "Which of the following is a way of preventing human trafficking?",
+    "subject": "Civic Education",
+    "class": "SS 2",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "Encouraging child labor",
+      "B": "Poverty alleviation",
+      "C": "Promoting illegal migration",
+      "D": "Discouraging education"
+    },
+    "correctAnswer": "B",
+    "id": "Q012",
+    "createdAt": "2026-01-05T15:54:08.601Z"
+  },
+  {
+    "text": "The administrative head of a local government in Nigeria is the:",
+    "subject": "Civic Education",
+    "class": "SS 2",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "Governor",
+      "B": "Chairman",
+      "C": "President",
+      "D": "Minister"
+    },
+    "correctAnswer": "B",
+    "id": "Q013",
+    "createdAt": "2026-01-05T15:54:08.601Z"
+  },
+  {
+    "text": "Orderliness in society can be best achieved through:",
+    "subject": "Civic Education",
+    "class": "SS 2",
+    "difficulty": "EASY",
+    "options": {
+      "A": "Civil disobedience",
+      "B": "Respect for constituted authority",
+      "C": "Religious fanatism",
+      "D": "Ethnic loyalty"
+    },
+    "correctAnswer": "B",
+    "id": "Q014",
+    "createdAt": "2026-01-05T15:54:08.601Z"
+  },
+  {
+    "text": "Which of these is a civic responsibility of a Nigerian citizen?",
+    "subject": "Civic Education",
+    "class": "SS 2",
+    "difficulty": "EASY",
+    "options": {
+      "A": "Stealing public funds",
+      "B": "Payment of taxes",
+      "C": "Fighting in the streets",
+      "D": "Disrupting public peace"
+    },
+    "correctAnswer": "B",
+    "id": "Q015",
+    "createdAt": "2026-01-05T15:54:08.601Z"
+  },
+  {
+    "text": "Cultism is considered a social vice because it leads to:",
+    "subject": "Civic Education",
+    "class": "SS 2",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "Academic excellence",
+      "B": "Violence and insecurity",
+      "C": "Spiritual growth",
+      "D": "National development"
+    },
+    "correctAnswer": "B",
+    "id": "Q016",
+    "createdAt": "2026-01-05T15:54:08.601Z"
+  },
+  {
+    "text": "The highest court of law in Nigeria is the:",
+    "subject": "Civic Education",
+    "class": "SS 2",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "High Court",
+      "B": "Court of Appeal",
+      "C": "Supreme Court",
+      "D": "Magistrate Court"
+    },
+    "correctAnswer": "C",
+    "id": "Q017",
+    "createdAt": "2026-01-05T15:54:08.601Z"
+  },
+  {
+    "text": "Which of the following is a feature of a democratic society?",
+    "subject": "Civic Education",
+    "class": "SS 2",
+    "difficulty": "HARD",
+    "options": {
+      "A": "One-party system",
+      "B": "Press censorship",
+      "C": "Periodic elections",
+      "D": "Absence of opposition"
+    },
+    "correctAnswer": "C",
+    "id": "Q018",
+    "createdAt": "2026-01-05T15:54:08.601Z"
+  },
+  {
+    "text": "The act of giving or receiving money to influence a public official is:",
+    "subject": "Civic Education",
+    "class": "SS 2",
+    "difficulty": "EASY",
+    "options": {
+      "A": "Embezzlement",
+      "B": "Bribery",
+      "C": "Laundering",
+      "D": "Forgery"
+    },
+    "correctAnswer": "B",
+    "id": "Q019",
+    "createdAt": "2026-01-05T15:54:08.601Z"
+  },
+  {
+    "text": "Which agency is primarily tasked with fighting the spread of fake drugs in Nigeria?",
+    "subject": "Civic Education",
+    "class": "SS 2",
+    "difficulty": "HARD",
+    "options": {
+      "A": "NDLEA",
+      "B": "NAFDAC",
+      "C": "SON",
+      "D": "NPC"
+    },
+    "correctAnswer": "B",
+    "id": "Q020",
+    "createdAt": "2026-01-05T15:54:08.601Z"
   }
 ]
