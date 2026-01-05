@@ -2,8 +2,8 @@
   {
     "id": "admin-001",
     "username": "admin",
-    "password": "admin12",
-    "plainPassword": "admin12",
+    "password": "admin123",
+    "plainPassword": "admin123",
     "name": "Mr. Aregheviogaga",
     "email": "areghe@school.ng",
     "role": "Admin",
