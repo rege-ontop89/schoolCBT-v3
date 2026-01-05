@@ -1,0 +1,173 @@
+{
+  "id": "BIO-2026-001",
+  "examId": "BIO-2026-001",
+  "version": "1.0.0",
+  "metadata": {
+    "title": "Biology First Term",
+    "subject": "Biology",
+    "class": "SS 3",
+    "term": "First Term",
+    "academicYear": "2024/2025",
+    "createdAt": "2026-01-05T11:58:29.970Z",
+    "createdBy": "admin",
+    "instructions": "Answer all questions.",
+    "updatedAt": "2026-01-05T11:58:56.618Z"
+  },
+  "settings": {
+    "duration": 20,
+    "totalMarks": 10,
+    "passMark": 50,
+    "webhookUrl": "hhh",
+    "shuffleQuestions": true,
+    "shuffleOptions": true,
+    "showResults": false,
+    "allowReview": false,
+    "autoSubmitOnViolation": true,
+    "violationThreshold": 3,
+    "strictMode": false,
+    "questionsPerStudent": 20
+  },
+  "questions": [
+    {
+      "questionId": "Q001",
+      "questionNumber": 1,
+      "questionText": "Which of the following nitrogenous bases is found in RNA but NOT in DNA?",
+      "options": {
+        "A": "Adenine",
+        "B": "Cytosine",
+        "C": "Guanine",
+        "D": "Uracil"
+      },
+      "correctAnswer": "D",
+      "marks": 1,
+      "difficulty": "EASY"
+    },
+    {
+      "questionId": "Q002",
+      "questionNumber": 2,
+      "questionText": "A person with blood group O is regarded as a universal donor because their red blood cells lack:",
+      "options": {
+        "A": "Antibodies",
+        "B": "Antigens",
+        "C": "Hemoglobin",
+        "D": "Plasma"
+      },
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "MEDIUM"
+    },
+    {
+      "questionId": "Q003",
+      "questionNumber": 3,
+      "questionText": "The process by which an organism maintains a constant internal environment is known as:",
+      "options": {
+        "A": "Osmosis",
+        "B": "Plasmolysis",
+        "C": "Homeostasis",
+        "D": "Diffusion"
+      },
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "EASY"
+    },
+    {
+      "questionId": "Q004",
+      "questionNumber": 4,
+      "questionText": "In a kidney nephron, ultrafiltration occurs specifically in the:",
+      "options": {
+        "A": "Bowman’s capsule",
+        "B": "Loop of Henle",
+        "C": "Proximal convoluted tubule",
+        "D": "Collecting duct"
+      },
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "MEDIUM"
+    },
+    {
+      "questionId": "Q005",
+      "questionNumber": 5,
+      "questionText": "Which of these is a vestigial organ in humans?",
+      "options": {
+        "A": "Spleen",
+        "B": "Appendix",
+        "C": "Liver",
+        "D": "Pancreas"
+      },
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "MEDIUM"
+    },
+    {
+      "questionId": "Q006",
+      "questionNumber": 6,
+      "questionText": "The theory of \"Inheritance of Acquired Characteristics\" was proposed by:",
+      "options": {
+        "A": "Charles Darwin",
+        "B": "Gregor Mendel",
+        "C": "Jean-Baptiste Lamarck",
+        "D": "Alfred Wallace"
+      },
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "EASY"
+    },
+    {
+      "questionId": "Q007",
+      "questionNumber": 7,
+      "questionText": "If a tall plant (TT) is crossed with a short plant (tt), what is the phenotype of the $F_1$ generation?",
+      "options": {
+        "A": "All short",
+        "B": "All tall",
+        "C": "50% tall, 50% short",
+        "D": "75% tall, 25% short"
+      },
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "MEDIUM"
+    },
+    {
+      "questionId": "Q008",
+      "questionNumber": 8,
+      "questionText": "The part of the brain responsible for maintaining posture and balance is the:",
+      "options": {
+        "A": "Cerebrum",
+        "B": "Medulla oblongata",
+        "C": "Cerebellum",
+        "D": "Thalamus"
+      },
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "MEDIUM"
+    },
+    {
+      "questionId": "Q009",
+      "questionNumber": 9,
+      "questionText": "Which of the following is an example of discontinuous variation?",
+      "options": {
+        "A": "Height",
+        "B": "Skin color",
+        "C": "Weight",
+        "D": "Fingerprints"
+      },
+      "correctAnswer": "D",
+      "marks": 1,
+      "difficulty": "HARD"
+    },
+    {
+      "questionId": "Q010",
+      "questionNumber": 10,
+      "questionText": "The condition where the two alleles for a trait are different (e.g., Tt) is described as:",
+      "options": {
+        "A": "Homozygous",
+        "B": "Heterozygous ",
+        "C": "Dominant",
+        "D": "Recessive"
+      },
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "EASY"
+    }
+  ],
+  "active": true
+}
