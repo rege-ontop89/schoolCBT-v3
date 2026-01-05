@@ -623,5 +623,109 @@
     "correctAnswer": "B",
     "id": "Q020",
     "createdAt": "2026-01-05T15:54:08.601Z"
+  },
+  {
+    "text": "The supreme power of a state to make and enforce laws within its territory is called:",
+    "subject": "Civic Education",
+    "class": "SS 2",
+    "difficulty": "EASY",
+    "options": {
+      "A": "Authority",
+      "B": "Sovereignty",
+      "C": "Legitimacy",
+      "D": "Government"
+    },
+    "correctAnswer": "B"
+  },
+  {
+    "text": "Which of the following is a primary reason for the establishment of the rule of law?",
+    "subject": "Civic Education",
+    "class": "SS 2",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "To encourage military rule",
+      "B": "To protect the rights of citizens",
+      "C": "To allow leaders to do as they wish",
+      "D": "To make the police more powerful"
+    },
+    "correctAnswer": "B"
+  },
+  {
+    "text": "A situation where a group of people are treated unfairly because of their race or gender is known as:",
+    "subject": "Civic Education",
+    "class": "SS 2",
+    "difficulty": "EASY",
+    "options": {
+      "A": "Justice",
+      "B": "Discrimination",
+      "C": "Equity",
+      "D": "Tolerance"
+    },
+    "correctAnswer": "B"
+  },
+  {
+    "text": "Which of the following is a core value in Nigerian society?",
+    "subject": "Civic Education",
+    "class": "SS 2",
+    "difficulty": "EASY",
+    "options": {
+      "A": "Corruption",
+      "B": "Integrity",
+      "C": "Nepotism",
+      "D": "Indiscipline"
+    },
+    "correctAnswer": "B"
+  },
+  {
+    "text": "Human rights that cannot be taken away from an individual are described as:",
+    "subject": "Civic Education",
+    "class": "SS 2",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "Transferable",
+      "B": "Inalienable",
+      "C": "Conditional",
+      "D": "Revocable"
+    },
+    "correctAnswer": "B"
+  },
+  {
+    "text": "The 1999 Constitution of Nigeria is an example of a:",
+    "subject": "Civic Education",
+    "class": "SS 2",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "Written constitution",
+      "B": "Unwritten constitution",
+      "C": "Flexible constitution",
+      "D": "Unitary constitution"
+    },
+    "correctAnswer": "A"
+  },
+  {
+    "text": "Which arm of government is responsible for the interpretation of laws?",
+    "subject": "Civic Education",
+    "class": "SS 2",
+    "difficulty": "EASY",
+    "options": {
+      "A": "Executive",
+      "B": "Legislature",
+      "C": "Judiciary",
+      "D": "Civil Service"
+    },
+    "correctAnswer": "C"
+  },
+  {
+    "text": "A major consequence of political apathy is:",
+    "subject": "Civic Education",
+    "class": "SS 2",
+    "difficulty": "HARD",
+    "options": {
+      "A": "Good governance",
+      "B": "Emergence of bad leaders",
+      "C": "Increased voter turnout",
+      "D": "Rapid economic growth"
+    },
+    "correctAnswer": "B"
   }
 ]
