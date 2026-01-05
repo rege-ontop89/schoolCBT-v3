@@ -57,7 +57,7 @@
     "filename": "CIVIC-2026-001.json",
     "duration": 40,
     "totalMarks": 18,
-    "active": true,
+    "active": false,
     "createdBy": "admin",
     "createdAt": "2026-01-05T15:54:09.232Z"
   }
