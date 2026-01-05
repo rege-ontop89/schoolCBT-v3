@@ -727,5 +727,135 @@
       "D": "Rapid economic growth"
     },
     "correctAnswer": "B"
+  },
+  {
+    "text": "In a food chain, the total amount of energy is greatest at the level of the:",
+    "subject": "Biology",
+    "class": "SS 3",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "Primary consumers",
+      "B": "Secondary consumers",
+      "C": "Tertiary consumers",
+      "D": "Producers"
+    },
+    "correctAnswer": "D"
+  },
+  {
+    "text": "Which hormone is responsible for the \"fight or flight\" response?",
+    "subject": "Biology",
+    "class": "SS 3",
+    "difficulty": "EASY",
+    "options": {
+      "A": "Insulin",
+      "B": "Adrenaline",
+      "C": "Thyroxine",
+      "D": "Progesterone"
+    },
+    "correctAnswer": "B"
+  },
+  {
+    "text": "The transition zone between two different ecosystems is called:",
+    "subject": "Biology",
+    "class": "SS 3",
+    "difficulty": "HARD",
+    "options": {
+      "A": "Ecological niche",
+      "B": "Ecotone",
+      "C": "Habitat",
+      "D": "Biome"
+    },
+    "correctAnswer": "B"
+  },
+  {
+    "text": "During anaerobic respiration in muscles, glucose is broken down into:",
+    "subject": "Biology",
+    "class": "SS 3",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "Ethanol and $CO_2$",
+      "B": "Lactic acid",
+      "C": "Water and $CO_2$",
+      "D": "Pyruvic acid only"
+    },
+    "correctAnswer": "B"
+  },
+  {
+    "text": "Which of the following is a sex-linked character?",
+    "subject": "Biology",
+    "class": "SS 3",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "Albinism",
+      "B": "Sickle cell anemia",
+      "C": "Color blindness",
+      "D": "Polydactyly"
+    },
+    "correctAnswer": "C"
+  },
+  {
+    "text": "The visual purple in the retina of the eye is also known as:",
+    "subject": "Biology",
+    "class": "SS 3",
+    "difficulty": "HARD",
+    "options": {
+      "A": "Rhodopsin",
+      "B": "Iodopsin",
+      "C": "Melanin",
+      "D": "Keratin"
+    },
+    "correctAnswer": "A"
+  },
+  {
+    "text": "Which of these vertebrae has a long neural spine and provides surface for shoulder muscle attachment?",
+    "subject": "Biology",
+    "class": "SS 3",
+    "difficulty": "HARD",
+    "options": {
+      "A": "Atlas",
+      "B": "Axis",
+      "C": "Thoracic",
+      "D": "Lumbar"
+    },
+    "correctAnswer": "C"
+  },
+  {
+    "text": "What is the phenotypic ratio of a dihybrid cross between two heterozygous individuals (e.g., $RrYy \\times RrYy$)?",
+    "subject": "Biology",
+    "class": "SS 3",
+    "difficulty": "HARD",
+    "options": {
+      "A": "$3:1$",
+      "B": "$1:2:1$",
+      "C": "$9:3:3:1$",
+      "D": "$1:1:1:1$"
+    },
+    "correctAnswer": "C"
+  },
+  {
+    "text": "The movement of a plant part in response to a touch stimulus is called:",
+    "subject": "Biology",
+    "class": "SS 3",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "Phototropism",
+      "B": "Thigmotropism",
+      "C": "Geotropism",
+      "D": "Hydrotropism"
+    },
+    "correctAnswer": "B"
+  },
+  {
+    "text": "Which of the following is the smallest unit of an ecosystem?",
+    "subject": "Biology",
+    "class": "SS 3",
+    "difficulty": "EASY",
+    "options": {
+      "A": "Population",
+      "B": "Community",
+      "C": "Individual",
+      "D": "Biosphere"
+    },
+    "correctAnswer": "C"
   }
 ]
