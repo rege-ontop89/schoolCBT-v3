@@ -284,6 +284,37 @@ exports.handler = async (event, context) => {
         if (path === "/exams" && method === "POST") {
             const exam = body;
             await saveFile(`exams/${exam.examId}.json`, exam, `Create Exam: ${exam.metadata.title}`);
+
+            try {
+                const bankQuestions = (await getFile("questions.json")) || [];
+
+                // Process questions to ensure they have metadata for the bank
+                const newBankQuestions = exam.questions.map(q => ({
+                    ...q,
+                    // Generate a global ID to prevent conflicts (ExamID + QuestionID)
+                    // Or keep original if you want strict ID preservation
+                    id: q.id || `${exam.examId}-${q.questionId}`,
+                    // Add metadata so filtering works in the Question Bank UI
+                    subject: exam.metadata.subject,
+                    class: exam.metadata.class,
+                    examOrigin: exam.examId,
+                    difficulty: q.difficulty || "Medium" // Default for fairness logic
+                }));
+
+                // Filter out duplicates (check if ID already exists in bank)
+                const uniqueNewQuestions = newBankQuestions.filter(newQ =>
+                    !bankQuestions.some(existingQ => existingQ.id === newQ.id)
+                );
+
+                if (uniqueNewQuestions.length > 0) {
+                    const updatedBank = [...bankQuestions, ...uniqueNewQuestions];
+                    await saveFile("questions.json", updatedBank, `Import questions from ${exam.examId}`);
+                    console.log(`[Bank] Added ${uniqueNewQuestions.length} questions from ${exam.examId}`);
+                }
+            } catch (err) {
+                console.error("Failed to update question bank:", err);
+                // Don't fail the whole request just because banking failed
+            }
             const manifest = (await getFile("exams/manifest.json")) || [];
             const entry = {
                 id: exam.examId,
