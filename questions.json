@@ -398,5 +398,80 @@
     "subject": "Biology",
     "class": "SS 3",
     "examOrigin": "BIO-2026-001"
+  },
+  {
+    "text": "The theory of \"Inheritance of Acquired Characteristics\" was proposed by:",
+    "subject": "Biology",
+    "class": "SS 3",
+    "difficulty": "EASY",
+    "options": {
+      "A": "Charles Darwin",
+      "B": "Gregor Mendel",
+      "C": "Jean-Baptiste Lamarck",
+      "D": "Alfred Wallace"
+    },
+    "correctAnswer": "C",
+    "id": "Q006",
+    "createdAt": "2026-01-05T15:32:37.551Z"
+  },
+  {
+    "text": "If a tall plant (TT) is crossed with a short plant (tt), what is the phenotype of the $F_1$ generation?",
+    "subject": "Biology",
+    "class": "SS 3",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "All short",
+      "B": "All tall",
+      "C": "50% tall, 50% short",
+      "D": "75% tall, 25% short"
+    },
+    "correctAnswer": "B",
+    "id": "Q007",
+    "createdAt": "2026-01-05T15:32:37.551Z"
+  },
+  {
+    "text": "The part of the brain responsible for maintaining posture and balance is the:",
+    "subject": "Biology",
+    "class": "SS 3",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "Cerebrum",
+      "B": "Medulla oblongata",
+      "C": "Cerebellum",
+      "D": "Thalamus"
+    },
+    "correctAnswer": "C",
+    "id": "Q008",
+    "createdAt": "2026-01-05T15:32:37.551Z"
+  },
+  {
+    "text": "Which of the following is an example of discontinuous variation?",
+    "subject": "Biology",
+    "class": "SS 3",
+    "difficulty": "HARD",
+    "options": {
+      "A": "Height",
+      "B": "Skin color",
+      "C": "Weight",
+      "D": "Fingerprints"
+    },
+    "correctAnswer": "D",
+    "id": "Q009",
+    "createdAt": "2026-01-05T15:32:37.551Z"
+  },
+  {
+    "text": "The condition where the two alleles for a trait are different (e.g., Tt) is described as:",
+    "subject": "Biology",
+    "class": "SS 3",
+    "difficulty": "EASY",
+    "options": {
+      "A": "Homozygous",
+      "B": "Heterozygous ",
+      "C": "Dominant",
+      "D": "Recessive"
+    },
+    "correctAnswer": "B",
+    "id": "Q010",
+    "createdAt": "2026-01-05T15:32:37.551Z"
   }
 ]
