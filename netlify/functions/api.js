@@ -210,8 +210,8 @@ exports.handler = async (event, context) => {
             return { statusCode: 201, headers, body: JSON.stringify({ success: true, user: newUser }) };
         }
 
-        // ADDED: UPDATE USER (Fixes "admin-001" 404 when saving profile)
-        if (path.startsWith("/api/users/") && method === "PUT") {
+        // ADDED: UPDATE USER (Fixes profile update 404)
+        if (path.match(/\/users\/[\w-]+$/) && method === "PATCH") {
             const id = path.split("/").pop();
             const updates = body;
             let users = (await getFile("users.json")) || [];
@@ -264,8 +264,8 @@ exports.handler = async (event, context) => {
                 .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                 .slice(0, 5)
                 .map(e => ({
-                    text: `Exam created: ${exam.title}`,
-                    time: exam.createdAt || new Date().toISOString(),
+                    text: `Exam created: ${e.title}`,
+                    time: e.createdAt || new Date().toISOString(),
                     icon: "PlusCircle",
                     color: "blue"
                 }));
@@ -275,9 +275,9 @@ exports.handler = async (event, context) => {
                 activeExams: manifest.filter(e => e.active).length,
                 totalStudents: 0,
                 totalTeachers: users.filter(u => u.role === 'teacher').length,
-                recentActivity: recentActivity
+                recentActivity: recentActivities
             };
-            return { statusCode: 200, headers, body: JSON.stringify({ ...stats, recentActivities }) };
+            return { statusCode: 200, headers, body: JSON.stringify({ stats }) };
         }
 
         // CREATE EXAM

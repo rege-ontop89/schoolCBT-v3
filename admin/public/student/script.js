@@ -518,43 +518,119 @@ function switchToScreen(screenName) {
     }
 }
 
+
 // --- EXAM LOGIC ---
-function startExam(examData) {
-    state.exam = examData;
-    state.examData = examData;
-    //state.questions = examData.questions;
-    // --- NEW: STRATIFIED RANDOMIZATION LOGIC ---
-    const rawLimit = examData.settings.questionsPerStudent;
-    const limit = parseInt(rawLimit, 10); // Force to Number
-    const totalAvailable = examData.questions.length;
 
-    if (!isNaN(limit) && limit > 0 && limit <= totalAvailable) {
-        console.log(`[Exam] Limiting to ${limit} questions (Total: ${totalAvailable})`);
-        //state.questions = selectStratifiedQuestions(examData.questions, limit);
+/**
+ * Difficulty-Balanced Question Selection (Target Score Algorithm)
+ * Ensures all students get the same subset with balanced difficulty
+ * @param {Array} questions - All available questions
+ * @param {number} limit - Number of questions to select
+ * @returns {Array} - Selected questions with balanced difficulty
+ */
+function selectStratifiedQuestions(questions, limit) {
+    // Difficulty score mapping (case-insensitive)
+    const getDifficultyScore = (difficulty) => {
+        const normalized = (difficulty || 'medium').toLowerCase();
+        const scores = { 'hard': 3, 'medium': 2, 'easy': 1 };
+        return scores[normalized] || 2; // Default to medium if unknown
+    };
 
-        // Try Stratified Logic first (Fairness)
-        if (typeof selectStratifiedQuestions === 'function') {
-            console.log('[Exam] Applying Stratified Fairness Logic...');
-            state.questions = selectStratifiedQuestions(examData.questions, limit);
+    // Calculate total difficulty score of all questions
+    const totalScore = questions.reduce((sum, q) => sum + getDifficultyScore(q.difficulty), 0);
+
+    // Calculate target score per question for the subset
+    const targetScorePerQuestion = totalScore / questions.length;
+    const targetTotalScore = targetScorePerQuestion * limit;
+
+    console.log(`[Difficulty Balance] Total questions: ${questions.length}, Target subset: ${limit}`);
+    console.log(`[Difficulty Balance] Total score: ${totalScore}, Target score: ${targetTotalScore.toFixed(2)}`);
+
+    // Group questions by difficulty (case-insensitive)
+    const grouped = {
+        hard: questions.filter(q => (q.difficulty || '').toLowerCase() === 'hard'),
+        medium: questions.filter(q => (q.difficulty || '').toLowerCase() === 'medium'),
+        easy: questions.filter(q => (q.difficulty || '').toLowerCase() === 'easy')
+    };
+
+    console.log(`[Difficulty Balance] Available - Hard: ${grouped.hard.length}, Medium: ${grouped.medium.length}, Easy: ${grouped.easy.length}`);
+
+    // Greedy algorithm to select questions closest to target score
+    let selected = [];
+    let currentScore = 0;
+    let remaining = { ...grouped };
+
+    // Start by trying to match the target score as closely as possible
+    while (selected.length < limit) {
+        const questionsNeeded = limit - selected.length;
+        const scoreNeeded = targetTotalScore - currentScore;
+        const avgScoreNeeded = scoreNeeded / questionsNeeded;
+
+        // Determine which difficulty level to pick from based on average score needed
+        let pickFrom = 'medium'; // Default
+
+        if (avgScoreNeeded >= 2.5 && remaining.hard.length > 0) {
+            pickFrom = 'hard';
+        } else if (avgScoreNeeded <= 1.5 && remaining.easy.length > 0) {
+            pickFrom = 'easy';
+        } else if (remaining.medium.length > 0) {
+            pickFrom = 'medium';
+        } else if (remaining.hard.length > 0) {
+            pickFrom = 'hard';
+        } else if (remaining.easy.length > 0) {
+            pickFrom = 'easy';
         } else {
-            // Fallback: Random Shuffle & Slice
-            /*  console.log('[Exam] selectStratifiedQuestions missing. Using simple shuffle & slice.');
-              const shuffled = shuffleArray([...examData.questions]);
-              state.questions = shuffled.slice(0, limit);*/
-            state.questions = shuffleArray([...examData.questions]).slice(0, limit);
+            // Fallback: take from any remaining questions
+            console.warn('[Difficulty Balance] Insufficient questions in preferred category');
+            break;
         }
-    } else {
-        // Standard Mode: Use ALL questions
-        console.log('[Exam] Using full question set.');
-        console.log(`[Exam] Condition failed. Limit: ${limit}, Total: ${totalAvailable}`);
-        state.questions = examData.settings.shuffleQuestions ?
-            shuffleArray([...examData.questions]) :
-            [...examData.questions];
+
+        // Pick the first question from the selected difficulty (deterministic for same subset)
+        const question = remaining[pickFrom].shift();
+        if (question) {
+            selected.push(question);
+            currentScore += getDifficultyScore(question.difficulty);
+        } else {
+            break; // No more questions available
+        }
     }
 
-    // Update state.exam.questions to match our selection
-    state.exam.questions = state.questions;
+    const finalScore = selected.reduce((sum, q) => sum + getDifficultyScore(q.difficulty), 0);
+    const avgDifficulty = (finalScore / selected.length).toFixed(2);
 
+    console.log(`[Difficulty Balance] Selected ${selected.length} questions with total score: ${finalScore} (avg: ${avgDifficulty})`);
+    console.log(`[Difficulty Balance] Distribution - Hard: ${selected.filter(q => (q.difficulty || '').toLowerCase() === 'hard').length}, ` +
+        `Medium: ${selected.filter(q => (q.difficulty || '').toLowerCase() === 'medium').length}, ` +
+        `Easy: ${selected.filter(q => (q.difficulty || '').toLowerCase() === 'easy').length}`);
+
+    return selected;
+}
+
+function startExam(examData) {
+    state.exam = examData;
+    state.answers = {};
+    state.currentQIndex = 0;
+
+    // --- DIFFICULTY-BALANCED QUESTION SELECTION ---
+    const rawLimit = examData.settings.questionsPerStudent;
+    const limit = parseInt(rawLimit, 10);
+    const totalAvailable = examData.questions.length;
+
+    if (!isNaN(limit) && limit > 0 && limit < totalAvailable) {
+        console.log(`[Exam] Applying difficulty-balanced selection: ${limit} of ${totalAvailable} questions`);
+        state.exam.questions = selectStratifiedQuestions(examData.questions, limit);
+    } else {
+        console.log('[Exam] Using full question set (no subset limit)');
+        state.exam.questions = [...examData.questions];
+    }
+
+    // Shuffle questions if enabled (after selection)
+    if (examData.settings.shuffleQuestions) {
+        state.exam.questions = shuffleArray([...state.exam.questions]);
+        console.log('[Exam] Questions shuffled');
+    }
+
+    // Shuffle options if enabled
     if (examData.settings.shuffleOptions) {
         state.exam.questions = state.exam.questions.map(q => {
             const shuffledOptions = shuffleOptions(q.options, q.correctAnswer);
