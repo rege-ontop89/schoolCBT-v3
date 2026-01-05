@@ -528,37 +528,42 @@ function startExam(examData) {
     const totalAvailable = examData.questions.length;
 
     if (!isNaN(limit) && limit > 0 && limit < totalAvailable) {
-        console.log(`[Exam] Applying Fairness Logic: Selecting ${limit} questions...`);
+        console.log(`[Exam] Limiting to ${limit} questions (Total: ${totalAvailable})`);
         state.questions = selectStratifiedQuestions(examData.questions, limit);
+
+        // Try Stratified Logic first (Fairness)
+        if (typeof selectStratifiedQuestions === 'function') {
+            console.log('[Exam] Applying Stratified Fairness Logic...');
+            state.questions = selectStratifiedQuestions(examData.questions, limit);
+        } else {
+            // Fallback: Random Shuffle & Slice
+            console.log('[Exam] selectStratifiedQuestions missing. Using simple shuffle & slice.');
+            const shuffled = shuffleArray([...examData.questions]);
+            state.questions = shuffled.slice(0, limit);
+        }
     } else {
-        // Fallback: Use all questions if no limit set
-        state.questions = shuffleArray([...examData.questions]);
+        // Standard Mode: Use ALL questions
+        console.log('[Exam] Using full question set.');
+        if (examData.settings.shuffleQuestions) {
+            state.questions = shuffleArray([...examData.questions]);
+        } else {
+            state.questions = [...examData.questions];
+        }
     }
 
     // Update state.exam.questions to match our selection
     state.exam.questions = state.questions;
-    // ---------------------------------------------
-    state.answers = {};
-    state.currentQIndex = 0;
 
-    // Shuffle options if enabled
     if (examData.settings.shuffleOptions) {
         state.exam.questions = state.exam.questions.map(q => {
             const shuffledOptions = shuffleOptions(q.options, q.correctAnswer);
             return { ...q, options: shuffledOptions.options, correctAnswer: shuffledOptions.correctAnswer };
         });
-        console.log('[Exam] Options shuffled for each question');
+        console.log('[Exam] Options shuffled');
     }
 
-    // SLICE QUESTIONS IF SUBSET IS REQUESTED
-    if (examData.settings.questionsPerStudent && examData.settings.questionsPerStudent < state.exam.questions.length) {
-        const limit = examData.settings.questionsPerStudent;
-        console.log(`[Exam] Selecting random subset: ${limit} of ${state.exam.questions.length} questions`);
-        state.exam.questions = state.exam.questions.slice(0, limit);
-        // Note: totalMarks might need adjustment if it's not dynamically calculated from questions
-    }
-
-    // Initialize Metadata
+    state.answers = {};
+    state.currentQIndex = 0;
     state.student.subject = examData.metadata.subject;
 
     // Timer Setup

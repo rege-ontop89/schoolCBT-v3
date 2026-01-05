@@ -290,15 +290,14 @@ exports.handler = async (event, context) => {
 
                 // Process questions to ensure they have metadata for the bank
                 const newBankQuestions = exam.questions.map(q => ({
-                    ...q,
-                    // Generate a global ID to prevent conflicts (ExamID + QuestionID)
-                    // Or keep original if you want strict ID preservation
-                    id: q.id || `${exam.examId}-${q.questionId}`,
-                    // Add metadata so filtering works in the Question Bank UI
+                    text: q.questionText,  // Change 'questionText' -> 'text'
                     subject: exam.metadata.subject,
                     class: exam.metadata.class,
-                    examOrigin: exam.examId,
-                    difficulty: q.difficulty || "Medium" // Default for fairness logic
+                    difficulty: q.difficulty || "Medium",
+                    options: q.options,
+                    correctAnswer: q.correctAnswer,
+                    id: q.questionId || `Q${Date.now()}-${Math.floor(Math.random() * 1000)}`, // Ensure 'id' key exists
+                    createdAt: new Date().toISOString()
                 }));
 
                 // Filter out duplicates (check if ID already exists in bank)
