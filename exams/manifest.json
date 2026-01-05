@@ -43,7 +43,7 @@
     "filename": "BIO-2026-001.json",
     "duration": 20,
     "totalMarks": 10,
-    "active": true,
+    "active": false,
     "createdBy": "admin",
     "createdAt": "2026-01-05T15:32:38.103Z"
   },
