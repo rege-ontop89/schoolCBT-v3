@@ -93,66 +93,6 @@ function shuffleArray(array) {
 }
 
 /**
- * Selects a balanced subset of questions based on difficulty.
- * Ensures fairness by maintaining the ratio of Easy/Medium/Hard questions.
- */
-function selectStratifiedQuestions(allQuestions, count) {
-    // 1. Group questions by difficulty
-    const buckets = {
-        'EASY': [],
-        'MEDIUM': [],
-        'HARD': [],
-        'UNKNOWN': []
-    };
-
-    allQuestions.forEach(q => {
-        // Normalize difficulty to uppercase, default to UNKNOWN if missing
-        const diff = (q.difficulty || 'UNKNOWN').toUpperCase();
-        if (buckets[diff]) {
-            buckets[diff].push(q);
-        } else {
-            buckets['UNKNOWN'].push(q);
-        }
-    });
-
-    // 2. Shuffle each bucket independently
-    for (const key in buckets) {
-        buckets[key] = shuffleArray(buckets[key]);
-    }
-
-    // 3. Select questions proportionally
-    let selected = [];
-    const totalQuestions = allQuestions.length;
-
-    // Calculate how many to take from each bucket
-    // Logic: If 20% of the exam is "Hard", 20% of the student's questions should be "Hard"
-    for (const key in buckets) {
-        if (buckets[key].length > 0) {
-            const ratio = buckets[key].length / totalQuestions;
-            const targetCount = Math.round(count * ratio);
-
-            // Take the calculated amount, but don't exceed available
-            const take = Math.min(targetCount, buckets[key].length);
-            const chunk = buckets[key].splice(0, take); // Remove from bucket, add to selected
-            selected = selected.concat(chunk);
-        }
-    }
-
-    // 4. Fill gaps if rounding errors left us short
-    // (e.g., asked for 10, got 9 due to rounding)
-    const remaining = [];
-    Object.values(buckets).forEach(arr => remaining.push(...arr));
-
-    while (selected.length < count && remaining.length > 0) {
-        const extra = remaining.pop(); // Take from leftovers
-        selected.push(extra);
-    }
-
-    // 5. Final Shuffle of the selected set so difficulty isn't clustered
-    return shuffleArray(selected.slice(0, count));
-}
-
-/**
  * Shuffle question options while tracking correct answer
  */
 function shuffleOptions(options, correctAnswer) {
