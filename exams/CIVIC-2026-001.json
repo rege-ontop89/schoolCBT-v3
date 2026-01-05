@@ -1,0 +1,285 @@
+{
+  "id": "CIVIC-2026-001",
+  "examId": "CIVIC-2026-001",
+  "version": "1.0.0",
+  "metadata": {
+    "title": "Civic first Term",
+    "subject": "Civic Education",
+    "class": "SS 2",
+    "term": "First Term",
+    "academicYear": "2024/2025",
+    "createdAt": "2026-01-05T15:53:46.785Z",
+    "createdBy": "admin",
+    "instructions": "Answer all questions.",
+    "updatedAt": "2026-01-05T15:54:07.097Z"
+  },
+  "settings": {
+    "duration": 40,
+    "totalMarks": 18,
+    "passMark": 50,
+    "webhookUrl": "hhh",
+    "shuffleQuestions": true,
+    "shuffleOptions": true,
+    "showResults": false,
+    "allowReview": false,
+    "autoSubmitOnViolation": true,
+    "violationThreshold": 3,
+    "strictMode": false,
+    "questionsPerStudent": 20
+  },
+  "questions": [
+    {
+      "questionId": "Q001",
+      "questionNumber": 1,
+      "questionText": "The supreme power of a state to make and enforce laws within its territory is called:",
+      "options": {
+        "A": "Authority",
+        "B": "Sovereignty",
+        "C": "Legitimacy",
+        "D": "Government"
+      },
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "EASY"
+    },
+    {
+      "questionId": "Q002",
+      "questionNumber": 2,
+      "questionText": "Which of the following is a primary reason for the establishment of the rule of law?",
+      "options": {
+        "A": "To encourage military rule",
+        "B": "To protect the rights of citizens",
+        "C": "To allow leaders to do as they wish",
+        "D": "To make the police more powerful"
+      },
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "MEDIUM"
+    },
+    {
+      "questionId": "Q003",
+      "questionNumber": 3,
+      "questionText": "A situation where a group of people are treated unfairly because of their race or gender is known as:",
+      "options": {
+        "A": "Justice",
+        "B": "Discrimination",
+        "C": "Equity",
+        "D": "Tolerance"
+      },
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "EASY"
+    },
+    {
+      "questionId": "Q006",
+      "questionNumber": 6,
+      "questionText": "Which of the following is a core value in Nigerian society?",
+      "options": {
+        "A": "Corruption",
+        "B": "Integrity",
+        "C": "Nepotism",
+        "D": "Indiscipline"
+      },
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "EASY"
+    },
+    {
+      "questionId": "Q007",
+      "questionNumber": 7,
+      "questionText": "Human rights that cannot be taken away from an individual are described as:",
+      "options": {
+        "A": "Transferable",
+        "B": "Inalienable",
+        "C": "Conditional",
+        "D": "Revocable"
+      },
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "MEDIUM"
+    },
+    {
+      "questionId": "Q008",
+      "questionNumber": 8,
+      "questionText": "The 1999 Constitution of Nigeria is an example of a:",
+      "options": {
+        "A": "Written constitution",
+        "B": "Unwritten constitution",
+        "C": "Flexible constitution",
+        "D": "Unitary constitution"
+      },
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "MEDIUM"
+    },
+    {
+      "questionId": "Q009",
+      "questionNumber": 9,
+      "questionText": "Which arm of government is responsible for the interpretation of laws?",
+      "options": {
+        "A": "Executive",
+        "B": "Legislature",
+        "C": "Judiciary",
+        "D": "Civil Service"
+      },
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "EASY"
+    },
+    {
+      "questionId": "Q010",
+      "questionNumber": 10,
+      "questionText": "A major consequence of political apathy is:",
+      "options": {
+        "A": "Good governance",
+        "B": "Emergence of bad leaders",
+        "C": "Increased voter turnout",
+        "D": "Rapid economic growth"
+      },
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "HARD"
+    },
+    {
+      "questionId": "Q011",
+      "questionNumber": 11,
+      "questionText": "The Universal Declaration of Human Rights (UDHR) was adopted by the UN in:",
+      "options": {
+        "A": "1945",
+        "B": "1948",
+        "C": "1960",
+        "D": "1963"
+      },
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "MEDIUM"
+    },
+    {
+      "questionId": "Q012",
+      "questionNumber": 12,
+      "questionText": "Which of the following is a way of preventing human trafficking?",
+      "options": {
+        "A": "Encouraging child labor",
+        "B": "Poverty alleviation",
+        "C": "Promoting illegal migration",
+        "D": "Discouraging education"
+      },
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "MEDIUM"
+    },
+    {
+      "questionId": "Q013",
+      "questionNumber": 13,
+      "questionText": "The administrative head of a local government in Nigeria is the:",
+      "options": {
+        "A": "Governor",
+        "B": "Chairman",
+        "C": "President",
+        "D": "Minister"
+      },
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "MEDIUM"
+    },
+    {
+      "questionId": "Q014",
+      "questionNumber": 14,
+      "questionText": "Orderliness in society can be best achieved through:",
+      "options": {
+        "A": "Civil disobedience",
+        "B": "Respect for constituted authority",
+        "C": "Religious fanatism",
+        "D": "Ethnic loyalty"
+      },
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "EASY"
+    },
+    {
+      "questionId": "Q015",
+      "questionNumber": 15,
+      "questionText": "Which of these is a civic responsibility of a Nigerian citizen?",
+      "options": {
+        "A": "Stealing public funds",
+        "B": "Payment of taxes",
+        "C": "Fighting in the streets",
+        "D": "Disrupting public peace"
+      },
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "EASY"
+    },
+    {
+      "questionId": "Q016",
+      "questionNumber": 16,
+      "questionText": "Cultism is considered a social vice because it leads to:",
+      "options": {
+        "A": "Academic excellence",
+        "B": "Violence and insecurity",
+        "C": "Spiritual growth",
+        "D": "National development"
+      },
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "MEDIUM"
+    },
+    {
+      "questionId": "Q017",
+      "questionNumber": 17,
+      "questionText": "The highest court of law in Nigeria is the:",
+      "options": {
+        "A": "High Court",
+        "B": "Court of Appeal",
+        "C": "Supreme Court",
+        "D": "Magistrate Court"
+      },
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "MEDIUM"
+    },
+    {
+      "questionId": "Q018",
+      "questionNumber": 18,
+      "questionText": "Which of the following is a feature of a democratic society?",
+      "options": {
+        "A": "One-party system",
+        "B": "Press censorship",
+        "C": "Periodic elections",
+        "D": "Absence of opposition"
+      },
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "HARD"
+    },
+    {
+      "questionId": "Q019",
+      "questionNumber": 19,
+      "questionText": "The act of giving or receiving money to influence a public official is:",
+      "options": {
+        "A": "Embezzlement",
+        "B": "Bribery",
+        "C": "Laundering",
+        "D": "Forgery"
+      },
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "EASY"
+    },
+    {
+      "questionId": "Q020",
+      "questionNumber": 20,
+      "questionText": "Which agency is primarily tasked with fighting the spread of fake drugs in Nigeria?",
+      "options": {
+        "A": "NDLEA",
+        "B": "NAFDAC",
+        "C": "SON",
+        "D": "NPC"
+      },
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "HARD"
+    }
+  ],
+  "active": true
+}
