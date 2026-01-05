@@ -220,24 +220,6 @@
     "createdAt": "2025-12-31T16:21:39.456Z"
   },
   {
-    "questionId": "Q001",
-    "questionNumber": 1,
-    "questionText": "Which of the following nitrogenous bases is found in RNA but NOT in DNA?",
-    "options": {
-      "A": "Adenine",
-      "B": "Cytosine",
-      "C": "Guanine",
-      "D": "Uracil"
-    },
-    "correctAnswer": "D",
-    "marks": 1,
-    "difficulty": "EASY",
-    "id": "BIO-2026-001-Q001",
-    "subject": "Biology",
-    "class": "SS 3",
-    "examOrigin": "BIO-2026-001"
-  },
-  {
     "questionId": "Q002",
     "questionNumber": 2,
     "questionText": "A person with blood group O is regarded as a universal donor because their red blood cells lack:",
