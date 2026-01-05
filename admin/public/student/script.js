@@ -524,12 +524,13 @@ function startExam(examData) {
     state.examData = examData;
     //state.questions = examData.questions;
     // --- NEW: STRATIFIED RANDOMIZATION LOGIC ---
-    const limit = parseInt(examData.settings.questionsPerStudent, 10);
+    const rawLimit = examData.settings.questionsPerStudent;
+    const limit = parseInt(rawLimit, 10); // Force to Number
     const totalAvailable = examData.questions.length;
 
     if (!isNaN(limit) && limit > 0 && limit <= totalAvailable) {
         console.log(`[Exam] Limiting to ${limit} questions (Total: ${totalAvailable})`);
-        state.questions = selectStratifiedQuestions(examData.questions, limit);
+        //state.questions = selectStratifiedQuestions(examData.questions, limit);
 
         // Try Stratified Logic first (Fairness)
         if (typeof selectStratifiedQuestions === 'function') {
@@ -537,18 +538,18 @@ function startExam(examData) {
             state.questions = selectStratifiedQuestions(examData.questions, limit);
         } else {
             // Fallback: Random Shuffle & Slice
-            console.log('[Exam] selectStratifiedQuestions missing. Using simple shuffle & slice.');
-            const shuffled = shuffleArray([...examData.questions]);
-            state.questions = shuffled.slice(0, limit);
+            /*  console.log('[Exam] selectStratifiedQuestions missing. Using simple shuffle & slice.');
+              const shuffled = shuffleArray([...examData.questions]);
+              state.questions = shuffled.slice(0, limit);*/
+            state.questions = shuffleArray([...examData.questions]).slice(0, limit);
         }
     } else {
         // Standard Mode: Use ALL questions
         console.log('[Exam] Using full question set.');
-        if (examData.settings.shuffleQuestions) {
-            state.questions = shuffleArray([...examData.questions]);
-        } else {
-            state.questions = [...examData.questions];
-        }
+        console.log(`[Exam] Condition failed. Limit: ${limit}, Total: ${totalAvailable}`);
+        state.questions = examData.settings.shuffleQuestions ?
+            shuffleArray([...examData.questions]) :
+            [...examData.questions];
     }
 
     // Update state.exam.questions to match our selection

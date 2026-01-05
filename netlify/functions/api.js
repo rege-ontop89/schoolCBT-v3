@@ -211,16 +211,16 @@ exports.handler = async (event, context) => {
         }
 
         // ADDED: UPDATE USER (Fixes "admin-001" 404 when saving profile)
-        if (path.startsWith("/users/") && method === "PUT") {
+        if (path.startsWith("/api/users/") && method === "PUT") {
             const id = path.split("/").pop();
             const updates = body;
-            const users = (await getFile("users.json")) || [];
+            let users = (await getFile("users.json")) || [];
             const idx = users.findIndex(u => u.id === id || u.username === id);
-            if (idx > -1) {
+            if (idx !== -1) {
                 users[idx] = { ...users[idx], ...updates };
                 if (updates.password) users[idx].plainPassword = updates.password;
                 await saveFile("users.json", users, `Update User ${id}`);
-                return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
+                return { statusCode: 200, headers, body: JSON.stringify({ success: true, user: users[idx] }) };
             }
             return { statusCode: 404, headers, body: JSON.stringify({ error: "User not found" }) };
         }
