@@ -247,12 +247,32 @@ D) Nessessary`;
         setIsSubmitting(true);
 
         try {
+            // CRITICAL FIX: Sync examData settings into parsedExam before saving
+            // This ensures changes made in Step 3 (Configuration) are included
             const finalExamData = {
                 ...parsedExam,
                 active: activate,
                 metadata: {
                     ...parsedExam.metadata,
+                    title: examData.title,
+                    subject: examData.subject,
+                    class: examData.class,
+                    term: examData.term,
+                    academicYear: examData.academicYear,
+                    createdBy: examData.createdBy,
+                    instructions: examData.instructions,
                     updatedAt: new Date().toISOString()
+                },
+                settings: {
+                    ...parsedExam.settings,
+                    duration: examData.duration,
+                    passMark: examData.passMark,
+                    webhookUrl: examData.webhookUrl || '',
+                    questionsPerStudent: examData.questionsPerStudent,
+                    shuffleQuestions: examData.shuffleQuestions,
+                    shuffleOptions: examData.shuffleOptions,
+                    showResults: examData.showResults,
+                    allowReview: examData.allowReview
                 }
             };
 
