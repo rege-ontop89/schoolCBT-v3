@@ -1131,6 +1131,9 @@ function renderPalette() {
         }
 
         dot.addEventListener('click', () => {
+            if (state.theory.isViewingTheory) {
+                hideTheorySection();
+            }
             state.theory.isViewingTheory = false;
             loadQuestion(i);
         });

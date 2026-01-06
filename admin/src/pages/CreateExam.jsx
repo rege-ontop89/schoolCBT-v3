@@ -90,6 +90,18 @@ const CreateExam = ({ examId, onNavigate, user }) => {
                     active: data.active
                 });
 
+                // Load theory section if present
+                if (data.theorySection && data.theorySection.questions) {
+                    setHasTheory(true);
+                    setTheoryInstructions(data.theorySection.instructions || 'Answer all theory questions on your answer sheet.');
+
+                    // Convert theory questions back to numbered list format
+                    const theoryText = data.theorySection.questions.map((q, i) => {
+                        return `${i + 1}. ${q.questionText}`;
+                    }).join('\n\n');
+                    setTheoryText(theoryText);
+                }
+
                 // Convert questions back to text format
                 const formattedText = data.questions.map((q, i) => {
                     let optionsText = '';
