@@ -140,15 +140,81 @@
                     <h2 id="exam-subject">Subject</h2>
                     <span id="exam-class">Class</span>
                 </div>
-                <div class="timer-display">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <polyline points="12 6 12 12 16 14"></polyline>
-                    </svg>
-                    <span id="timer-text">00:00</span>
+                <div class="header-right">
+                    <button id="btn-toggle-calculator" class="btn-icon" title="Toggle Calculator">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="4" y="2" width="16" height="20" rx="2"></rect>
+                            <line x1="8" y1="6" x2="16" y2="6"></line>
+                            <line x1="16" y1="14" x2="16" y2="14"></line>
+                            <line x1="8" y1="14" x2="8" y2="14"></line>
+                            <line x1="12" y1="14" x2="12" y2="14"></line>
+                            <line x1="16" y1="18" x2="16" y2="18"></line>
+                            <line x1="8" y1="18" x2="8" y2="18"></line>
+                            <line x1="12" y1="18" x2="12" y2="18"></line>
+                        </svg>
+                    </button>
+                    <div class="timer-display">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        <span id="timer-text">00:00</span>
+                    </div>
                 </div>
             </header>
+
+            <!-- CALCULATOR PANEL -->
+            <div id="calculator-panel" class="calculator-panel" hidden>
+                <div class="calculator-header">
+                    <h3>Scientific Calculator</h3>
+                    <button id="btn-close-calculator" class="btn-close-calc">×</button>
+                </div>
+                <div class="calculator-display">
+                    <input type="text" id="calc-display" readonly value="0">
+                </div>
+                <div class="calculator-buttons">
+                    <!-- Memory & Clear Row -->
+                    <button class="calc-btn calc-fn" data-action="clear">C</button>
+                    <button class="calc-btn calc-fn" data-action="clearEntry">CE</button>
+                    <button class="calc-btn calc-fn" data-action="backspace">⌫</button>
+                    <button class="calc-btn calc-op" data-action="divide">÷</button>
+
+                    <!-- Scientific Functions Row 1 -->
+                    <button class="calc-btn calc-fn" data-action="sin">sin</button>
+                    <button class="calc-btn calc-fn" data-action="cos">cos</button>
+                    <button class="calc-btn calc-fn" data-action="tan">tan</button>
+                    <button class="calc-btn calc-op" data-action="multiply">×</button>
+
+                    <!-- Scientific Functions Row 2 -->
+                    <button class="calc-btn calc-fn" data-action="log">log</button>
+                    <button class="calc-btn calc-fn" data-action="ln">ln</button>
+                    <button class="calc-btn calc-fn" data-action="sqrt">√</button>
+                    <button class="calc-btn calc-op" data-action="subtract">−</button>
+
+                    <!-- Numbers & Operations -->
+                    <button class="calc-btn" data-action="number" data-value="7">7</button>
+                    <button class="calc-btn" data-action="number" data-value="8">8</button>
+                    <button class="calc-btn" data-action="number" data-value="9">9</button>
+                    <button class="calc-btn calc-op" data-action="add">+</button>
+
+                    <button class="calc-btn" data-action="number" data-value="4">4</button>
+                    <button class="calc-btn" data-action="number" data-value="5">5</button>
+                    <button class="calc-btn" data-action="number" data-value="6">6</button>
+                    <button class="calc-btn calc-fn" data-action="power">x²</button>
+
+                    <button class="calc-btn" data-action="number" data-value="1">1</button>
+                    <button class="calc-btn" data-action="number" data-value="2">2</button>
+                    <button class="calc-btn" data-action="number" data-value="3">3</button>
+                    <button class="calc-btn calc-fn" data-action="pi">π</button>
+
+                    <button class="calc-btn" data-action="number" data-value="0">0</button>
+                    <button class="calc-btn" data-action="decimal">.</button>
+                    <button class="calc-btn" data-action="negate">±</button>
+                    <button class="calc-btn calc-equals" data-action="equals">=</button>
+                </div>
+            </div>
 
             <!-- PROGRESS BAR -->
             <div class="progress-container">

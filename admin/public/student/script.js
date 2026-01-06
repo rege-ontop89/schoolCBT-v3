@@ -75,6 +75,13 @@ const DOM = {
         btnCancel: document.getElementById('btn-modal-cancel'),
         btnConfirm: document.getElementById('btn-modal-confirm')
     },
+    calculator: {
+        panel: document.getElementById('calculator-panel'),
+        display: document.getElementById('calc-display'),
+        btnToggle: document.getElementById('btn-toggle-calculator'),
+        btnClose: document.getElementById('btn-close-calculator'),
+        buttons: null // Will be set after DOM loads
+    },
     results: {
         name: document.getElementById('res-student-name'),
         subject: document.getElementById('res-subject'),
@@ -121,6 +128,245 @@ function shuffleOptions(options, correctAnswer) {
     });
 
     return { options: newOptions, correctAnswer: newCorrectAnswer };
+}
+
+// --- SCIENTIFIC CALCULATOR ---
+const Calculator = {
+    currentValue: '0',
+    previousValue: null,
+    operation: null,
+    shouldResetDisplay: false,
+
+    init() {
+        // Set up button references
+        DOM.calculator.buttons = document.querySelectorAll('.calc-btn');
+
+        // Add event listeners
+        DOM.calculator.btnToggle.addEventListener('click', () => this.toggle());
+        DOM.calculator.btnClose.addEventListener('click', () => this.hide());
+
+        DOM.calculator.buttons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const action = e.target.dataset.action;
+                const value = e.target.dataset.value;
+                this.handleAction(action, value);
+            });
+        });
+    },
+
+    toggle() {
+        const isHidden = DOM.calculator.panel.hasAttribute('hidden');
+        if (isHidden) {
+            this.show();
+        } else {
+            this.hide();
+        }
+    },
+
+    show() {
+        DOM.calculator.panel.removeAttribute('hidden');
+        DOM.calculator.panel.classList.add('calc-visible');
+    },
+
+    hide() {
+        DOM.calculator.panel.setAttribute('hidden', '');
+        DOM.calculator.panel.classList.remove('calc-visible');
+    },
+
+    handleAction(action, value) {
+        switch (action) {
+            case 'number':
+                this.inputNumber(value);
+                break;
+            case 'decimal':
+                this.inputDecimal();
+                break;
+            case 'add':
+            case 'subtract':
+            case 'multiply':
+            case 'divide':
+                this.setOperation(action);
+                break;
+            case 'equals':
+                this.calculate();
+                break;
+            case 'clear':
+                this.clear();
+                break;
+            case 'clearEntry':
+                this.clearEntry();
+                break;
+            case 'backspace':
+                this.backspace();
+                break;
+            case 'negate':
+                this.negate();
+                break;
+            case 'power':
+                this.power();
+                break;
+            case 'sqrt':
+                this.sqrt();
+                break;
+            case 'sin':
+                this.sin();
+                break;
+            case 'cos':
+                this.cos();
+                break;
+            case 'tan':
+                this.tan();
+                break;
+            case 'log':
+                this.log();
+                break;
+            case 'ln':
+                this.ln();
+                break;
+            case 'pi':
+                this.inputPi();
+                break;
+        }
+        this.updateDisplay();
+    },
+
+    inputNumber(num) {
+        if (this.shouldResetDisplay || this.currentValue === '0') {
+            this.currentValue = num;
+            this.shouldResetDisplay = false;
+        } else {
+            this.currentValue += num;
+        }
+    },
+
+    inputDecimal() {
+        if (this.shouldResetDisplay) {
+            this.currentValue = '0.';
+            this.shouldResetDisplay = false;
+        } else if (!this.currentValue.includes('.')) {
+            this.currentValue += '.';
+        }
+    },
+
+    setOperation(op) {
+        if (this.operation && !this.shouldResetDisplay) {
+            this.calculate();
+        }
+        this.previousValue = this.currentValue;
+        this.operation = op;
+        this.shouldResetDisplay = true;
+    },
+
+    calculate() {
+        if (!this.operation || this.previousValue === null) return;
+
+        const prev = parseFloat(this.previousValue);
+        const current = parseFloat(this.currentValue);
+        let result;
+
+        switch (this.operation) {
+            case 'add':
+                result = prev + current;
+                break;
+            case 'subtract':
+                result = prev - current;
+                break;
+            case 'multiply':
+                result = prev * current;
+                break;
+            case 'divide':
+                result = current !== 0 ? prev / current : 'Error';
+                break;
+        }
+
+        this.currentValue = result.toString();
+        this.operation = null;
+        this.previousValue = null;
+        this.shouldResetDisplay = true;
+    },
+
+    clear() {
+        this.currentValue = '0';
+        this.previousValue = null;
+        this.operation = null;
+        this.shouldResetDisplay = false;
+    },
+
+    clearEntry() {
+        this.currentValue = '0';
+        this.shouldResetDisplay = false;
+    },
+
+    backspace() {
+        if (this.currentValue.length > 1) {
+            this.currentValue = this.currentValue.slice(0, -1);
+        } else {
+            this.currentValue = '0';
+        }
+    },
+
+    negate() {
+        this.currentValue = (parseFloat(this.currentValue) * -1).toString();
+    },
+
+    power() {
+        const num = parseFloat(this.currentValue);
+        this.currentValue = (num * num).toString();
+        this.shouldResetDisplay = true;
+    },
+
+    sqrt() {
+        const num = parseFloat(this.currentValue);
+        this.currentValue = num >= 0 ? Math.sqrt(num).toString() : 'Error';
+        this.shouldResetDisplay = true;
+    },
+
+    sin() {
+        const num = parseFloat(this.currentValue);
+        this.currentValue = Math.sin(num * Math.PI / 180).toString();
+        this.shouldResetDisplay = true;
+    },
+
+    cos() {
+        const num = parseFloat(this.currentValue);
+        this.currentValue = Math.cos(num * Math.PI / 180).toString();
+        this.shouldResetDisplay = true;
+    },
+
+    tan() {
+        const num = parseFloat(this.currentValue);
+        this.currentValue = Math.tan(num * Math.PI / 180).toString();
+        this.shouldResetDisplay = true;
+    },
+
+    log() {
+        const num = parseFloat(this.currentValue);
+        this.currentValue = num > 0 ? Math.log10(num).toString() : 'Error';
+        this.shouldResetDisplay = true;
+    },
+
+    ln() {
+        const num = parseFloat(this.currentValue);
+        this.currentValue = num > 0 ? Math.log(num).toString() : 'Error';
+        this.shouldResetDisplay = true;
+    },
+
+    inputPi() {
+        this.currentValue = Math.PI.toString();
+        this.shouldResetDisplay = true;
+    },
+
+    updateDisplay() {
+        const displayValue = this.currentValue.length > 12
+            ? parseFloat(this.currentValue).toExponential(6)
+            : this.currentValue;
+        DOM.calculator.display.value = displayValue;
+    }
+};
+
+// Initialize calculator when DOM is ready
+if (DOM.calculator.btnToggle) {
+    Calculator.init();
 }
 
 // --- SHARED VALIDATOR INIT ---
