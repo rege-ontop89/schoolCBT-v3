@@ -46,6 +46,10 @@ const CreateExam = ({ examId, onNavigate, user }) => {
     const [theoryText, setTheoryText] = useState('');
     const [theoryInstructions, setTheoryInstructions] = useState('Answer all theory questions on your answer sheet.');
 
+    // Image support state
+    const [questionImages, setQuestionImages] = useState({}); // { 0: "data:image...", 1: ... }
+    const [theoryImages, setTheoryImages] = useState({}); // { 0: "data:image...", 1: ... }
+
 
     // Load exam data if in edit mode
     useEffect(() => {
@@ -123,6 +127,21 @@ const CreateExam = ({ examId, onNavigate, user }) => {
                     const difficulty = q.difficulty || 'MEDIUM'; // Auto-detect or default
                     return `${i + 1}. ${qText} [${difficulty.toUpperCase()}]\n${optionsText}`;
                 }).join('\n\n');
+
+                // Load images into state
+                const qImages = {};
+                data.questions.forEach((q, i) => {
+                    if (q.questionImage) qImages[i] = q.questionImage;
+                });
+                setQuestionImages(qImages);
+
+                const tImages = {};
+                if (data.theorySection && data.theorySection.questions) {
+                    data.theorySection.questions.forEach((q, i) => {
+                        if (q.questionImage) tImages[i] = q.questionImage;
+                    });
+                }
+                setTheoryImages(tImages);
 
                 setPastedText(formattedText);
 
@@ -252,6 +271,104 @@ D) Nessessary`;
         }
 
         return questions;
+    };
+
+    // Image handling helpers
+    const fileToBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+        });
+    };
+
+    const handleImageUpload = async (file, index, type = 'objective') => {
+        if (!file) return;
+
+        // 500KB limit
+        if (file.size > 500000) {
+            alert('Image too large. Please use an image smaller than 500KB.');
+            return;
+        }
+
+        try {
+            const base64 = await fileToBase64(file);
+            if (type === 'objective') {
+                setQuestionImages(prev => ({ ...prev, [index]: base64 }));
+
+                // Update parsedExam immediately
+                if (parsedExam) {
+                    setParsedExam(prev => {
+                        const updatedQuestions = [...prev.questions];
+                        if (updatedQuestions[index]) {
+                            updatedQuestions[index].questionImage = base64;
+                        }
+                        return { ...prev, questions: updatedQuestions };
+                    });
+                }
+            } else {
+                setTheoryImages(prev => ({ ...prev, [index]: base64 }));
+
+                // Update parsedExam theory
+                if (parsedExam && parsedExam.theorySection) {
+                    setParsedExam(prev => {
+                        const updatedTheory = [...prev.theorySection.questions];
+                        if (updatedTheory[index]) {
+                            updatedTheory[index].questionImage = base64;
+                        }
+                        return {
+                            ...prev,
+                            theorySection: { ...prev.theorySection, questions: updatedTheory }
+                        };
+                    });
+                }
+            }
+        } catch (err) {
+            console.error('Error uploading image:', err);
+            alert('Failed to upload image.');
+        }
+    };
+
+    const removeImage = (index, type = 'objective') => {
+        if (type === 'objective') {
+            setQuestionImages(prev => {
+                const updated = { ...prev };
+                delete updated[index];
+                return updated;
+            });
+
+            // Update parsedExam
+            if (parsedExam) {
+                setParsedExam(prev => {
+                    const updatedQuestions = [...prev.questions];
+                    if (updatedQuestions[index]) {
+                        delete updatedQuestions[index].questionImage;
+                    }
+                    return { ...prev, questions: updatedQuestions };
+                });
+            }
+        } else {
+            setTheoryImages(prev => {
+                const updated = { ...prev };
+                delete updated[index];
+                return updated;
+            });
+
+            // Update parsedExam theory
+            if (parsedExam && parsedExam.theorySection) {
+                setParsedExam(prev => {
+                    const updatedTheory = [...prev.theorySection.questions];
+                    if (updatedTheory[index]) {
+                        delete updatedTheory[index].questionImage;
+                    }
+                    return {
+                        ...prev,
+                        theorySection: { ...prev.theorySection, questions: updatedTheory }
+                    };
+                });
+            }
+        }
     };
 
     const handleParse = () => {
@@ -671,6 +788,87 @@ D) Nessessary`;
             {parseError && (
                 <div className="mt-4 bg-red-50 text-red-600 px-4 py-3 rounded-lg text-sm border border-red-100 font-medium">
                     ⚠️ {parseError}
+                </div>
+            )}
+
+            {/* Image Manager Section */}
+            {parsedExam && (
+                <div className="mt-8 border-t border-gray-200 pt-8">
+                    <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                        <span>🖼️</span> Image Manager
+                    </h3>
+                    <div className="bg-blue-50 p-4 rounded-lg mb-4 text-sm text-blue-800 border border-blue-100">
+                        Add images to your questions below. Maximum size 500KB per image.
+                    </div>
+                    <div className="space-y-6">
+                        {/* Objective Images */}
+                        <div className="space-y-4">
+                            <h4 className="font-semibold text-gray-700">Objective Questions Images</h4>
+                            <div className="grid grid-cols-1 gap-4 max-h-96 overflow-y-auto pr-2">
+                                {parsedExam.questions.map((q, i) => (
+                                    <div key={i} className="flex items-start gap-4 p-3 bg-white rounded-lg border border-gray-200 shadow-sm">
+                                        <span className="font-bold text-gray-500 w-8 pt-1">{i + 1}.</span>
+                                        <div className="flex-1">
+                                            <p className="text-sm text-gray-800 line-clamp-2 mb-2 font-medium">{q.questionText}</p>
+
+                                            {questionImages[i] ? (
+                                                <div className="relative inline-block group">
+                                                    <img src={questionImages[i]} alt="Q" className="h-24 w-auto rounded border border-gray-300 object-cover" />
+                                                    <button
+                                                        onClick={() => removeImage(i, 'objective')}
+                                                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm shadow-md hover:bg-red-600 transition-all opacity-0 group-hover:opacity-100"
+                                                        title="Remove Image"
+                                                    >
+                                                        ×
+                                                    </button>
+                                                </div>
+                                            ) : (
+                                                <label className="cursor-pointer inline-flex items-center gap-2 px-3 py-1.5 bg-gray-50 border border-gray-300 rounded text-xs font-bold text-gray-600 hover:bg-gray-100 transition-colors">
+                                                    <Plus className="w-3 h-3" /> Add Image
+                                                    <input type="file" accept="image/*" className="hidden" onChange={(e) => handleImageUpload(e.target.files[0], i, 'objective')} />
+                                                </label>
+                                            )}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Theory Images */}
+                        {hasTheory && parsedExam.theorySection && (
+                            <div className="space-y-4 pt-4 border-t border-gray-200">
+                                <h4 className="font-semibold text-gray-700">Theory Questions Images</h4>
+                                <div className="grid grid-cols-1 gap-4">
+                                    {parsedExam.theorySection.questions.map((q, i) => (
+                                        <div key={i} className="flex items-start gap-4 p-3 bg-white rounded-lg border border-gray-200 shadow-sm">
+                                            <span className="font-bold text-gray-500 w-8 pt-1">T{i + 1}.</span>
+                                            <div className="flex-1">
+                                                <p className="text-sm text-gray-800 line-clamp-2 mb-2 font-medium">{q.questionText}</p>
+
+                                                {theoryImages[i] ? (
+                                                    <div className="relative inline-block group">
+                                                        <img src={theoryImages[i]} alt="T" className="h-24 w-auto rounded border border-gray-300 object-cover" />
+                                                        <button
+                                                            onClick={() => removeImage(i, 'theory')}
+                                                            className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm shadow-md hover:bg-red-600 transition-all opacity-0 group-hover:opacity-100"
+                                                            title="Remove Image"
+                                                        >
+                                                            ×
+                                                        </button>
+                                                    </div>
+                                                ) : (
+                                                    <label className="cursor-pointer inline-flex items-center gap-2 px-3 py-1.5 bg-gray-50 border border-gray-300 rounded text-xs font-bold text-gray-600 hover:bg-gray-100 transition-colors">
+                                                        <Plus className="w-3 h-3" /> Add Image
+                                                        <input type="file" accept="image/*" className="hidden" onChange={(e) => handleImageUpload(e.target.files[0], i, 'theory')} />
+                                                    </label>
+                                                )}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </div>
                 </div>
             )}
         </div>

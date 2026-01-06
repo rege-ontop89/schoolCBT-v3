@@ -986,3 +986,19 @@ body {
 .nav-dot.theory-nav.visited {
     background: var(--success);
 }
+
+/* Image Support */
+.question-image,
+.theory-image {
+    display: block;
+    max-width: 100%;
+    margin-top: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+}
+
+.theory-image {
+    max-height: 400px;
+    object-fit: contain;
+}

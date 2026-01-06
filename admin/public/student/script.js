@@ -961,10 +961,12 @@ function showTheorySection() {
     // Render theory questions
     let html = '';
     theoryData.questions.forEach((q, index) => {
+        const imageHtml = q.questionImage ? `<img src="${q.questionImage}" class="theory-image" alt="Theory Question Image">` : '';
         html += `
             <div class="theory-question">
                 <div class="theory-question-number">Question ${index + 1}</div>
                 <div class="theory-question-text">${q.questionText}</div>
+                ${imageHtml}
             </div>
         `;
     });
@@ -1040,8 +1042,18 @@ function loadQuestion(index) {
     const percent = ((index + 1) / state.exam.questions.length) * 100;
     DOM.exam.progressBar.style.width = `${percent}%`;
 
-    // Render Text
-    DOM.exam.text.textContent = q.questionText;
+    // Render Text & Image
+    DOM.exam.text.innerHTML = '';
+    const textP = document.createElement('p');
+    textP.textContent = q.questionText;
+    DOM.exam.text.appendChild(textP);
+
+    if (q.questionImage) {
+        const img = document.createElement('img');
+        img.src = q.questionImage;
+        img.className = 'question-image';
+        DOM.exam.text.appendChild(img);
+    }
 
     // Render Options
     DOM.exam.optionsContainer.innerHTML = '';

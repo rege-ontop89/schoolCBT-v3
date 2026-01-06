@@ -191,6 +191,10 @@ window.examSchema = {
                         "maxLength": 2000,
                         "description": "The question text"
                     },
+                    "questionImage": {
+                        "type": "string",
+                        "description": "Base64 encoded image for the question"
+                    },
                     "options": {
                         "type": "object",
                         "required": ["A", "B", "C", "D"],
@@ -222,6 +226,16 @@ window.examSchema = {
                             }
                         },
                         "description": "Four answer options (A, B, C, D)"
+                    },
+                    "optionImages": {
+                        "type": "object",
+                        "description": "Optional Base64 encoded images for options",
+                        "properties": {
+                            "A": { "type": "string" },
+                            "B": { "type": "string" },
+                            "C": { "type": "string" },
+                            "D": { "type": "string" }
+                        }
                     },
                     "correctAnswer": {
                         "type": "string",
@@ -271,6 +285,10 @@ window.examSchema = {
                                 "minLength": 10,
                                 "maxLength": 5000,
                                 "description": "The theory question text"
+                            },
+                            "questionImage": {
+                                "type": "string",
+                                "description": "Base64 encoded image for the theory question"
                             }
                         }
                     }
