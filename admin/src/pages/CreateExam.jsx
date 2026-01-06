@@ -41,6 +41,12 @@ const CreateExam = ({ examId, onNavigate, user }) => {
     const [bankLoading, setBankLoading] = useState(false);
     const [bankSearch, setBankSearch] = useState('');
 
+    // Theory section state
+    const [hasTheory, setHasTheory] = useState(false);
+    const [theoryText, setTheoryText] = useState('');
+    const [theoryInstructions, setTheoryInstructions] = useState('Answer all theory questions on your answer sheet.');
+
+
     // Load exam data if in edit mode
     useEffect(() => {
         if (examId) {
@@ -193,6 +199,49 @@ D) Nessessary`;
         if (step < 4) setStep(step + 1);
     };
 
+    // Parse theory questions from numbered list format
+    const parseTheoryQuestions = (text) => {
+        if (!text || !text.trim()) return [];
+
+        const lines = text.split('\n');
+        const questions = [];
+        let currentQuestion = null;
+        let questionCounter = 1;
+
+        lines.forEach(line => {
+            const trimmed = line.trim();
+            if (!trimmed) return;
+
+            // Check if line starts with a number (e.g., "1.", "2)", "1 -")
+            const match = trimmed.match(/^(\d+)[\.\)\-\s]+(.+)/);
+
+            if (match) {
+                // Save previous question if exists
+                if (currentQuestion) {
+                    questions.push(currentQuestion);
+                }
+
+                // Start new question
+                currentQuestion = {
+                    questionId: `T${String(questionCounter).padStart(3, '0')}`,
+                    questionNumber: questionCounter,
+                    questionText: match[2].trim()
+                };
+                questionCounter++;
+            } else if (currentQuestion) {
+                // Continuation of current question
+                currentQuestion.questionText += '\n' + trimmed;
+            }
+        });
+
+        // Add last question
+        if (currentQuestion) {
+            questions.push(currentQuestion);
+        }
+
+        return questions;
+    };
+
     const handleParse = () => {
         try {
             const questions = parseSimpleFormat(pastedText);
@@ -229,6 +278,17 @@ D) Nessessary`;
                 questions,
                 active: examData.active
             };
+
+            // Add theory section if enabled
+            if (hasTheory && theoryText.trim()) {
+                const theoryQuestions = parseTheoryQuestions(theoryText);
+                if (theoryQuestions.length > 0) {
+                    result.theorySection = {
+                        instructions: theoryInstructions || 'Answer all theory questions on your answer sheet.',
+                        questions: theoryQuestions
+                    };
+                }
+            }
 
             setParsedExam(result);
             setParseError('');
@@ -528,6 +588,58 @@ D) Nessessary`;
                     className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none font-mono text-sm shadow-inner"
                 />
             </div>
+
+            {/* Theory Section Toggle */}
+            <div className="mb-4 p-4 bg-blue-50 rounded-xl border border-blue-100">
+                <label className="flex items-center gap-3 cursor-pointer">
+                    <input
+                        type="checkbox"
+                        checked={hasTheory}
+                        onChange={(e) => setHasTheory(e.target.checked)}
+                        className="w-5 h-5 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
+                    />
+                    <div>
+                        <span className="text-sm font-bold text-gray-900">Include Theory Section</span>
+                        <p className="text-xs text-gray-600 mt-1">Add theory questions that students will answer on paper</p>
+                    </div>
+                </label>
+            </div>
+
+            {/* Theory Questions Input */}
+            {hasTheory && (
+                <div className="mb-4 space-y-4 p-4 bg-gray-50 rounded-xl border border-gray-200">
+                    <div>
+                        <label className="block text-sm font-bold text-gray-700 mb-2">
+                            Theory Instructions
+                            <span className="text-xs font-normal text-gray-500 ml-2">(Displayed at top of theory section)</span>
+                        </label>
+                        <input
+                            type="text"
+                            value={theoryInstructions}
+                            onChange={(e) => setTheoryInstructions(e.target.value)}
+                            placeholder="Answer all theory questions on your answer sheet."
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-bold text-gray-700 mb-2">
+                            Theory Questions
+                            <span className="text-xs font-normal text-gray-500 ml-2">(Use numbered list: 1. 2. 3.)</span>
+                        </label>
+                        <textarea
+                            value={theoryText}
+                            onChange={(e) => setTheoryText(e.target.value)}
+                            placeholder="1. Explain the process of photosynthesis.&#10;&#10;2. Describe the water cycle and its importance."
+                            rows={10}
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none font-mono text-sm resize-none"
+                        />
+                        <p className="text-xs text-gray-500 mt-2">
+                            💡 Tip: Each question should start with a number (1. 2. 3. etc.)
+                        </p>
+                    </div>
+                </div>
+            )}
 
             <div className="flex items-center gap-4">
                 <button

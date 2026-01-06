@@ -24,7 +24,12 @@ const state = {
         submittedAt: null,
         durationAllowed: 0
     },
-    examStartedManually: false
+    examStartedManually: false,
+    theory: {
+        hasTheory: false,
+        isViewingTheory: false,
+        hasVisitedTheory: false
+    }
 };
 
 // DOM ELEMENTS
@@ -67,6 +72,11 @@ const DOM = {
         btnNext: document.getElementById('btn-next'),
         btnSkip: document.getElementById('btn-skip'),
         btnFinish: document.getElementById('btn-finish')
+    },
+    theory: {
+        section: document.getElementById('theory-section'),
+        instructions: document.getElementById('theory-instructions'),
+        content: document.getElementById('theory-content')
     },
     modal: {
         overlay: document.getElementById('modal-overlay'),
@@ -902,6 +912,12 @@ function startExam(examData) {
     }
 
     // UI Setup
+    // Initialize theory if present
+    if (examData.theorySection && examData.theorySection.questions && examData.theorySection.questions.length > 0) {
+        state.theory.hasTheory = true;
+        console.log(`[Theory] Exam has ${examData.theorySection.questions.length} theory questions`);
+    }
+
     updateHeader();
     renderPalette();
     loadQuestion(0);
@@ -925,6 +941,50 @@ function startExam(examData) {
     }).catch(err => {
         // Silently fail if admin server not reachable (not critical)
     });
+}
+
+// --- THEORY SECTION ---
+function showTheorySection() {
+    state.theory.isViewingTheory = true;
+    state.theory.hasVisitedTheory = true;
+
+    // Hide objective questions
+    DOM.exam.text.parentElement.parentElement.setAttribute('hidden', '');
+
+    // Show theory section
+    DOM.theory.section.removeAttribute('hidden');
+
+    // Populate theory content
+    const theoryData = state.exam.theorySection;
+    DOM.theory.instructions.textContent = theoryData.instructions || 'Answer all theory questions on your answer sheet.';
+
+    // Render theory questions
+    let html = '';
+    theoryData.questions.forEach((q, index) => {
+        html += `
+            <div class="theory-question">
+                <div class="theory-question-number">Question ${index + 1}</div>
+                <div class="theory-question-text">${q.questionText}</div>
+            </div>
+        `;
+    });
+    DOM.theory.content.innerHTML = html;
+
+    // Update palette
+    renderPalette();
+
+    // Update question counter
+    DOM.exam.qNum.textContent = 'Theory';
+}
+
+function hideTheorySection() {
+    state.theory.isViewingTheory = false;
+
+    // Show objective questions
+    DOM.exam.text.parentElement.parentElement.removeAttribute('hidden');
+
+    // Hide theory section
+    DOM.theory.section.setAttribute('hidden', '');
 }
 
 function updateHeader() {
@@ -961,8 +1021,13 @@ function updateTimerDisplay() {
     }
 }
 
-// --- QUESTION NAVIGATION ---
+// --- QUESTION RENDERING ---
 function loadQuestion(index) {
+    // Hide theory section if viewing it
+    if (state.theory.isViewingTheory) {
+        hideTheorySection();
+    }
+
     if (index < 0 || index >= state.exam.questions.length) return;
 
     state.currentQIndex = index;
@@ -1048,22 +1113,51 @@ DOM.exam.btnFinish.addEventListener('click', () => {
 
 // --- PALETTE ---
 function renderPalette() {
-    DOM.exam.palette.innerHTML = '';
-    state.exam.questions.forEach((q, i) => {
-        const dot = document.createElement('div');
+    const palette = DOM.exam.palette;
+    palette.innerHTML = '';
+
+    // Render objective question numbers
+    state.exam.questions.forEach((_, i) => {
+        const dot = document.createElement('button');
         dot.className = 'nav-dot';
         dot.textContent = i + 1;
+        dot.dataset.index = i;
 
-        if (state.answers[q.questionId]) {
-            dot.classList.add('answered');
-        }
-        if (i === state.currentQIndex) {
+        if (i === state.currentQIndex && !state.theory.isViewingTheory) {
             dot.classList.add('active-question');
         }
+        if (state.answers[i] !== undefined) {
+            dot.classList.add('answered');
+        }
 
-        dot.onclick = () => loadQuestion(i);
-        DOM.exam.palette.appendChild(dot);
+        dot.addEventListener('click', () => {
+            state.theory.isViewingTheory = false;
+            loadQuestion(i);
+        });
+
+        palette.appendChild(dot);
     });
+
+    // Render theory navigation button if theory exists
+    if (state.theory.hasTheory) {
+        const theoryDot = document.createElement('button');
+        theoryDot.className = 'nav-dot theory-nav';
+        theoryDot.textContent = 'T';
+        theoryDot.title = 'Theory Section';
+
+        if (state.theory.isViewingTheory) {
+            theoryDot.classList.add('active-question');
+        }
+        if (state.theory.hasVisitedTheory) {
+            theoryDot.classList.add('visited');
+        }
+
+        theoryDot.addEventListener('click', () => {
+            showTheorySection();
+        });
+
+        palette.appendChild(theoryDot);
+    }
 }
 
 function updatePaletteActive() {
@@ -1072,6 +1166,12 @@ function updatePaletteActive() {
 
 // --- SUBMISSION ---
 function promptSubmit() {
+    // Check if theory must be visited
+    if (state.theory.hasTheory && !state.theory.hasVisitedTheory) {
+        alert('Please view the Theory Section before submitting your exam. Click the "T" button in the navigation below.');
+        return;
+    }
+
     const total = state.exam.questions.length;
     const answered = Object.keys(state.answers).length;
     const unanswered = total - answered;

@@ -236,6 +236,46 @@ window.examSchema = {
                     }
                 }
             }
+        },
+        "theorySection": {
+            "type": "object",
+            "description": "Optional theory questions section (displayed after objectives)",
+            "additionalProperties": true,
+            "properties": {
+                "instructions": {
+                    "type": "string",
+                    "maxLength": 500,
+                    "description": "Instructions displayed at the top of theory section"
+                },
+                "questions": {
+                    "type": "array",
+                    "minItems": 1,
+                    "maxItems": 50,
+                    "description": "Array of theory questions",
+                    "items": {
+                        "type": "object",
+                        "required": ["questionId", "questionNumber", "questionText"],
+                        "additionalProperties": true,
+                        "properties": {
+                            "questionId": {
+                                "type": "string",
+                                "description": "Unique theory question identifier (e.g., T001, T002)"
+                            },
+                            "questionNumber": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "description": "Display order number for theory question"
+                            },
+                            "questionText": {
+                                "type": "string",
+                                "minLength": 10,
+                                "maxLength": 5000,
+                                "description": "The theory question text"
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 };

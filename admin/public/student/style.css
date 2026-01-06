@@ -888,3 +888,101 @@ body {
     background: #2563eb;
     border-color: #2563eb;
 }
+
+/* THEORY SECTION */
+.theory-section {
+    flex: 1;
+    overflow-y: auto;
+    padding: 2rem;
+    max-width: 900px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.theory-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid var(--primary);
+}
+
+.theory-header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    letter-spacing: 0.05em;
+}
+
+.theory-instructions {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    background: var(--warning-bg);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--warning-border);
+}
+
+.theory-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 0.75rem;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border);
+    margin-bottom: 2rem;
+}
+
+.theory-question {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.theory-question:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.theory-question-number {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.theory-question-text {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text-primary);
+    white-space: pre-wrap;
+}
+
+.theory-footer {
+    text-align: center;
+    padding: 1.5rem;
+    background: var(--bg-body);
+    border-radius: 0.5rem;
+}
+
+.theory-note {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+/* Theory navigation buttons */
+.nav-dot.theory-nav {
+    background: var(--accent-blue);
+    color: white;
+    font-weight: 700;
+}
+
+.nav-dot.theory-nav:hover {
+    background: #2563eb;
+}
+
+.nav-dot.theory-nav.visited {
+    background: var(--success);
+}
