@@ -87,6 +87,47 @@
             </div>
         </section>
 
+        <!-- SECTION: INSTRUCTIONS SCREEN -->
+        <section id="instructions-screen" class="screen" hidden>
+            <div class="instructions-container">
+                <div class="instructions-header">
+                    <div class="icon-circle">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                            <polyline points="10 9 9 9 8 9"></polyline>
+                        </svg>
+                    </div>
+                    <h1>Exam Instructions</h1>
+                    <p id="instructions-exam-title">Please read carefully before proceeding</p>
+                </div>
+
+                <div class="instructions-content">
+                    <div class="instructions-box">
+                        <h3>General Instructions:</h3>
+                        <div id="instructions-text">
+                            <!-- Instructions will be loaded here from exam data -->
+                        </div>
+                    </div>
+
+                    <div class="instructions-confirm">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="instructions-checkbox">
+                            <span class="checkmark"></span>
+                            <span class="checkbox-label">I have read and understood the instructions above</span>
+                        </label>
+                    </div>
+
+                    <button id="btn-continue-exam" class="btn btn-primary btn-block" disabled>
+                        Continue to Exam →
+                    </button>
+                </div>
+            </div>
+        </section>
+
         <!-- SECTION: EXAM SCREEN -->
         <section id="exam-screen" class="screen" hidden>
 

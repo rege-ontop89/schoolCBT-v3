@@ -31,8 +31,15 @@ const state = {
 const DOM = {
     screens: {
         login: document.getElementById('login-screen'),
+        instructions: document.getElementById('instructions-screen'),
         exam: document.getElementById('exam-screen'),
         result: document.getElementById('result-screen')
+    },
+    instructions: {
+        examTitle: document.getElementById('instructions-exam-title'),
+        text: document.getElementById('instructions-text'),
+        checkbox: document.getElementById('instructions-checkbox'),
+        btnContinue: document.getElementById('btn-continue-exam')
     },
     login: {
         form: document.getElementById('details-form'),
@@ -282,7 +289,11 @@ function handleLogin(e) {
         })
         .then(json => {
             if (validateExam(json)) {
-                startExam(json);
+                // Store exam data temporarily
+                state.exam = json;
+
+                // Show instructions screen
+                showInstructionsScreen(json);
             } else {
                 btn.textContent = originalText;
                 btn.disabled = false;
@@ -435,18 +446,50 @@ function resumeExam(savedState) {
     }
 
     // CRITICAL FIX: Properly switch screens
-    switchToScreen('exam');
+    switchScreen('exam');
 }
 
-// --- SCREEN SWITCHING HELPER (NEW) ---
-function switchToScreen(screenName) {
+// --- INSTRUCTIONS SCREEN LOGIC ---
+function showInstructionsScreen(examData) {
+    // Populate instructions content
+    const instructions = examData.metadata?.instructions || "Answer all questions to the best of your ability.";
+    const examTitle = examData.metadata?.title || "Exam";
+
+    DOM.instructions.examTitle.textContent = `${examTitle} - Read Instructions Carefully`;
+    DOM.instructions.text.innerHTML = `<p>${instructions.replace(/\n/g, '<br>')}</p>`;
+
+    // Reset checkbox and button
+    DOM.instructions.checkbox.checked = false;
+    DOM.instructions.btnContinue.disabled = true;
+
+    // Show instructions screen
+    switchScreen('instructions');
+}
+
+// Instructions checkbox handler
+DOM.instructions.checkbox.addEventListener('change', (e) => {
+    DOM.instructions.btnContinue.disabled = !e.target.checked;
+});
+
+// Continue button handler
+DOM.instructions.btnContinue.addEventListener('click', () => {
+    if (state.exam) {
+        // Now start the exam (timer will start here)
+        startExam(state.exam);
+    }
+});
+
+// --- SCREEN SWITCHING ---
+function switchScreen(screenName) {
     // Remove active class from all screens
     DOM.screens.login.classList.remove('active');
+    DOM.screens.instructions.classList.remove('active');
     DOM.screens.exam.classList.remove('active');
     DOM.screens.result.classList.remove('active');
 
     // Add hidden attribute to all screens
     DOM.screens.login.setAttribute('hidden', '');
+    DOM.screens.instructions.setAttribute('hidden', '');
     DOM.screens.exam.setAttribute('hidden', '');
     DOM.screens.result.setAttribute('hidden', '');
 
@@ -454,7 +497,7 @@ function switchToScreen(screenName) {
     const targetScreen = DOM.screens[screenName];
     if (targetScreen) {
         targetScreen.classList.add('active');
-        targetScreen.removeAttribute('hidden'); // CRITICAL: Remove the hidden attribute
+        targetScreen.removeAttribute('hidden');
     }
 }
 
