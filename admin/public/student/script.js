@@ -661,8 +661,8 @@ function startExam(examData) {
     loadQuestion(0);
     startTimer();
 
-    // CRITICAL FIX: Use new screen switching function
-    switchToScreen('exam');
+    // Switch to exam screen
+    switchScreen('exam');
 
     // Save initial state
     saveActiveState();
@@ -990,7 +990,7 @@ function submitExam(isAuto, submissionType = 'manual') {
     }
 
     // CRITICAL FIX: Use new screen switching function
-    switchToScreen('result');
+    switchScreen('result');
 }
 
 // --- AUTO EXAM LOAD VIA URL ---
@@ -1008,8 +1008,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            // Use proper screen switching
-            switchToScreen('exam');
+            // Use proper screen switching function
+            switchScreen('exam');
             startExam(examData);
         },
         (errorMessage) => {
