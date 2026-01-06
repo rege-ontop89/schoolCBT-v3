@@ -11,7 +11,7 @@
     "createdAt": "2026-01-05T15:53:46.785Z",
     "createdBy": "admin",
     "instructions": "Answer all questions.",
-    "updatedAt": "2026-01-06T00:03:00.128Z"
+    "updatedAt": "2026-01-06T00:16:12.384Z"
   },
   "settings": {
     "duration": 40,
@@ -25,7 +25,7 @@
     "autoSubmitOnViolation": true,
     "violationThreshold": 3,
     "strictMode": false,
-    "questionsPerStudent": 20
+    "questionsPerStudent": 10
   },
   "questions": [
     {
@@ -281,5 +281,5 @@
       "difficulty": "HARD"
     }
   ],
-  "active": false
+  "active": true
 }
