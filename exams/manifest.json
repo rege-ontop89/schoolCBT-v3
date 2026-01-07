@@ -46,19 +46,5 @@
     "active": true,
     "createdBy": "admin",
     "createdAt": "2026-01-05T16:08:47.903Z"
-  },
-  {
-    "id": "CIVIC-2026-001",
-    "title": "Civic first Term",
-    "subject": "Civic Education",
-    "class": "SS 2",
-    "term": "First Term",
-    "academicYear": "2024/2025",
-    "filename": "CIVIC-2026-001.json",
-    "duration": 40,
-    "totalMarks": 18,
-    "active": true,
-    "createdBy": "admin",
-    "createdAt": "2026-01-06T00:16:11.785Z"
   }
 ]
