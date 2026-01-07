@@ -1197,5 +1197,20 @@
       "D": "VLC Player"
     },
     "correctAnswer": "B"
+  },
+  {
+    "text": "What is the sum of interior angles of a pentagon?",
+    "subject": "Mathematics",
+    "class": "SS 1",
+    "difficulty": "HARD",
+    "options": {
+      "A": "180 degrees",
+      "B": "360 degrees",
+      "C": "540 degrees",
+      "D": "720 degrees"
+    },
+    "correctAnswer": "C",
+    "id": "Q021",
+    "createdAt": "2026-01-07T14:12:09.776Z"
   }
 ]
