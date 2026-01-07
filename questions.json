@@ -937,5 +937,265 @@
       "D": "I went to the market, but I forgot my money."
     },
     "correctAnswer": "C"
+  },
+  {
+    "text": "Which of the following is an example of an input device?",
+    "subject": "ICT",
+    "class": "JSS 2",
+    "difficulty": "EASY",
+    "options": {
+      "A": "Monitor",
+      "B": "Printer",
+      "C": "Keyboard",
+      "D": "Speaker"
+    },
+    "correctAnswer": "C"
+  },
+  {
+    "text": "The physical components of a computer system are collectively known as:",
+    "subject": "ICT",
+    "class": "JSS 2",
+    "difficulty": "EASY",
+    "options": {
+      "A": "Software",
+      "B": "Hardware",
+      "C": "Firmware",
+      "D": "Malware"
+    },
+    "correctAnswer": "B"
+  },
+  {
+    "text": "Which of these is the \"brain\" of the computer?",
+    "subject": "ICT",
+    "class": "JSS 2",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "RAM",
+      "B": "Hard Drive",
+      "C": "Central Processing Unit (CPU)",
+      "D": "Motherboard"
+    },
+    "correctAnswer": "C"
+  },
+  {
+    "text": "In Microsoft Word, the shortcut key for \"Copy\" is:",
+    "subject": "ICT",
+    "class": "JSS 2",
+    "difficulty": "EASY",
+    "options": {
+      "A": "Ctrl + V",
+      "B": "Ctrl + X",
+      "C": "Ctrl + C",
+      "D": "Ctrl + S"
+    },
+    "correctAnswer": "C"
+  },
+  {
+    "text": "What is the name of the storage device shown in the image above?",
+    "subject": "ICT",
+    "class": "JSS 2",
+    "difficulty": "EASY",
+    "options": {
+      "A": "Floppy Disk",
+      "B": "Hard Disk",
+      "C": "Flash Drive",
+      "D": "Compact Disk"
+    },
+    "correctAnswer": "C"
+  },
+  {
+    "text": "Which unit of the CPU performs mathematical calculations?",
+    "subject": "ICT",
+    "class": "JSS 2",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "Control Unit",
+      "B": "Memory Unit",
+      "C": "Arithmetic and Logic Unit (ALU)",
+      "D": "Input Unit"
+    },
+    "correctAnswer": "C"
+  },
+  {
+    "text": "A collection of computers connected together to share resources is called a:",
+    "subject": "ICT",
+    "class": "JSS 2",
+    "difficulty": "EASY",
+    "options": {
+      "A": "Browser",
+      "B": "Network",
+      "C": "Protocol",
+      "D": "Website"
+    },
+    "correctAnswer": "B"
+  },
+  {
+    "text": "Which of the following is a permanent storage memory?",
+    "subject": "ICT",
+    "class": "JSS 2",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "RAM",
+      "B": "ROM",
+      "C": "Cache",
+      "D": "Register"
+    },
+    "correctAnswer": "B"
+  },
+  {
+    "text": "The most common operating system used in personal computers is:",
+    "subject": "ICT",
+    "class": "JSS 2",
+    "difficulty": "EASY",
+    "options": {
+      "A": "Linux",
+      "B": "Android",
+      "C": "Windows",
+      "D": "MacOS"
+    },
+    "correctAnswer": "C"
+  },
+  {
+    "text": "What does the acronym 'WWW' stand for?",
+    "subject": "ICT",
+    "class": "JSS 2",
+    "difficulty": "EASY",
+    "options": {
+      "A": "World Wide Web",
+      "B": "Wide World Web",
+      "C": "Western World Web",
+      "D": "World Website Web"
+    },
+    "correctAnswer": "A"
+  },
+  {
+    "text": "Which type of network topology is illustrated in the image above?",
+    "subject": "ICT",
+    "class": "JSS 2",
+    "difficulty": "HARD",
+    "options": {
+      "A": "Bus Topology",
+      "B": "Ring Topology",
+      "C": "Star Topology",
+      "D": "Mesh Topology"
+    },
+    "correctAnswer": "C"
+  },
+  {
+    "text": "Which of these is a search engine?",
+    "subject": "ICT",
+    "class": "JSS 2",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "Chrome",
+      "B": "Google",
+      "C": "Safari",
+      "D": "Firefox"
+    },
+    "correctAnswer": "B"
+  },
+  {
+    "text": "The process of starting or restarting a computer is called:",
+    "subject": "ICT",
+    "class": "JSS 2",
+    "difficulty": "EASY",
+    "options": {
+      "A": "Loading",
+      "B": "Booting",
+      "C": "Running",
+      "D": "Processing"
+    },
+    "correctAnswer": "B"
+  },
+  {
+    "text": "One gigabyte (1GB) is equal to:",
+    "subject": "ICT",
+    "class": "JSS 2",
+    "difficulty": "HARD",
+    "options": {
+      "A": "1000 MB",
+      "B": "1024 KB",
+      "C": "1024 MB",
+      "D": "1000 KB"
+    },
+    "correctAnswer": "C"
+  },
+  {
+    "text": "Which software is specifically designed for creating presentations?",
+    "subject": "ICT",
+    "class": "JSS 2",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "MS Word",
+      "B": "MS Excel",
+      "C": "MS PowerPoint",
+      "D": "MS Access"
+    },
+    "correctAnswer": "C"
+  },
+  {
+    "text": "A computer program that spreads and causes harm to files is called a:",
+    "subject": "ICT",
+    "class": "JSS 2",
+    "difficulty": "EASY",
+    "options": {
+      "A": "Cookie",
+      "B": "Virus",
+      "C": "Bug",
+      "D": "Filter"
+    },
+    "correctAnswer": "B"
+  },
+  {
+    "text": "Which protocol is used for sending and receiving emails?",
+    "subject": "ICT",
+    "class": "JSS 2",
+    "difficulty": "HARD",
+    "options": {
+      "A": "HTTP",
+      "B": "FTP",
+      "C": "SMTP",
+      "D": "HTML"
+    },
+    "correctAnswer": "C"
+  },
+  {
+    "text": "What is the primary use of the cable shown in the image?",
+    "subject": "ICT",
+    "class": "JSS 2",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "Connecting to a power source",
+      "B": "Connecting to a printer",
+      "C": "Connecting to the Internet/Network",
+      "D": "Charging a phone"
+    },
+    "correctAnswer": "C"
+  },
+  {
+    "text": "In a spreadsheet, the intersection of a row and a column is called a:",
+    "subject": "ICT",
+    "class": "JSS 2",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "Box",
+      "B": "Table",
+      "C": "Cell",
+      "D": "Grid"
+    },
+    "correctAnswer": "C"
+  },
+  {
+    "text": "Which of these is an example of an Operating System?",
+    "subject": "ICT",
+    "class": "JSS 2",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "Microsoft Office",
+      "B": "Linux",
+      "C": "Adobe Reader",
+      "D": "VLC Player"
+    },
+    "correctAnswer": "B"
   }
 ]
