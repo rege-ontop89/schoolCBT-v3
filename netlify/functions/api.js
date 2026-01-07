@@ -23,10 +23,13 @@ exports.handler = async (event, context) => {
 
 
 
-    // Route: GET /exams/:filename (e.g., /exams/ENG-2025-001.json)
-    if (path.startsWith("/exams/") && path.endsWith(".json") && method === "GET") {
+    // Route: GET /exams/:filename (e.g., /exams/ENG-2025-001.json OR /exams/ENG-2025-001)
+    if (path.startsWith("/exams/") && method === "GET") {
         // Extract the filename from the path and URL decode it
-        const filename = decodeURIComponent(path.replace("/exams/", ""));
+        let filename = decodeURIComponent(path.replace("/exams/", ""));
+        if (!filename.endsWith('.json')) {
+            filename += '.json';
+        }
         console.log("📂 Fetching exam file:", filename);
 
         try {
