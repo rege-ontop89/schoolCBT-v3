@@ -60,19 +60,5 @@
     "active": true,
     "createdBy": "admin",
     "createdAt": "2026-01-06T00:16:11.785Z"
-  },
-  {
-    "id": "tt",
-    "title": "tt",
-    "subject": "Civic Education",
-    "class": "JSS 1",
-    "term": "First Term",
-    "academicYear": "2024/2025",
-    "filename": "tt.json",
-    "duration": 40,
-    "totalMarks": 5,
-    "active": true,
-    "createdBy": "admin",
-    "createdAt": "2026-01-06T18:41:58.104Z"
   }
 ]
