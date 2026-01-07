@@ -1,1 +1,16 @@
-[]
+[
+  {
+    "id": "ENG-2026-001-JS1",
+    "title": "English First Term Exam",
+    "subject": "English",
+    "class": "JSS 1",
+    "term": "First Term",
+    "academicYear": "2024/2025",
+    "filename": "ENG-2026-001-JS1.json",
+    "duration": 30,
+    "totalMarks": 20,
+    "active": false,
+    "createdBy": "admin",
+    "createdAt": "2026-01-07T11:29:00.613Z"
+  }
+]
