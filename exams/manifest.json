@@ -26,5 +26,19 @@
     "active": false,
     "createdBy": "admin",
     "createdAt": "2026-01-07T13:54:56.616Z"
+  },
+  {
+    "id": "MTH-2026-001-SS1",
+    "title": "Mathematics First Term Exam",
+    "subject": "Mathematics",
+    "class": "SS 1",
+    "term": "First Term",
+    "academicYear": "2024/2025",
+    "filename": "MTH-2026-001-SS1.json",
+    "duration": 40,
+    "totalMarks": 20,
+    "active": false,
+    "createdBy": "admin",
+    "createdAt": "2026-01-07T14:12:10.362Z"
   }
 ]
