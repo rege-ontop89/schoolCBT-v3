@@ -18,19 +18,5 @@
     "active": false,
     "createdBy": "admin",
     "createdAt": "2026-01-03T12:54:10.144Z"
-  },
-  {
-    "id": "test2",
-    "title": "Test2",
-    "subject": "English",
-    "class": "SS 3",
-    "term": "Second Term",
-    "academicYear": "2024/2025",
-    "filename": "test2.json",
-    "duration": 10,
-    "totalMarks": 5,
-    "active": true,
-    "createdBy": "admin",
-    "createdAt": "2026-01-07T00:29:18.058Z"
   }
 ]
