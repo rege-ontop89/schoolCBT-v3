@@ -29,7 +29,7 @@
     "filename": "test2.json",
     "duration": 10,
     "totalMarks": 5,
-    "active": false,
+    "active": true,
     "createdBy": "admin",
     "createdAt": "2026-01-07T00:29:18.058Z"
   },
