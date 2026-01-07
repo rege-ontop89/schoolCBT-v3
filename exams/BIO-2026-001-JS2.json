@@ -11,7 +11,7 @@
     "createdAt": "2026-01-07T14:49:31.622Z",
     "createdBy": "admin",
     "instructions": "Answer all questions.",
-    "updatedAt": "2026-01-07T14:49:47.614Z"
+    "updatedAt": "2026-01-07T22:36:01.525Z"
   },
   "settings": {
     "duration": 40,
@@ -96,7 +96,8 @@
       },
       "correctAnswer": "C",
       "marks": 1,
-      "difficulty": "EASY"
+      "difficulty": "EASY",
+      "questionImage": "images/BIO-2026-001-JS2-Q4.jpg"
     },
     {
       "questionId": "Q006",
@@ -180,7 +181,8 @@
       },
       "correctAnswer": "C",
       "marks": 1,
-      "difficulty": "HARD"
+      "difficulty": "HARD",
+      "questionImage": "images/BIO-2026-001-JS2-Q10.jpg"
     },
     {
       "questionId": "Q012",
@@ -309,7 +311,7 @@
       "difficulty": "MEDIUM"
     }
   ],
-  "active": false,
+  "active": true,
   "theorySection": {
     "instructions": "Answer all theory questions on your answer sheet.",
     "questions": [
