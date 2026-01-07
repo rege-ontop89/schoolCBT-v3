@@ -1,0 +1,313 @@
+{
+  "id": "ENG-2026-001-JS1",
+  "examId": "ENG-2026-001-JS1",
+  "version": "1.0.0",
+  "metadata": {
+    "title": "English First Term Exam",
+    "subject": "English",
+    "class": "JSS 1",
+    "term": "First Term",
+    "academicYear": "2024/2025",
+    "createdAt": "2026-01-07T11:28:33.675Z",
+    "createdBy": "admin",
+    "instructions": "Answer all questions.",
+    "updatedAt": "2026-01-07T11:28:59.531Z"
+  },
+  "settings": {
+    "duration": 30,
+    "totalMarks": 20,
+    "passMark": 50,
+    "webhookUrl": "https://script.google.com/macros/s/AKfycbzVWXBN-Yj1K42XbWuI88S1TqwDHNx7Af1v2B9bFVIeTni4_P-L_yZMb62NSAdxtnBB/exec",
+    "shuffleQuestions": true,
+    "shuffleOptions": true,
+    "showResults": false,
+    "allowReview": false,
+    "autoSubmitOnViolation": true,
+    "violationThreshold": 3,
+    "strictMode": false,
+    "questionsPerStudent": 15
+  },
+  "questions": [
+    {
+      "questionId": "Q001",
+      "questionNumber": 1,
+      "questionText": "Which of the following is a proper noun?",
+      "options": {
+        "A": "city",
+        "B": "Nigeria",
+        "C": "boy",
+        "D": "happiness"
+      },
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "MEDIUM"
+    },
+    {
+      "questionId": "Q002",
+      "questionNumber": 2,
+      "questionText": "Choose the correct pronoun to complete the sentence: \"Tunde and ____ went to the market.\"",
+      "options": {
+        "A": "me",
+        "B": "I",
+        "C": "them",
+        "D": "us"
+      },
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "MEDIUM"
+    },
+    {
+      "questionId": "Q003",
+      "questionNumber": 3,
+      "questionText": "What is the adjective in this sentence? \"The hungry cat chased the mouse.\"",
+      "options": {
+        "A": "cat",
+        "B": "chased",
+        "C": "hungry",
+        "D": "mouse"
+      },
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "MEDIUM"
+    },
+    {
+      "questionId": "Q004",
+      "questionNumber": 4,
+      "questionText": "Select the correctly punctuated sentence.",
+      "options": {
+        "A": "where is the teacher.",
+        "B": "Where is the teacher?",
+        "C": "Where is the teacher!",
+        "D": "where is the teacher?"
+      },
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "MEDIUM"
+    },
+    {
+      "questionId": "Q005",
+      "questionNumber": 5,
+      "questionText": "Which of these is a verb?",
+      "options": {
+        "A": "beautiful",
+        "B": "running",
+        "C": "quickly",
+        "D": "table"
+      },
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "MEDIUM"
+    },
+    {
+      "questionId": "Q006",
+      "questionNumber": 6,
+      "questionText": "Choose the plural form of \"Child\".",
+      "options": {
+        "A": "Childs",
+        "B": "Children",
+        "C": "Childrens",
+        "D": "Childes"
+      },
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "MEDIUM"
+    },
+    {
+      "questionId": "Q007",
+      "questionNumber": 7,
+      "questionText": "What is the synonym of \"Happy\"?",
+      "options": {
+        "A": "Sad",
+        "B": "Joyful",
+        "C": "Angry",
+        "D": "Tired"
+      },
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "MEDIUM"
+    },
+    {
+      "questionId": "Q008",
+      "questionNumber": 8,
+      "questionText": "Identify the common noun in the sentence: \"The students played football in the park.\"",
+      "options": {
+        "A": "students",
+        "B": "played",
+        "C": "football",
+        "D": "park"
+      },
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "MEDIUM"
+    },
+    {
+      "questionId": "Q009",
+      "questionNumber": 9,
+      "questionText": "Which sentence uses the correct article?",
+      "options": {
+        "A": "He bought a apple.",
+        "B": "She has an cat.",
+        "C": "They saw an elephant.",
+        "D": "I ate a orange."
+      },
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "MEDIUM"
+    },
+    {
+      "questionId": "Q010",
+      "questionNumber": 10,
+      "questionText": "What is the antonym of \"Big\"?",
+      "options": {
+        "A": "Large",
+        "B": "Huge",
+        "C": "Small",
+        "D": "Great"
+      },
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "MEDIUM"
+    },
+    {
+      "questionId": "Q011",
+      "questionNumber": 11,
+      "questionText": "Choose the sentence with the correct subject-verb agreement.",
+      "options": {
+        "A": "The boys runs fast.",
+        "B": "She play with toys.",
+        "C": "We is going home.",
+        "D": "He likes apples."
+      },
+      "correctAnswer": "D",
+      "marks": 1,
+      "difficulty": "MEDIUM"
+    },
+    {
+      "questionId": "Q012",
+      "questionNumber": 12,
+      "questionText": "Identify the preposition in the sentence: \"The book is on the table.\"",
+      "options": {
+        "A": "book",
+        "B": "is",
+        "C": "on",
+        "D": "table"
+      },
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "MEDIUM"
+    },
+    {
+      "questionId": "Q013",
+      "questionNumber": 13,
+      "questionText": "Which of the following words is a collective noun?",
+      "options": {
+        "A": "tree",
+        "B": "school",
+        "C": "team",
+        "D": "chair"
+      },
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "MEDIUM"
+    },
+    {
+      "questionId": "Q014",
+      "questionNumber": 14,
+      "questionText": "Select the adverb in the sentence: \"He drives carefully.\"",
+      "options": {
+        "A": "He",
+        "B": "drives",
+        "C": "carefully",
+        "D": "car"
+      },
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "MEDIUM"
+    },
+    {
+      "questionId": "Q015",
+      "questionNumber": 15,
+      "questionText": "What type of sentence expresses a strong feeling?",
+      "options": {
+        "A": "Interrogative",
+        "B": "Imperative",
+        "C": "Exclamatory",
+        "D": "Declarative"
+      },
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "MEDIUM"
+    },
+    {
+      "questionId": "Q016",
+      "questionNumber": 16,
+      "questionText": "Choose the word that completes the sentence: \"The sun ____ brightly.\"",
+      "options": {
+        "A": "shine",
+        "B": "shines",
+        "C": "shining",
+        "D": "shined"
+      },
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "MEDIUM"
+    },
+    {
+      "questionId": "Q017",
+      "questionNumber": 17,
+      "questionText": "Which of these words contains a silent letter?",
+      "options": {
+        "A": "happy",
+        "B": "know",
+        "C": "table",
+        "D": "run"
+      },
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "MEDIUM"
+    },
+    {
+      "questionId": "Q018",
+      "questionNumber": 18,
+      "questionText": "What is the correct past tense of \"go\"?",
+      "options": {
+        "A": "goes",
+        "B": "gone",
+        "C": "went",
+        "D": "going"
+      },
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "MEDIUM"
+    },
+    {
+      "questionId": "Q019",
+      "questionNumber": 19,
+      "questionText": "Identify the punctuation mark used at the end of a declarative sentence.",
+      "options": {
+        "A": "Question mark",
+        "B": "Exclamation mark",
+        "C": "Full stop",
+        "D": "Comma"
+      },
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "MEDIUM"
+    },
+    {
+      "questionId": "Q020",
+      "questionNumber": 20,
+      "questionText": "Which sentence is an example of a simple sentence?",
+      "options": {
+        "A": "He ran, and she walked.",
+        "B": "Although it was raining, they played.",
+        "C": "The bird sang.",
+        "D": "I went to the market, but I forgot my money."
+      },
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "MEDIUM"
+    }
+  ],
+  "active": false
+}
