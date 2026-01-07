@@ -5,7 +5,7 @@
     "primaryColor": "#2acb34"
   },
   "googleSheets": {
-    "webhookUrl": "hhh"
+    "webhookUrl": "https://script.google.com/macros/s/AKfycbzVWXBN-Yj1K42XbWuI88S1TqwDHNx7Af1v2B9bFVIeTni4_P-L_yZMb62NSAdxtnBB/exec"
   },
   "defaults": {
     "enableFullscreen": true,
