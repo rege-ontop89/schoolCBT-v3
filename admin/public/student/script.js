@@ -140,6 +140,22 @@ function shuffleOptions(options, correctAnswer) {
     return { options: newOptions, correctAnswer: newCorrectAnswer };
 }
 
+// --- IMAGE HANDLING ---
+const GITHUB_CONFIG = {
+    owner: 'rege-ontop89',
+    repo: 'schoolCBT-v3',
+    branch: 'main'
+};
+
+function resolveImagePath(path) {
+    if (!path) return null;
+    if (path.startsWith('data:')) return path; // Legacy base64 support
+
+    // Construct GitHub Raw URL
+    // Pattern: https://raw.githubusercontent.com/OWNER/REPO/BRANCH/exams/PATH
+    return `https://raw.githubusercontent.com/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/${GITHUB_CONFIG.branch}/exams/${path}`;
+}
+
 // --- SCIENTIFIC CALCULATOR ---
 const Calculator = {
     currentValue: '0',
@@ -961,7 +977,8 @@ function showTheorySection() {
     // Render theory questions
     let html = '';
     theoryData.questions.forEach((q, index) => {
-        const imageHtml = q.questionImage ? `<img src="${q.questionImage}" class="theory-image" alt="Theory Question Image">` : '';
+        const imgSrc = resolveImagePath(q.questionImage);
+        const imageHtml = imgSrc ? `<img src="${imgSrc}" class="theory-image" alt="Theory Question Image">` : '';
         html += `
             <div class="theory-question">
                 <div class="theory-question-number">Question ${index + 1}</div>
@@ -1050,7 +1067,7 @@ function loadQuestion(index) {
 
     if (q.questionImage) {
         const img = document.createElement('img');
-        img.src = q.questionImage;
+        img.src = resolveImagePath(q.questionImage);
         img.className = 'question-image';
         DOM.exam.text.appendChild(img);
     }
