@@ -11,7 +11,7 @@
     "createdAt": "2026-01-07T14:49:31.622Z",
     "createdBy": "admin",
     "instructions": "Answer all questions.",
-    "updatedAt": "2026-01-07T22:36:01.525Z"
+    "updatedAt": "2026-01-07T22:39:37.213Z"
   },
   "settings": {
     "duration": 40,
@@ -311,7 +311,7 @@
       "difficulty": "MEDIUM"
     }
   ],
-  "active": false,
+  "active": true,
   "theorySection": {
     "instructions": "Answer all theory questions on your answer sheet.",
     "questions": [
