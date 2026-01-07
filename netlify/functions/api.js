@@ -65,8 +65,16 @@ exports.handler = async (event, context) => {
                 repo: REPO,
                 path: filePath,
                 ref: BRANCH,
+                mediaType: {
+                    format: "raw",
+                },
             });
-            return JSON.parse(Buffer.from(data.content, "base64").toString("utf-8"));
+            // If data is already an object (auto-parsed by Octokit if content-type is json), return it.
+            // If it's a string, parse it.
+            if (typeof data === 'object' && data !== null && !Buffer.isBuffer(data)) {
+                return data;
+            }
+            return JSON.parse(data.toString());
         } catch (error) {
             console.error(`Read Error [${filePath}]:`, error.message);
             return null;
