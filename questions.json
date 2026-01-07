@@ -15,21 +15,6 @@
     "createdAt": "2025-12-30T10:00:00.000Z"
   },
   {
-    "id": "Q002",
-    "text": "Identify the verb in the sentence \"She runs fast\"",
-    "subject": "English",
-    "class": "JSS 2",
-    "difficulty": "Medium",
-    "options": [
-      "She",
-      "Runs",
-      "Fast",
-      "None"
-    ],
-    "correctAnswer": 1,
-    "createdAt": "2025-12-30T10:05:00.000Z"
-  },
-  {
     "id": "Q003",
     "text": "What is 2 + 2?",
     "subject": "Mathematics",
