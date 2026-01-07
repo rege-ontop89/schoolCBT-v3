@@ -10,13 +10,5 @@
     "duration": 40,
     "totalMarks": 15,
     "active": true
-  },
-  {
-    "id": "test",
-    "title": "test",
-    "subject": "English",
-    "active": false,
-    "createdBy": "admin",
-    "createdAt": "2026-01-03T12:54:10.144Z"
   }
 ]
