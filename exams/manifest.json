@@ -71,7 +71,7 @@
     "filename": "tt.json",
     "duration": 40,
     "totalMarks": 5,
-    "active": true,
+    "active": false,
     "createdBy": "admin",
     "createdAt": "2026-01-06T18:41:58.104Z"
   },
