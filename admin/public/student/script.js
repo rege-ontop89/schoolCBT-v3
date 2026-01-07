@@ -977,8 +977,7 @@ function showTheorySection() {
     // Render theory questions
     let html = '';
     theoryData.questions.forEach((q, index) => {
-        const imgSrc = resolveImagePath(q.questionImage);
-        const imageHtml = imgSrc ? `<img src="${imgSrc}" class="theory-image" alt="Theory Question Image">` : '';
+        const imageHtml = q.questionImage ? `<img src="${q.questionImage}" class="theory-image" alt="Theory Question Image">` : '';
         html += `
             <div class="theory-question">
                 <div class="theory-question-number">Question ${index + 1}</div>
@@ -1067,7 +1066,7 @@ function loadQuestion(index) {
 
     if (q.questionImage) {
         const img = document.createElement('img');
-        img.src = resolveImagePath(q.questionImage);
+        img.src = q.questionImage;
         img.className = 'question-image';
         DOM.exam.text.appendChild(img);
     }

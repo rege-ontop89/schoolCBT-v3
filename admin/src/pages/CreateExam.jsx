@@ -347,57 +347,38 @@ D) Nessessary`;
     const handleImageUpload = async (file, index, type = 'objective') => {
         if (!file) return;
 
-        // 500KB limit
-        if (file.size > 500000) {
-            alert('Image too large. Please use an image smaller than 500KB.');
-            return;
-        }
-
-        // Check if exam has been saved
-        if (!examData.examId) {
-            alert('Please save exam details first (Step 1) before adding images.');
+        // Stricter size limit for raw files
+        if (file.size > 2000000) { // 2MB raw file limit
+            alert('Image too large. Please use an image smaller than 2MB.');
             return;
         }
 
         try {
-            const base64 = await fileToBase64(file);
-
-            // Extract file extension from filename
-            const fileExtension = file.name.split('.').pop().toLowerCase();
-
-            // Upload to GitHub
-            const result = await api.uploadExamImage(
-                examData.examId,
-                index,
-                base64,
-                type,
-                fileExtension
-            );
-
-            const imagePath = result.imagePath; // e.g., "images/ENG-001-Q1.jpg"
+            // Compress image to WebP format with 100KB target
+            const compressedBase64 = await compressImageToWebP(file, 100); // 100KB max
 
             if (type === 'objective') {
-                setQuestionImages(prev => ({ ...prev, [index]: imagePath }));
+                setQuestionImages(prev => ({ ...prev, [index]: compressedBase64 }));
 
                 // Update parsedExam immediately
                 if (parsedExam) {
                     setParsedExam(prev => {
                         const updatedQuestions = [...prev.questions];
                         if (updatedQuestions[index]) {
-                            updatedQuestions[index].questionImage = imagePath;
+                            updatedQuestions[index].questionImage = compressedBase64;
                         }
                         return { ...prev, questions: updatedQuestions };
                     });
                 }
             } else {
-                setTheoryImages(prev => ({ ...prev, [index]: imagePath }));
+                setTheoryImages(prev => ({ ...prev, [index]: compressedBase64 }));
 
                 // Update parsedExam theory
                 if (parsedExam && parsedExam.theorySection) {
                     setParsedExam(prev => {
                         const updatedTheory = [...prev.theorySection.questions];
                         if (updatedTheory[index]) {
-                            updatedTheory[index].questionImage = imagePath;
+                            updatedTheory[index].questionImage = compressedBase64;
                         }
                         return {
                             ...prev,
@@ -407,9 +388,61 @@ D) Nessessary`;
                 }
             }
         } catch (err) {
-            console.error('Error uploading image:', err);
-            alert('Failed to upload image. Please try again.');
+            console.error('Error compressing image:', err);
+            alert('Failed to compress image. Please try a different image.');
         }
+    };
+
+    // Compress image to WebP format with target size
+    const compressImageToWebP = (file, maxSizeKB) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    let width = img.width;
+                    let height = img.height;
+
+                    // Resize if too large (max 800px on longest side)
+                    const maxDimension = 800;
+                    if (width > maxDimension || height > maxDimension) {
+                        if (width > height) {
+                            height = (height / width) * maxDimension;
+                            width = maxDimension;
+                        } else {
+                            width = (width / height) * maxDimension;
+                            height = maxDimension;
+                        }
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    // Try different quality levels to hit target size
+                    let quality = 0.8;
+                    let result = canvas.toDataURL('image/webp', quality);
+
+                    // Iteratively reduce quality if still too large
+                    while (result.length > maxSizeKB * 1024 * 1.37 && quality > 0.1) { // 1.37 = base64 overhead
+                        quality -= 0.1;
+                        result = canvas.toDataURL('image/webp', quality);
+                    }
+
+                    if (result.length > maxSizeKB * 1024 * 1.37) {
+                        reject(new Error(`Unable to compress image below ${maxSizeKB}KB. Try a simpler image.`));
+                    } else {
+                        resolve(result);
+                    }
+                };
+                img.onerror = () => reject(new Error('Failed to load image'));
+                img.src = e.target.result;
+            };
+            reader.onerror = () => reject(new Error('Failed to read file'));
+            reader.readAsDataURL(file);
+        });
     };
 
     const removeImage = (index, type = 'objective') => {
