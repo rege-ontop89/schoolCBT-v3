@@ -677,5 +677,265 @@
       "D": "Biosphere"
     },
     "correctAnswer": "C"
+  },
+  {
+    "text": "Which of the following is a proper noun?",
+    "subject": "English",
+    "class": "JSS 1",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "city",
+      "B": "Nigeria",
+      "C": "boy",
+      "D": "happiness"
+    },
+    "correctAnswer": "B"
+  },
+  {
+    "text": "Choose the correct pronoun to complete the sentence: \"Tunde and ____ went to the market.\"",
+    "subject": "English",
+    "class": "JSS 1",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "me",
+      "B": "I",
+      "C": "them",
+      "D": "us"
+    },
+    "correctAnswer": "B"
+  },
+  {
+    "text": "What is the adjective in this sentence? \"The hungry cat chased the mouse.\"",
+    "subject": "English",
+    "class": "JSS 1",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "cat",
+      "B": "chased",
+      "C": "hungry",
+      "D": "mouse"
+    },
+    "correctAnswer": "C"
+  },
+  {
+    "text": "Select the correctly punctuated sentence.",
+    "subject": "English",
+    "class": "JSS 1",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "where is the teacher.",
+      "B": "Where is the teacher?",
+      "C": "Where is the teacher!",
+      "D": "where is the teacher?"
+    },
+    "correctAnswer": "B"
+  },
+  {
+    "text": "Which of these is a verb?",
+    "subject": "English",
+    "class": "JSS 1",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "beautiful",
+      "B": "running",
+      "C": "quickly",
+      "D": "table"
+    },
+    "correctAnswer": "B"
+  },
+  {
+    "text": "Choose the plural form of \"Child\".",
+    "subject": "English",
+    "class": "JSS 1",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "Childs",
+      "B": "Children",
+      "C": "Childrens",
+      "D": "Childes"
+    },
+    "correctAnswer": "B"
+  },
+  {
+    "text": "What is the synonym of \"Happy\"?",
+    "subject": "English",
+    "class": "JSS 1",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "Sad",
+      "B": "Joyful",
+      "C": "Angry",
+      "D": "Tired"
+    },
+    "correctAnswer": "B"
+  },
+  {
+    "text": "Identify the common noun in the sentence: \"The students played football in the park.\"",
+    "subject": "English",
+    "class": "JSS 1",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "students",
+      "B": "played",
+      "C": "football",
+      "D": "park"
+    },
+    "correctAnswer": "A"
+  },
+  {
+    "text": "Which sentence uses the correct article?",
+    "subject": "English",
+    "class": "JSS 1",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "He bought a apple.",
+      "B": "She has an cat.",
+      "C": "They saw an elephant.",
+      "D": "I ate a orange."
+    },
+    "correctAnswer": "C"
+  },
+  {
+    "text": "What is the antonym of \"Big\"?",
+    "subject": "English",
+    "class": "JSS 1",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "Large",
+      "B": "Huge",
+      "C": "Small",
+      "D": "Great"
+    },
+    "correctAnswer": "C"
+  },
+  {
+    "text": "Choose the sentence with the correct subject-verb agreement.",
+    "subject": "English",
+    "class": "JSS 1",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "The boys runs fast.",
+      "B": "She play with toys.",
+      "C": "We is going home.",
+      "D": "He likes apples."
+    },
+    "correctAnswer": "D"
+  },
+  {
+    "text": "Identify the preposition in the sentence: \"The book is on the table.\"",
+    "subject": "English",
+    "class": "JSS 1",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "book",
+      "B": "is",
+      "C": "on",
+      "D": "table"
+    },
+    "correctAnswer": "C"
+  },
+  {
+    "text": "Which of the following words is a collective noun?",
+    "subject": "English",
+    "class": "JSS 1",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "tree",
+      "B": "school",
+      "C": "team",
+      "D": "chair"
+    },
+    "correctAnswer": "C"
+  },
+  {
+    "text": "Select the adverb in the sentence: \"He drives carefully.\"",
+    "subject": "English",
+    "class": "JSS 1",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "He",
+      "B": "drives",
+      "C": "carefully",
+      "D": "car"
+    },
+    "correctAnswer": "C"
+  },
+  {
+    "text": "What type of sentence expresses a strong feeling?",
+    "subject": "English",
+    "class": "JSS 1",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "Interrogative",
+      "B": "Imperative",
+      "C": "Exclamatory",
+      "D": "Declarative"
+    },
+    "correctAnswer": "C"
+  },
+  {
+    "text": "Choose the word that completes the sentence: \"The sun ____ brightly.\"",
+    "subject": "English",
+    "class": "JSS 1",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "shine",
+      "B": "shines",
+      "C": "shining",
+      "D": "shined"
+    },
+    "correctAnswer": "B"
+  },
+  {
+    "text": "Which of these words contains a silent letter?",
+    "subject": "English",
+    "class": "JSS 1",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "happy",
+      "B": "know",
+      "C": "table",
+      "D": "run"
+    },
+    "correctAnswer": "B"
+  },
+  {
+    "text": "What is the correct past tense of \"go\"?",
+    "subject": "English",
+    "class": "JSS 1",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "goes",
+      "B": "gone",
+      "C": "went",
+      "D": "going"
+    },
+    "correctAnswer": "C"
+  },
+  {
+    "text": "Identify the punctuation mark used at the end of a declarative sentence.",
+    "subject": "English",
+    "class": "JSS 1",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "Question mark",
+      "B": "Exclamation mark",
+      "C": "Full stop",
+      "D": "Comma"
+    },
+    "correctAnswer": "C"
+  },
+  {
+    "text": "Which sentence is an example of a simple sentence?",
+    "subject": "English",
+    "class": "JSS 1",
+    "difficulty": "MEDIUM",
+    "options": {
+      "A": "He ran, and she walked.",
+      "B": "Although it was raining, they played.",
+      "C": "The bird sang.",
+      "D": "I went to the market, but I forgot my money."
+    },
+    "correctAnswer": "C"
   }
 ]
