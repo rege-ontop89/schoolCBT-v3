@@ -353,30 +353,51 @@ D) Nessessary`;
             return;
         }
 
+        // Check if exam has been saved
+        if (!examData.examId) {
+            alert('Please save exam details first (Step 1) before adding images.');
+            return;
+        }
+
         try {
             const base64 = await fileToBase64(file);
+
+            // Extract file extension from filename
+            const fileExtension = file.name.split('.').pop().toLowerCase();
+
+            // Upload to GitHub
+            const result = await api.uploadExamImage(
+                examData.examId,
+                index,
+                base64,
+                type,
+                fileExtension
+            );
+
+            const imagePath = result.imagePath; // e.g., "images/ENG-001-Q1.jpg"
+
             if (type === 'objective') {
-                setQuestionImages(prev => ({ ...prev, [index]: base64 }));
+                setQuestionImages(prev => ({ ...prev, [index]: imagePath }));
 
                 // Update parsedExam immediately
                 if (parsedExam) {
                     setParsedExam(prev => {
                         const updatedQuestions = [...prev.questions];
                         if (updatedQuestions[index]) {
-                            updatedQuestions[index].questionImage = base64;
+                            updatedQuestions[index].questionImage = imagePath;
                         }
                         return { ...prev, questions: updatedQuestions };
                     });
                 }
             } else {
-                setTheoryImages(prev => ({ ...prev, [index]: base64 }));
+                setTheoryImages(prev => ({ ...prev, [index]: imagePath }));
 
                 // Update parsedExam theory
                 if (parsedExam && parsedExam.theorySection) {
                     setParsedExam(prev => {
                         const updatedTheory = [...prev.theorySection.questions];
                         if (updatedTheory[index]) {
-                            updatedTheory[index].questionImage = base64;
+                            updatedTheory[index].questionImage = imagePath;
                         }
                         return {
                             ...prev,
@@ -387,7 +408,7 @@ D) Nessessary`;
             }
         } catch (err) {
             console.error('Error uploading image:', err);
-            alert('Failed to upload image.');
+            alert('Failed to upload image. Please try again.');
         }
     };
 
@@ -935,7 +956,14 @@ D) Nessessary`;
 
                                             {questionImages[i] ? (
                                                 <div className="relative inline-block group">
-                                                    <img src={questionImages[i]} alt="Q" className="h-24 w-auto rounded border border-gray-300 object-cover" />
+                                                    <img
+                                                        src={questionImages[i].startsWith('data:')
+                                                            ? questionImages[i]  // Legacy base64
+                                                            : `https://raw.githubusercontent.com/${process.env.VITE_GITHUB_OWNER || 'rege-ontop89'}/${process.env.VITE_GITHUB_REPO || 'schoolCBT-v3'}/main/exams/${questionImages[i]}`
+                                                        }
+                                                        alt="Q"
+                                                        className="h-24 w-auto rounded border border-gray-300 object-cover"
+                                                    />
                                                     <button
                                                         onClick={() => removeImage(i, 'objective')}
                                                         className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm shadow-md hover:bg-red-600 transition-all opacity-0 group-hover:opacity-100"
@@ -969,7 +997,14 @@ D) Nessessary`;
 
                                                 {theoryImages[i] ? (
                                                     <div className="relative inline-block group">
-                                                        <img src={theoryImages[i]} alt="T" className="h-24 w-auto rounded border border-gray-300 object-cover" />
+                                                        <img
+                                                            src={theoryImages[i].startsWith('data:')
+                                                                ? theoryImages[i]  // Legacy base64
+                                                                : `https://raw.githubusercontent.com/${process.env.VITE_GITHUB_OWNER || 'rege-ontop89'}/${process.env.VITE_GITHUB_REPO || 'schoolCBT-v3'}/main/exams/${theoryImages[i]}`
+                                                            }
+                                                            alt="T"
+                                                            className="h-24 w-auto rounded border border-gray-300 object-cover"
+                                                        />
                                                         <button
                                                             onClick={() => removeImage(i, 'theory')}
                                                             className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm shadow-md hover:bg-red-600 transition-all opacity-0 group-hover:opacity-100"

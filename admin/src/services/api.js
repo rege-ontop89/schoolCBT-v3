@@ -148,6 +148,28 @@ class ApiService {
         }
     }
 
+    async uploadExamImage(examId, questionIndex, imageData, type, fileExtension) {
+        try {
+            const response = await fetch(`${API_URL}/exams/${examId}/images`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ questionIndex, imageData, type, fileExtension }),
+            });
+
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.error || 'Failed to upload image');
+            }
+
+            return await response.json();
+        } catch (error) {
+            console.error('Error uploading exam image:', error);
+            throw error;
+        }
+    }
+
     async deleteExam(examId) {
         try {
             const response = await fetch(`${API_URL}/exams/${examId}`, {

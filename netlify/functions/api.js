@@ -425,13 +425,107 @@ exports.handler = async (event, context) => {
             return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
         }
 
+        // UPLOAD EXAM IMAGE
+        if (path.match(/\/exams\/[\w-]+\/images$/) && method === "POST") {
+            const examId = path.split("/")[2];
+            const { questionIndex, imageData, type, fileExtension } = body;
+
+            if (!imageData || questionIndex === undefined || !type) {
+                return { statusCode: 400, headers, body: JSON.stringify({ error: "Missing required fields" }) };
+            }
+
+            try {
+                // Determine file extension (default to png if not provided)
+                const ext = fileExtension || 'png';
+                const prefix = type === 'theory' ? 'T' : 'Q';
+                const filename = `${examId}-${prefix}${questionIndex}.${ext}`;
+                const imagePath = `exams/images/${filename}`;
+
+                // Extract base64 data (remove data:image/...;base64, prefix if present)
+                const base64Data = imageData.includes(',') ? imageData.split(',')[1] : imageData;
+
+                // Upload to GitHub
+                const sha = await getSha(imagePath);
+                await octokit.repos.createOrUpdateFileContents({
+                    owner: OWNER,
+                    repo: REPO,
+                    path: imagePath,
+                    message: `Upload image for ${examId} ${type} question ${questionIndex}`,
+                    content: base64Data,
+                    sha: sha,
+                    branch: BRANCH,
+                });
+
+                console.log(`Uploaded image: ${imagePath}`);
+                return {
+                    statusCode: 200,
+                    headers,
+                    body: JSON.stringify({
+                        success: true,
+                        imagePath: `images/${filename}`
+                    })
+                };
+            } catch (error) {
+                console.error(`Error uploading image:`, error.message);
+                return {
+                    statusCode: 500,
+                    headers,
+                    body: JSON.stringify({ error: "Failed to upload image" })
+                };
+            }
+        }
+
         // DELETE EXAM
         if (path.match(/\/exams\/[\w-]+$/) && method === "DELETE") {
             const id = path.split("/").pop();
 
-            // 1. Delete the exam file
+            // 1. Load exam to get image paths for cleanup
+            let imagePaths = [];
             try {
-                // We need the SHA to delete
+                const exam = await getFile(`exams/${id}.json`);
+                if (exam) {
+                    // Collect objective question images
+                    exam.questions.forEach(q => {
+                        if (q.questionImage && !q.questionImage.startsWith('data:')) {
+                            imagePaths.push(`exams/${q.questionImage}`);
+                        }
+                    });
+                    // Collect theory question images
+                    if (exam.theorySection && exam.theorySection.questions) {
+                        exam.theorySection.questions.forEach(q => {
+                            if (q.questionImage && !q.questionImage.startsWith('data:')) {
+                                imagePaths.push(`exams/${q.questionImage}`);
+                            }
+                        });
+                    }
+                }
+            } catch (err) {
+                console.error(`Error loading exam for image cleanup:`, err.message);
+            }
+
+            // 2. Delete all associated images
+            for (const imgPath of imagePaths) {
+                try {
+                    const imgSha = await getSha(imgPath);
+                    if (imgSha) {
+                        await octokit.repos.deleteFile({
+                            owner: OWNER,
+                            repo: REPO,
+                            path: imgPath,
+                            message: `Delete image for exam ${id}`,
+                            sha: imgSha,
+                            branch: BRANCH,
+                        });
+                        console.log(`Deleted image: ${imgPath}`);
+                    }
+                } catch (err) {
+                    console.error(`Error deleting image ${imgPath}:`, err.message);
+                    // Continue with other images
+                }
+            }
+
+            // 3. Delete the exam file
+            try {
                 const sha = await getSha(`exams/${id}.json`);
                 if (sha) {
                     await octokit.repos.deleteFile({
@@ -448,12 +542,12 @@ exports.handler = async (event, context) => {
                 // Continue to update manifest even if file delete failed (or already gone)
             }
 
-            // 2. Update Manifest
+            // 4. Update Manifest
             const manifest = (await getFile("exams/manifest.json")) || [];
             const newManifest = manifest.filter(e => e.id !== id);
             await saveFile("exams/manifest.json", newManifest, `Remove Exam ${id} from Manifest`);
 
-            // 3. Optional: Delete results file if exists
+            // 5. Optional: Delete results file if exists
             try {
                 const rSha = await getSha(`results/${id}.json`);
                 if (rSha) {
