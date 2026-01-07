@@ -1,0 +1,313 @@
+{
+  "id": "MTH-2026-001-SS1",
+  "examId": "MTH-2026-001-SS1",
+  "version": "1.0.0",
+  "metadata": {
+    "title": "Mathematics First Term Exam",
+    "subject": "Mathematics",
+    "class": "SS 1",
+    "term": "First Term",
+    "academicYear": "2024/2025",
+    "createdAt": "2026-01-07T14:11:51.901Z",
+    "createdBy": "admin",
+    "instructions": "Answer all questions.",
+    "updatedAt": "2026-01-07T14:12:08.293Z"
+  },
+  "settings": {
+    "duration": 40,
+    "totalMarks": 20,
+    "passMark": 50,
+    "webhookUrl": "https://script.google.com/macros/s/AKfycbzVWXBN-Yj1K42XbWuI88S1TqwDHNx7Af1v2B9bFVIeTni4_P-L_yZMb62NSAdxtnBB/exec",
+    "shuffleQuestions": true,
+    "shuffleOptions": true,
+    "showResults": false,
+    "allowReview": false,
+    "autoSubmitOnViolation": true,
+    "violationThreshold": 3,
+    "strictMode": false,
+    "questionsPerStudent": 15
+  },
+  "questions": [
+    {
+      "questionId": "Q001",
+      "questionNumber": 1,
+      "questionText": "Convert 11011 (base 2) to base 10.",
+      "options": {
+        "A": "25",
+        "B": "27",
+        "C": "29",
+        "D": "31"
+      },
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "EASY"
+    },
+    {
+      "questionId": "Q002",
+      "questionNumber": 2,
+      "questionText": "If P = {1, 2, 3, 4, 5} and Q = {2, 4, 6, 8}, find P intersection Q.",
+      "options": {
+        "A": "{2, 4}",
+        "B": "{1, 3, 5}",
+        "C": "{6, 8}",
+        "D": "{1, 2, 3, 4, 5, 6, 8}"
+      },
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "EASY"
+    },
+    {
+      "questionId": "Q003",
+      "questionNumber": 3,
+      "questionText": "Evaluate 3^0 x 3^2 x 3^-1.",
+      "options": {
+        "A": "0",
+        "B": "1",
+        "C": "3",
+        "D": "9"
+      },
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "MEDIUM"
+    },
+    {
+      "questionId": "Q004",
+      "questionNumber": 4,
+      "questionText": "Solve for x in the equation 2^(x+1) = 8.",
+      "options": {
+        "A": "1",
+        "B": "2",
+        "C": "3",
+        "D": "4"
+      },
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "MEDIUM"
+    },
+    {
+      "questionId": "Q005",
+      "questionNumber": 5,
+      "questionText": "In the Venn diagram shown above, the shaded region represents:",
+      "options": {
+        "A": "A union B",
+        "B": "A intersection B",
+        "C": "A - B",
+        "D": "B - A"
+      },
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "EASY"
+    },
+    {
+      "questionId": "Q006",
+      "questionNumber": 6,
+      "questionText": "Express 0.0000452 in standard form.",
+      "options": {
+        "A": "4.52 x 10^-5",
+        "B": "4.52 x 10^-4",
+        "C": "45.2 x 10^-6",
+        "D": "0.452 x 10^-4"
+      },
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "MEDIUM"
+    },
+    {
+      "questionId": "Q007",
+      "questionNumber": 7,
+      "questionText": "In modular arithmetic, find 15 mod 4.",
+      "options": {
+        "A": "1",
+        "B": "2",
+        "C": "3",
+        "D": "0"
+      },
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "EASY"
+    },
+    {
+      "questionId": "Q008",
+      "questionNumber": 8,
+      "questionText": "Solve for x in x + 4 = 2 mod 5.",
+      "options": {
+        "A": "1",
+        "B": "2",
+        "C": "3",
+        "D": "4"
+      },
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "MEDIUM"
+    },
+    {
+      "questionId": "Q010",
+      "questionNumber": 10,
+      "questionText": "Find the value of Log10(1000).",
+      "options": {
+        "A": "1",
+        "B": "2",
+        "C": "3",
+        "D": "10"
+      },
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "EASY"
+    },
+    {
+      "questionId": "Q011",
+      "questionNumber": 11,
+      "questionText": "Simplify Square root(50) - Square root(18).",
+      "options": {
+        "A": "2 x Square root(2)",
+        "B": "4 x Square root(2)",
+        "C": "8 x Square root(2)",
+        "D": "Square root(32)"
+      },
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "HARD"
+    },
+    {
+      "questionId": "Q012",
+      "questionNumber": 12,
+      "questionText": "Using the Pythagorean theorem on the triangle above, find the length of the hypotenuse.",
+      "options": {
+        "A": "5",
+        "B": "6",
+        "C": "7",
+        "D": "25"
+      },
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "EASY"
+    },
+    {
+      "questionId": "Q013",
+      "questionNumber": 13,
+      "questionText": "If A is a set of even numbers between 1 and 10, what is n(A)?",
+      "options": {
+        "A": "4",
+        "B": "5",
+        "C": "6",
+        "D": "10"
+      },
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "MEDIUM"
+    },
+    {
+      "questionId": "Q014",
+      "questionNumber": 14,
+      "questionText": "Evaluate (16)^3/4.",
+      "options": {
+        "A": "4",
+        "B": "8",
+        "C": "12",
+        "D": "16"
+      },
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "HARD"
+    },
+    {
+      "questionId": "Q015",
+      "questionNumber": 15,
+      "questionText": "Find the simple interest on 2000 Naira for 3 years at 5% per annum.",
+      "options": {
+        "A": "100 Naira",
+        "B": "200 Naira",
+        "C": "300 Naira",
+        "D": "400 Naira"
+      },
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "MEDIUM"
+    },
+    {
+      "questionId": "Q016",
+      "questionNumber": 16,
+      "questionText": "Rationalize the denominator of 2 / Square root(3).",
+      "options": {
+        "A": "(2 x Square root(3)) / 3",
+        "B": "(Square root(3)) / 2",
+        "C": "2 x Square root(3)",
+        "D": "(3 x Square root(2)) / 2"
+      },
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "HARD"
+    },
+    {
+      "questionId": "Q017",
+      "questionNumber": 17,
+      "questionText": "Which of the following is a null set?",
+      "options": {
+        "A": "{0}",
+        "B": "{even prime numbers}",
+        "C": "{months starting with Z}",
+        "D": "{composite numbers between 1 and 5}"
+      },
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "EASY"
+    },
+    {
+      "questionId": "Q018",
+      "questionNumber": 18,
+      "questionText": "Solve the inequality 2x - 3 > 7.",
+      "options": {
+        "A": "x > 2",
+        "B": "x > 5",
+        "C": "x < 5",
+        "D": "x = 5"
+      },
+      "correctAnswer": "B",
+      "marks": 1,
+      "difficulty": "MEDIUM"
+    },
+    {
+      "questionId": "Q019",
+      "questionNumber": 19,
+      "questionText": "Convert 123 (base 10) to base 8.",
+      "options": {
+        "A": "173 (base 8)",
+        "B": "153 (base 8)",
+        "C": "203 (base 8)",
+        "D": "123 (base 8)"
+      },
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "HARD"
+    },
+    {
+      "questionId": "Q020",
+      "questionNumber": 20,
+      "questionText": "Expand (x + 2)(x - 3).",
+      "options": {
+        "A": "x^2 - x - 6",
+        "B": "x^2 + x - 6",
+        "C": "x^2 - 5x - 6",
+        "D": "x^2 - x + 6"
+      },
+      "correctAnswer": "A",
+      "marks": 1,
+      "difficulty": "MEDIUM"
+    },
+    {
+      "questionId": "Q021",
+      "questionNumber": 21,
+      "questionText": "What is the sum of interior angles of a pentagon?",
+      "options": {
+        "A": "180 degrees",
+        "B": "360 degrees",
+        "C": "540 degrees",
+        "D": "720 degrees"
+      },
+      "correctAnswer": "C",
+      "marks": 1,
+      "difficulty": "HARD"
+    }
+  ],
+  "active": false
+}
