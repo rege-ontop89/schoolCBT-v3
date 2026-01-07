@@ -470,16 +470,29 @@ D) Nessessary`;
             };
 
             // Add theory section if enabled
+            console.log('[Theory Debug] hasTheory:', hasTheory);
+            console.log('[Theory Debug] theoryText:', theoryText);
+            console.log('[Theory Debug] theoryText.trim():', theoryText?.trim());
+
             if (hasTheory && theoryText.trim()) {
                 const theoryQuestions = parseTheoryQuestions(theoryText);
+                console.log('[Theory Debug] Parsed theory questions:', theoryQuestions);
+                console.log('[Theory Debug] Count:', theoryQuestions.length);
+
                 if (theoryQuestions.length > 0) {
                     result.theorySection = {
                         instructions: theoryInstructions || 'Answer all theory questions on your answer sheet.',
                         questions: theoryQuestions
                     };
+                    console.log('[Theory Debug] Added theorySection to result');
+                } else {
+                    console.warn('[Theory Debug] No theory questions parsed despite text present');
                 }
+            } else if (hasTheory && !theoryText.trim()) {
+                console.warn('[Theory Debug] Theory enabled but text is empty');
             }
 
+            console.log('[Theory Debug] Final result.theorySection:', result.theorySection);
             setParsedExam(result);
             setParseError('');
         } catch (error) {
@@ -879,7 +892,17 @@ D) Nessessary`;
                 </button>
                 {parsedExam && (
                     <span className="text-green-600 font-bold text-sm bg-green-50 px-3 py-1 rounded-full border border-green-100">
-                        ✓ {parsedExam.questions.length} Questions Verified
+                        ✓ {parsedExam.questions.length} Objective Questions
+                    </span>
+                )}
+                {parsedExam && parsedExam.theorySection && (
+                    <span className="text-blue-600 font-bold text-sm bg-blue-50 px-3 py-1 rounded-full border border-blue-100">
+                        ✓ {parsedExam.theorySection.questions.length} Theory Questions
+                    </span>
+                )}
+                {parsedExam && hasTheory && !parsedExam.theorySection && (
+                    <span className="text-orange-600 font-bold text-sm bg-orange-50 px-3 py-1 rounded-full border border-orange-100">
+                        ⚠️ No theory questions found - check format
                     </span>
                 )}
             </div>
