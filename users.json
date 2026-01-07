@@ -30,5 +30,15 @@
     "id": "1767298171553",
     "active": true,
     "plainPassword": "akporaro1"
+  },
+  {
+    "name": "Atolagbe Precious",
+    "email": "ola@random-email.com",
+    "username": "ola",
+    "password": "ola1",
+    "role": "Teacher",
+    "id": "1767784029551",
+    "active": true,
+    "plainPassword": "ola1"
   }
 ]
