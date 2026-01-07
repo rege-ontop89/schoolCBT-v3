@@ -25,8 +25,8 @@ exports.handler = async (event, context) => {
 
     // Route: GET /exams/:filename (e.g., /exams/ENG-2025-001.json)
     if (path.startsWith("/exams/") && path.endsWith(".json") && method === "GET") {
-        // Extract the filename from the path
-        const filename = path.replace("/exams/", "");
+        // Extract the filename from the path and URL decode it
+        const filename = decodeURIComponent(path.replace("/exams/", ""));
         console.log("📂 Fetching exam file:", filename);
 
         try {
@@ -283,6 +283,9 @@ exports.handler = async (event, context) => {
         // CREATE EXAM
         if (path === "/exams" && method === "POST") {
             const exam = body;
+            // Sanitize ID
+            exam.examId = exam.examId.trim();
+
             await saveFile(`exams/${exam.examId}.json`, exam, `Create Exam: ${exam.metadata.title}`);
 
             try {

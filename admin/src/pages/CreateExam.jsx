@@ -465,6 +465,21 @@ D) Nessessary`;
                 }
             };
 
+            // Calculate estimated size
+            const payloadString = JSON.stringify(finalExamData);
+            const sizeInBytes = new TextEncoder().encode(payloadString).length;
+            const sizeInMB = (sizeInBytes / (1024 * 1024)).toFixed(2);
+
+            if (sizeInMB > 5.5) {
+                const proceed = window.confirm(`⚠️ Warning: Exam size is ${sizeInMB}MB. This is close to the 6MB server limit and may fail to save. \n\nConsider removing some images or splitting the exam.\n\nDo you want to try anyway?`);
+                if (!proceed) {
+                    setIsSubmitting(false);
+                    return;
+                }
+            } else if (sizeInMB > 4.5) {
+                alert(`Note: Exam size is ${sizeInMB}MB. Large exams may take longer to save.`);
+            }
+
             const response = await api.createExam(finalExamData);
 
             if (response.success) {
@@ -578,7 +593,7 @@ D) Nessessary`;
                         <input
                             type="text"
                             value={examData.examId}
-                            onChange={(e) => setExamData({ ...examData, examId: e.target.value })}
+                            onChange={(e) => setExamData({ ...examData, examId: e.target.value.trim() })}
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all"
                             placeholder="e.g., ENG-2025-001"
                         />

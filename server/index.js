@@ -57,8 +57,10 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Middleware
+// Middleware
 app.use(cors());
-app.use(express.json({ limit: '10mb' }));
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use('/uploads', express.static(path.join(__dirname, '../public/uploads')));
 
 // Ensure public/uploads directory exists
@@ -214,7 +216,9 @@ app.post('/api/exams', async (req, res) => {
         }
 
         // Create exam file
+        // Create exam file
         const examPath = path.join(EXAMS_DIR, `${examData.examId}.json`);
+        console.log(`Writing exam file to: ${examPath}`);
         await fs.writeFile(examPath, JSON.stringify(examData, null, 2));
         console.log(`✅ Created exam file: ${examData.examId}.json`);
 
