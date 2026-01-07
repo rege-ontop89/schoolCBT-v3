@@ -12,5 +12,19 @@
     "active": true,
     "createdBy": "admin",
     "createdAt": "2026-01-07T11:29:00.613Z"
+  },
+  {
+    "id": "BIO-2026-001-JS2",
+    "title": "Biology First Term",
+    "subject": "ICT",
+    "class": "JSS 2",
+    "term": "First Term",
+    "academicYear": "2024/2025",
+    "filename": "BIO-2026-001-JS2.json",
+    "duration": 40,
+    "totalMarks": 20,
+    "active": false,
+    "createdBy": "admin",
+    "createdAt": "2026-01-07T11:44:44.209Z"
   }
 ]
