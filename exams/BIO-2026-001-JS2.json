@@ -8,10 +8,10 @@
     "class": "JSS 2",
     "term": "First Term",
     "academicYear": "2024/2025",
-    "createdAt": "2026-01-07T13:54:52.875Z",
+    "createdAt": "2026-01-07T14:49:31.622Z",
     "createdBy": "admin",
     "instructions": "Answer all questions.",
-    "updatedAt": "2026-01-07T13:54:56.404Z"
+    "updatedAt": "2026-01-07T14:49:47.614Z"
   },
   "settings": {
     "duration": 40,
@@ -309,5 +309,35 @@
       "difficulty": "MEDIUM"
     }
   ],
-  "active": false
+  "active": true,
+  "theorySection": {
+    "instructions": "Answer all theory questions on your answer sheet.",
+    "questions": [
+      {
+        "questionId": "T001",
+        "questionNumber": 1,
+        "questionText": "a. Define \"Computer Software\".\nb. List the two main types of software.\nc. Give two examples of System Software.\nd. Briefly explain the difference between System Software and Application Software."
+      },
+      {
+        "questionId": "T002",
+        "questionNumber": 2,
+        "questionText": "a. What is a \"Computer Network\"?\nb. Mention three types of networks based on geographical area (e.g., LAN).\nc. List two hardware components needed to set up a network.\nd. State two advantages of networking computers."
+      },
+      {
+        "questionId": "T003",
+        "questionNumber": 3,
+        "questionText": "a. Define \"The Internet\".\nb. List three services provided by the Internet.\nc. Explain the term \"Web Browser\".\nd. Mention two examples of popular web browsers."
+      },
+      {
+        "questionId": "T004",
+        "questionNumber": 4,
+        "questionText": "a. What is \"Graphic Package\" software?\nb. Give two examples of graphic packages.\nc. List three features of a typical graphic package.\nd. Mention two professions that use graphic packages for their daily work."
+      },
+      {
+        "questionId": "T005",
+        "questionNumber": 5,
+        "questionText": "a. What is \"Computer Ethics\"?\nb. List three examples of computer room rules.\nc. Define \"Cybercrime\".\nd. Suggest two ways to protect a computer system from unauthorized access."
+      }
+    ]
+  }
 }
