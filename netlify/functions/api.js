@@ -81,18 +81,41 @@ exports.handler = async (event, context) => {
         }
     }
 
-    async function saveFile(filePath, content, message) {
+    async function getSha(filePath) {
         try {
-            let sha;
+            const { data } = await octokit.repos.getContent({
+                owner: OWNER,
+                repo: REPO,
+                path: filePath,
+                ref: BRANCH,
+            });
+            return data.sha;
+        } catch (error) {
+            // Fallback for large files or permission errors
             try {
-                const { data } = await octokit.repos.getContent({
+                const dir = path.dirname(filePath);
+                const filename = path.basename(filePath);
+                const { data: files } = await octokit.repos.getContent({
                     owner: OWNER,
                     repo: REPO,
-                    path: filePath,
+                    path: dir === "." ? "" : dir,
                     ref: BRANCH,
                 });
-                sha = data.sha;
-            } catch (e) { /* File new */ }
+
+                if (Array.isArray(files)) {
+                    const file = files.find(f => f.name === filename);
+                    return file ? file.sha : null;
+                }
+            } catch (dirErr) {
+                console.error(`SHA Fallback Error [${filePath}]:`, dirErr.message);
+            }
+            return null;
+        }
+    }
+
+    async function saveFile(filePath, content, message) {
+        try {
+            const sha = await getSha(filePath);
 
             await octokit.repos.createOrUpdateFileContents({
                 owner: OWNER,
@@ -399,6 +422,52 @@ exports.handler = async (event, context) => {
             const existing = (await getFile("questions.json")) || [];
             const updated = [...existing, ...newQs];
             await saveFile("questions.json", updated, "Add Questions to Bank");
+            return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
+        }
+
+        // DELETE EXAM
+        if (path.match(/\/exams\/[\w-]+$/) && method === "DELETE") {
+            const id = path.split("/").pop();
+
+            // 1. Delete the exam file
+            try {
+                // We need the SHA to delete
+                const sha = await getSha(`exams/${id}.json`);
+                if (sha) {
+                    await octokit.repos.deleteFile({
+                        owner: OWNER,
+                        repo: REPO,
+                        path: `exams/${id}.json`,
+                        message: `Delete Exam ${id}`,
+                        sha: sha,
+                        branch: BRANCH,
+                    });
+                }
+            } catch (err) {
+                console.error(`Error deleting exam file ${id}:`, err.message);
+                // Continue to update manifest even if file delete failed (or already gone)
+            }
+
+            // 2. Update Manifest
+            const manifest = (await getFile("exams/manifest.json")) || [];
+            const newManifest = manifest.filter(e => e.id !== id);
+            await saveFile("exams/manifest.json", newManifest, `Remove Exam ${id} from Manifest`);
+
+            // 3. Optional: Delete results file if exists
+            try {
+                const rSha = await getSha(`results/${id}.json`);
+                if (rSha) {
+                    await octokit.repos.deleteFile({
+                        owner: OWNER,
+                        repo: REPO,
+                        path: `results/${id}.json`,
+                        message: `Delete Results for ${id}`,
+                        sha: rSha,
+                        branch: BRANCH,
+                    });
+                }
+            } catch (e) { /* Ignore results delete error */ }
+
             return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
         }
 
