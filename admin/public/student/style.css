@@ -476,7 +476,7 @@ body {
 }
 
 .nav-dot.answered {
-    background: var(--text-light);
+    background: var(--success);
     color: white;
 }
 

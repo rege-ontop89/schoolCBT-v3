@@ -1129,7 +1129,7 @@ function renderPalette() {
     palette.innerHTML = '';
 
     // Render objective question numbers
-    state.exam.questions.forEach((_, i) => {
+    state.exam.questions.forEach((q, i) => {
         const dot = document.createElement('button');
         dot.className = 'nav-dot';
         dot.textContent = i + 1;
@@ -1138,7 +1138,9 @@ function renderPalette() {
         if (i === state.currentQIndex && !state.theory.isViewingTheory) {
             dot.classList.add('active-question');
         }
-        if (state.answers[i] !== undefined) {
+
+        // Fix: Check answer using questionId, not index
+        if (state.answers[q.questionId]) {
             dot.classList.add('answered');
         }
 

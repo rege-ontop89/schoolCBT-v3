@@ -8,8 +8,36 @@ import axios from 'axios';
 // In development, use VITE_API_URL or localhost
 const API_URL = import.meta.env.PROD ? '/api' : (import.meta.env.VITE_API_URL || 'http://localhost:8888/.netlify/functions/api');
 
+// Cache duration in milliseconds (2 minutes)
+const CACHE_DURATION = 2 * 60 * 1000;
+
 class ApiService {
+    constructor() {
+        this._cache = {};
+    }
+
+    // Get cached data if valid, otherwise return null
+    _getCache(key) {
+        const cached = this._cache[key];
+        if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
+            console.log(`[API Cache] HIT: ${key}`);
+            return cached.data;
+        }
+        return null;
+    }
+
+    // Set cache with current timestamp
+    _setCache(key, data) {
+        this._cache[key] = { data, timestamp: Date.now() };
+    }
+
+    // Invalidate specific cache keys (call after mutations)
+    _invalidateCache(...keys) {
+        keys.forEach(key => delete this._cache[key]);
+    }
+
     // ==================== AUTH ====================
+
 
     async login(username, password) {
         try {
@@ -49,11 +77,17 @@ class ApiService {
     // ==================== EXAMS ====================
 
     async getExams() {
+        // Check cache first
+        const cached = this._getCache('exams');
+        if (cached) return cached;
+
         try {
             const response = await fetch(`${API_URL}/exams`);
             if (!response.ok) throw new Error('Failed to fetch exams');
             const data = await response.json();
-            return data.exams || [];
+            const exams = data.exams || [];
+            this._setCache('exams', exams);
+            return exams;
         } catch (error) {
             console.error('Error fetching exams:', error);
             throw error;
@@ -85,8 +119,9 @@ class ApiService {
                 const error = await response.json();
                 throw new Error(error.error || 'Failed to create exam');
             }
-
-            return await response.json();
+            const result = await response.json();
+            this._invalidateCache('exams', 'stats');
+            return result;
         } catch (error) {
             console.error('Error creating exam:', error);
             throw error;
@@ -104,7 +139,9 @@ class ApiService {
             });
 
             if (!response.ok) throw new Error('Failed to toggle exam');
-            return await response.json();
+            const result = await response.json();
+            this._invalidateCache('exams', 'stats');
+            return result;
         } catch (error) {
             console.error('Error toggling exam:', error);
             throw error;
@@ -118,7 +155,9 @@ class ApiService {
             });
 
             if (!response.ok) throw new Error('Failed to delete exam');
-            return await response.json();
+            const result = await response.json();
+            this._invalidateCache('exams', 'stats');
+            return result;
         } catch (error) {
             console.error('Error deleting exam:', error);
             throw error;
@@ -163,10 +202,15 @@ class ApiService {
     // ==================== STATS ====================
 
     async getStats() {
+        // Check cache first
+        const cached = this._getCache('stats');
+        if (cached) return cached;
+
         try {
             const response = await fetch(`${API_URL}/stats`);
             if (!response.ok) throw new Error('Failed to fetch stats');
             const data = await response.json();
+            this._setCache('stats', data.stats);
             return data.stats;
         } catch (error) {
             console.error('Error fetching stats:', error);

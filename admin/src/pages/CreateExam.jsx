@@ -217,9 +217,69 @@ D) Nessessary`;
                 return;
             }
         }
-        if (step === 2 && !parsedExam) {
-            alert('Please paste questions and click "Parse & Validate" first');
-            return;
+        if (step === 2) {
+            // Auto-parse before moving to next step to capture all changes including theory
+            if (!pastedText.trim()) {
+                alert('Please paste questions first');
+                return;
+            }
+            // Trigger parse to update parsedExam with latest content
+            try {
+                const questions = parseSimpleFormat(pastedText);
+                if (questions.length === 0) {
+                    alert('No valid questions found. Please check your format.');
+                    return;
+                }
+
+                const result = {
+                    id: examData.examId,
+                    examId: examData.examId,
+                    version: '1.0.0',
+                    metadata: {
+                        title: examData.title,
+                        subject: examData.subject,
+                        class: examData.class,
+                        term: examData.term,
+                        academicYear: examData.academicYear,
+                        createdAt: examData.createdAt || new Date().toISOString(),
+                        createdBy: examData.createdBy,
+                        instructions: examData.instructions || 'Answer all questions.'
+                    },
+                    settings: {
+                        duration: examData.duration,
+                        totalMarks: questions.length,
+                        passMark: examData.passMark,
+                        webhookUrl: examData.webhookUrl || '',
+                        shuffleQuestions: examData.shuffleQuestions,
+                        shuffleOptions: examData.shuffleOptions,
+                        showResults: examData.showResults,
+                        allowReview: examData.allowReview,
+                        autoSubmitOnViolation: true,
+                        violationThreshold: 3,
+                        strictMode: false,
+                        questionsPerStudent: examData.questionsPerStudent
+                    },
+                    questions,
+                    active: examData.active
+                };
+
+                // Add theory section if enabled
+                if (hasTheory && theoryText.trim()) {
+                    const theoryQuestions = parseTheoryQuestions(theoryText);
+                    if (theoryQuestions.length > 0) {
+                        result.theorySection = {
+                            instructions: theoryInstructions || 'Answer all theory questions on your answer sheet.',
+                            questions: theoryQuestions
+                        };
+                    }
+                }
+
+                setParsedExam(result);
+                setParseError('');
+            } catch (error) {
+                alert('Parse error: ' + error.message);
+                return;
+            }
         }
         if (step === 3) {
             if (examData.questionsPerStudent > parsedExam.questions.length) {
@@ -229,6 +289,7 @@ D) Nessessary`;
         }
         if (step < 4) setStep(step + 1);
     };
+
 
     // Parse theory questions from numbered list format
     const parseTheoryQuestions = (text) => {
@@ -436,10 +497,33 @@ D) Nessessary`;
         setIsSubmitting(true);
 
         try {
+            // Re-construct theory section from current state to ensure it's up-to-date
+            let currentTheorySection = parsedExam.theorySection;
+
+            if (hasTheory && theoryText.trim()) {
+                const theoryQs = parseTheoryQuestions(theoryText);
+                if (theoryQs.length > 0) {
+                    // Attach images from state
+                    const questionsWithImages = theoryQs.map((q, i) => {
+                        if (theoryImages[i]) {
+                            q.questionImage = theoryImages[i];
+                        }
+                        return q;
+                    });
+
+                    currentTheorySection = {
+                        instructions: theoryInstructions || 'Answer all theory questions on your answer sheet.',
+                        questions: questionsWithImages
+                    };
+                }
+            } else if (!hasTheory) {
+                currentTheorySection = undefined; // Remove if disabled
+            }
+
             // CRITICAL FIX: Sync examData settings into parsedExam before saving
-            // This ensures changes made in Step 3 (Configuration) are included
             const finalExamData = {
                 ...parsedExam,
+                theorySection: currentTheorySection, // Explicitly include updated theory
                 active: activate,
                 metadata: {
                     ...parsedExam.metadata,
