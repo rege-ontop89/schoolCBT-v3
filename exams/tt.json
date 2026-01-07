@@ -99,7 +99,7 @@
       "difficulty": "EASY"
     }
   ],
-  "active": false,
+  "active": true,
   "theorySection": {
     "instructions": "Answer all theory questions on your answer sheet.",
     "questions": [
