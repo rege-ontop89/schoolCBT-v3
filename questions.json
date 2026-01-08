@@ -1444,5 +1444,20 @@
       "D": "x^2 - x + 6"
     },
     "correctAnswer": "A"
+  },
+  {
+    "text": "The physical components of a computer system are collectively known as:",
+    "subject": "ICT",
+    "class": "JSS 2",
+    "difficulty": "EASY",
+    "options": {
+      "A": "Software",
+      "B": "Hardware",
+      "C": "Firmware",
+      "D": "Malware"
+    },
+    "correctAnswer": "B",
+    "id": "Q002",
+    "createdAt": "2026-01-08T00:00:20.176Z"
   }
 ]
