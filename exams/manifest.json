@@ -9,7 +9,7 @@
     "filename": "ENG-2026-001-JS1.json",
     "duration": 30,
     "totalMarks": 20,
-    "active": true,
+    "active": false,
     "createdBy": "admin",
     "createdAt": "2026-01-07T11:29:00.613Z"
   },
