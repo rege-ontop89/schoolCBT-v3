@@ -51,7 +51,7 @@
     "filename": "Bio-22.json",
     "duration": 40,
     "totalMarks": 5,
-    "active": false,
+    "active": true,
     "createdBy": "admin",
     "createdAt": "2026-01-13T14:47:21.203Z"
   }
